@@ -288,11 +288,11 @@ export default function App() {
     <div className="min-h-screen bg-black text-white p-4">
       {!selectedDay ? (
         <>
-          <div className="grid grid-cols-1 gap-4 mb-8">
+          <div className="flex flex-col items-center gap-4 mb-8">
             {Object.keys(workouts).map((day) => (
               <button
                 key={day}
-                className="bg-gray-800 text-white py-4 rounded-2xl text-xl shadow-lg"
+                className="w-full max-w-md bg-gray-800 text-white py-4 rounded-2xl text-xl shadow-lg"
                 onClick={() => setSelectedDay(day)}
               >
                 {day}
