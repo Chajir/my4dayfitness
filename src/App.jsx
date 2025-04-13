@@ -207,7 +207,7 @@ const workouts = {
   },
 };
 
-const WorkoutDay = ({ day, data }) => {
+const WorkoutDay = ({ day, data, onComplete }) => {
   const [completed, setCompleted] = useState(false);
   const [checked, setChecked] = useState(
     data.sections.map((section) => section.exercises.map(() => false))
@@ -222,6 +222,15 @@ const WorkoutDay = ({ day, data }) => {
   const allExercisesChecked = checked.every((section) =>
     section.every((exercise) => exercise)
   );
+
+  const handleComplete = () => {
+    const timestamp = new Date().toLocaleString();
+    const history = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
+    history[day] = [...(history[day] || []), timestamp];
+    localStorage.setItem("workoutHistory", JSON.stringify(history));
+    setCompleted(true);
+    onComplete();
+  };
 
   return (
     <div className="text-white p-4">
@@ -250,7 +259,7 @@ const WorkoutDay = ({ day, data }) => {
             <input
               type="checkbox"
               checked={completed}
-              onChange={() => setCompleted(!completed)}
+              onChange={handleComplete}
               className="w-6 h-6 mr-2"
             />
             <span className="text-lg">Mark entire session as completed</span>
@@ -263,21 +272,53 @@ const WorkoutDay = ({ day, data }) => {
 
 export default function App() {
   const [selectedDay, setSelectedDay] = useState(null);
+  const [history, setHistory] = useState({});
+
+  useEffect(() => {
+    const storedHistory = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
+    setHistory(storedHistory);
+  }, [selectedDay]);
+
+  const handleUpdateHistory = () => {
+    const updated = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
+    setHistory(updated);
+  };
 
   return (
     <div className="min-h-screen bg-black text-white p-4">
       {!selectedDay ? (
-        <div className="grid grid-cols-1 gap-4">
-          {Object.keys(workouts).map((day) => (
-            <button
-              key={day}
-              className="bg-gray-800 text-white py-4 rounded-2xl text-xl shadow-lg"
-              onClick={() => setSelectedDay(day)}
-            >
-              {day}
-            </button>
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 gap-4 mb-8">
+            {Object.keys(workouts).map((day) => (
+              <button
+                key={day}
+                className="bg-gray-800 text-white py-4 rounded-2xl text-xl shadow-lg"
+                onClick={() => setSelectedDay(day)}
+              >
+                {day}
+              </button>
+            ))}
+          </div>
+          <div>
+            <h2 className="text-xl font-bold mb-2">Workout History</h2>
+            {Object.keys(history).length === 0 ? (
+              <p className="text-gray-400">No sessions completed yet.</p>
+            ) : (
+              <ul className="space-y-4">
+                {Object.entries(history).map(([day, entries]) => (
+                  <li key={day}>
+                    <h3 className="font-semibold text-lg">{day}</h3>
+                    <ul className="ml-4 list-disc text-sm text-gray-300">
+                      {entries.map((entry, i) => (
+                        <li key={i}>{entry}</li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </>
       ) : (
         <div>
           <button
@@ -286,7 +327,7 @@ export default function App() {
           >
             ← Back
           </button>
-          <WorkoutDay day={selectedDay} data={workouts[selectedDay]} />
+          <WorkoutDay day={selectedDay} data={workouts[selectedDay]} onComplete={handleUpdateHistory} />
         </div>
       )}
     </div>
