@@ -237,12 +237,20 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   const [exerciseQueue, setExerciseQueue] = useState([]);
   const [current, setCurrent] = useState(null);
   const [showTimer, setShowTimer] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const currentRef = useRef(null);
 
   useEffect(() => {
     const all = data.sections.flatMap(s => s.exercises);
     setExerciseQueue(all);
     setCurrent(all[0]);
+
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [data]);
 
   useEffect(() => {
@@ -324,28 +332,9 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     onComplete();
   };
 
-  if (showSummary) {
-    return (
-      <div className="text-white p-4">
-        <h2 className="text-2xl font-bold mb-4">{day} – Summary</h2>
-        <ul className="space-y-4">
-          {Object.entries(exerciseData).map(([exercise, data], i) => (
-            <li key={i} className="bg-gray-900 p-4 rounded">
-              <div className="font-semibold">{exercise}</div>
-              <div className="text-sm text-gray-400">{data.sets} sets @ {data.weight} lbs</div>
-              {data.reps && (
-                <div className="text-sm text-gray-500">Reps: {data.reps.join(', ')}</div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <button
-          onClick={() => setShowSummary(false)}
-          className="mt-6 px-4 py-2 border border-blue-500 rounded-full text-blue-500"
-        >← Back to Workout</button>
-      </div>
-    );
-  }
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <motion.div
@@ -372,7 +361,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
           transition={{ delay: i * 0.1 }}
           className="mb-6"
         >
-          <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
+          <h3 className="text-xl font-semibold mb-2 sticky top-0 bg-black z-10 py-1">{section.name}</h3>
           <ul className="space-y-6">
             {section.exercises.map((exercise, j) => {
               const last = lastUsed[exercise];
@@ -389,10 +378,11 @@ const WorkoutDay = ({ day, data, onComplete }) => {
                       <span className="font-semibold">{exercise}</span>
                     </div>
                     {isCurrent && (
-                      <button
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => { setShowTimer(true); goToNextExercise(); }}
                         className="text-sm px-3 py-1 bg-white text-black rounded"
-                      >✅ Done / Next</button>
+                      >✅ Done / Next</motion.button>
                     )}
                   </div>
                   {last && (
@@ -461,6 +451,12 @@ const WorkoutDay = ({ day, data, onComplete }) => {
         </div>
       )}
       {showTimer && <RestTimer duration={30} onFinish={() => setShowTimer(false)} />}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow-lg"
+        >⬆️ Top</button>
+      )}
     </motion.div>
   );
 };
