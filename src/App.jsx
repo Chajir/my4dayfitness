@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const workouts = {
   "Day 1": {
@@ -241,6 +242,20 @@ const calculateStreak = (history) => {
     } else break;
   }
   return streak;
+};
+
+// Generate weekly workout frequency data for charts
+const getWeeklyData = (history) => {
+  const today = new Date();
+  const data = Array(7).fill(0);
+  Object.values(history).flat().forEach(entry => {
+    const date = new Date(entry.timestamp);
+    const diff = Math.floor((today - date) / (1000 * 60 * 60 * 24));
+    if (diff < 7) {
+      data[6 - diff] += 1;
+    }
+  });
+  return data.map((count, i) => ({ day: ['S', 'M', 'T', 'W', 'T', 'F', 'S'][i], count }));
 };
 
 const RestTimer = ({ duration, onFinish }) => {
@@ -528,6 +543,7 @@ export default function App() {
 
   const streak = calculateStreak(history);
   const personalBests = getPersonalBests(history);
+  const weeklyData = getWeeklyData(history);
 
   return (
     <div className="min-h-screen bg-black text-white p-4">
@@ -559,6 +575,18 @@ export default function App() {
               {streak === 3 && <p className="text-green-400">💪 3-Day Streak! Keep it up!</p>}
               {streak === 7 && <p className="text-yellow-400">🔥 One Week Streak! You're on fire!</p>}
               {streak === 30 && <p className="text-pink-400">🏆 30-Day Legend! Amazing!</p>}
+            </div>
+
+            <div className="max-w-xl mx-auto mb-6">
+              <h2 className="text-xl font-bold mb-2 text-center">📊 Weekly Activity</h2>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={weeklyData}>
+                  <XAxis dataKey="day" stroke="#ccc" />
+                  <YAxis allowDecimals={false} stroke="#ccc" />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#10B981" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
 
             <div className="sticky top-0 bg-black z-10 py-2">
