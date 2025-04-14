@@ -216,6 +216,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     const saved = localStorage.getItem(`exerciseData-${day}`);
     return saved ? JSON.parse(saved) : {};
   });
+  const [showSummary, setShowSummary] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(`exerciseData-${day}`, JSON.stringify(exerciseData));
@@ -237,7 +238,6 @@ const WorkoutDay = ({ day, data, onComplete }) => {
         },
       };
 
-      // Reset reps if sets number changes
       if (field === "sets") {
         const sets = parseInt(value) || 0;
         updated[exercise].reps = Array(sets).fill("");
@@ -262,9 +262,26 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     });
   };
 
+  const incrementValue = (exercise, field, step = 1) => {
+    const current = parseInt(exerciseData[exercise]?.[field]) || 0;
+    handleChange(exercise, field, current + step);
+  };
+
+  const decrementValue = (exercise, field, step = 1) => {
+    const current = parseInt(exerciseData[exercise]?.[field]) || 0;
+    handleChange(exercise, field, Math.max(0, current - step));
+  };
+
   const allExercisesChecked = checked.every((section) =>
     section.every((exercise) => exercise)
   );
+
+  const totalExercises = checked.reduce((sum, section) => sum + section.length, 0);
+  const totalCompleted = checked.reduce(
+    (sum, section) => sum + section.filter(Boolean).length,
+    0
+  );
+  const progress = Math.round((totalCompleted / totalExercises) * 100);
 
   const handleComplete = () => {
     const timestamp = new Date().toLocaleString();
@@ -272,49 +289,95 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     history[day] = [...(history[day] || []), timestamp];
     localStorage.setItem("workoutHistory", JSON.stringify(history));
     setCompleted(true);
+    setShowSummary(true);
     onComplete();
   };
+
+  if (showSummary) {
+    return (
+      <div className="text-white p-4">
+        <h2 className="text-2xl font-bold mb-4">{day} – Summary</h2>
+        <ul className="space-y-4">
+          {Object.entries(exerciseData).map(([exercise, data], idx) => (
+            <li key={idx} className="bg-gray-900 p-4 rounded-lg">
+              <div className="text-lg font-semibold mb-1">{exercise}</div>
+              <div className="text-sm text-gray-300">
+                Sets: {data.sets || 0} | Weight: {data.weight || 0} lbs
+              </div>
+              {data.reps && (
+                <div className="text-sm text-gray-400 mt-1">
+                  Reps: {data.reps.join(", ")}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+        <button
+          onClick={() => setShowSummary(false)}
+          className="mt-6 px-4 py-2 border border-blue-500 rounded-full text-blue-500 hover:bg-blue-500 hover:text-black"
+        >
+          ← Back to Workout
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="text-white p-4">
       <h2 className="text-2xl font-bold mb-4">{day} – {data.title}</h2>
+      <div className="w-full bg-gray-800 h-4 rounded-full mb-6 overflow-hidden">
+        <div
+          className="h-4 bg-green-500 rounded-full transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
       {data.sections.map((section, i) => (
         <div key={i} className="mb-6">
           <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
           <ul className="space-y-6">
             {section.exercises.map((exercise, j) => (
-              <li key={j} className="space-y-1">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={checked[i][j]}
-                    onChange={() => toggleCheckbox(i, j)}
-                    className="w-5 h-5"
-                  />
-                  <span className="font-medium">{exercise}</span>
-                </div>
-                <div className="ml-6 flex flex-wrap gap-4">
-                  <div>
-                    <label className="block text-sm">Sets</label>
+              <li key={j} className="bg-[#1a1a1a] rounded-xl p-4 shadow-md">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
                     <input
-                      type="number"
-                      value={exerciseData[exercise]?.sets || ""}
-                      onChange={(e) => handleChange(exercise, "sets", e.target.value)}
-                      className="bg-gray-800 border border-gray-600 rounded px-2 py-1 w-20"
+                      type="checkbox"
+                      checked={checked[i][j]}
+                      onChange={() => toggleCheckbox(i, j)}
+                      className="w-5 h-5"
                     />
+                    <span className="text-lg font-semibold">{exercise}</span>
+                  </div>
+                </div>
+                <div className="ml-6 mt-2 flex flex-wrap gap-6">
+                  <div>
+                    <label className="block text-sm mb-1">Sets</label>
+                    <div className="flex items-center space-x-2">
+                      <button onClick={() => decrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">-</button>
+                      <input
+                        type="number"
+                        value={exerciseData[exercise]?.sets || ""}
+                        onChange={(e) => handleChange(exercise, "sets", e.target.value)}
+                        className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-16 text-center"
+                      />
+                      <button onClick={() => incrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm">Weight (lbs)</label>
-                    <input
-                      type="text"
-                      value={exerciseData[exercise]?.weight || ""}
-                      onChange={(e) => handleChange(exercise, "weight", e.target.value)}
-                      className="bg-gray-800 border border-gray-600 rounded px-2 py-1 w-24"
-                    />
+                    <label className="block text-sm mb-1">Weight (lbs)</label>
+                    <div className="flex items-center space-x-2">
+                      <button onClick={() => decrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">-</button>
+                      <input
+                        type="number"
+                        value={exerciseData[exercise]?.weight || ""}
+                        onChange={(e) => handleChange(exercise, "weight", e.target.value)}
+                        className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-20 text-center"
+                      />
+                      <button onClick={() => incrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                    </div>
                   </div>
                 </div>
                 {exerciseData[exercise]?.reps?.length > 0 && (
-                  <div className="ml-6 mt-2">
+                  <div className="ml-6 mt-4">
                     <label className="block text-sm font-medium mb-1">Reps per set:</label>
                     <div className="flex flex-wrap gap-2">
                       {exerciseData[exercise].reps.map((rep, idx) => (
@@ -324,7 +387,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
                           placeholder={`Set ${idx + 1}`}
                           value={rep}
                           onChange={(e) => handleRepChange(exercise, idx, e.target.value)}
-                          className="bg-gray-800 border border-gray-600 rounded px-2 py-1 w-16 text-sm"
+                          className="bg-black border border-gray-600 rounded px-2 py-1 w-16 text-center text-sm"
                         />
                       ))}
                     </div>
@@ -337,15 +400,12 @@ const WorkoutDay = ({ day, data, onComplete }) => {
       ))}
       {allExercisesChecked && (
         <div className="mt-6">
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              checked={completed}
-              onChange={handleComplete}
-              className="w-6 h-6 mr-2"
-            />
-            <span className="text-lg">Mark entire session as completed</span>
-          </label>
+          <button
+            onClick={handleComplete}
+            className="w-full max-w-md mx-auto flex items-center justify-center gap-2 px-6 py-3 border border-green-500 rounded-full text-green-500 hover:bg-green-700/10"
+          >
+            <span>✓</span> Mark Entire Session as Complete
+          </button>
         </div>
       )}
     </div>
@@ -374,7 +434,7 @@ export default function App() {
             {Object.keys(workouts).map((day) => (
               <button
                 key={day}
-                className="w-full max-w-md bg-gray-800 text-white py-4 rounded-2xl text-xl shadow-lg"
+                className="w-full max-w-md bg-gray-900 text-white py-4 rounded-2xl text-xl shadow-lg"
                 onClick={() => setSelectedDay(day)}
               >
                 {day}
