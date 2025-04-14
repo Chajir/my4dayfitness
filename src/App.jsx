@@ -207,33 +207,59 @@ const workouts = {
   },
 };
 
-const WorkoutDay = ({ day, data, onComplete }) => {
-  const [completed, setCompleted] = useState(false);
-  const [checked, setChecked] = useState(
-    data.sections.map((section) => section.exercises.map(() => false))
+const RestTimer = ({ duration, onFinish }) => {
+  const [seconds, setSeconds] = useState(duration);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      onFinish();
+      return;
+    }
+    const timer = setTimeout(() => setSeconds(seconds - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [seconds, onFinish]);
+
+  return (
+    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-xl shadow-lg">
+      ⏱️ Rest: {seconds}s
+    </div>
   );
-  const [exerciseData, setExerciseData] = useState(() => {
-    const saved = localStorage.getItem(`exerciseData-${day}`);
-    return saved ? JSON.parse(saved) : {};
-  });
-  const [lastUsed, setLastUsed] = useState(() => {
-    const saved = localStorage.getItem("lastExerciseData") || "{}";
-    return JSON.parse(saved);
-  });
+};
+
+const WorkoutDay = ({ day, data, onComplete }) => {
+  const [checked, setChecked] = useState(data.sections.map(s => s.exercises.map(() => false)));
+  const [exerciseData, setExerciseData] = useState(() => JSON.parse(localStorage.getItem(`exerciseData-${day}`) || '{}'));
+  const [lastUsed, setLastUsed] = useState(() => JSON.parse(localStorage.getItem("lastExerciseData") || '{}'));
   const [showSummary, setShowSummary] = useState(false);
+  const [exerciseQueue, setExerciseQueue] = useState([]);
+  const [current, setCurrent] = useState(null);
+  const [showTimer, setShowTimer] = useState(false);
+  const currentRef = useRef(null);
+
+  useEffect(() => {
+    const all = data.sections.flatMap(s => s.exercises);
+    setExerciseQueue(all);
+    setCurrent(all[0]);
+  }, [data]);
 
   useEffect(() => {
     localStorage.setItem(`exerciseData-${day}`, JSON.stringify(exerciseData));
   }, [exerciseData, day]);
 
-  const toggleCheckbox = (sectionIndex, exerciseIndex) => {
+  useEffect(() => {
+    if (currentRef.current) {
+      currentRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [current]);
+
+  const toggleCheckbox = (i, j) => {
     const updated = [...checked];
-    updated[sectionIndex][exerciseIndex] = !updated[sectionIndex][exerciseIndex];
+    updated[i][j] = !updated[i][j];
     setChecked(updated);
   };
 
   const handleChange = (exercise, field, value) => {
-    setExerciseData((prev) => {
+    setExerciseData(prev => {
       const updated = {
         ...prev,
         [exercise]: {
@@ -241,21 +267,18 @@ const WorkoutDay = ({ day, data, onComplete }) => {
           [field]: value,
         },
       };
-
       if (field === "sets") {
         const sets = parseInt(value) || 0;
         updated[exercise].reps = Array(sets).fill("");
       }
-
       return updated;
     });
   };
 
   const handleRepChange = (exercise, index, value) => {
-    setExerciseData((prev) => {
+    setExerciseData(prev => {
       const updatedReps = [...(prev[exercise]?.reps || [])];
       updatedReps[index] = value;
-
       return {
         ...prev,
         [exercise]: {
@@ -267,40 +290,33 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   };
 
   const incrementValue = (exercise, field, step = 1) => {
-    const current = parseInt(exerciseData[exercise]?.[field]) || 0;
-    handleChange(exercise, field, current + step);
+    const currentVal = parseInt(exerciseData[exercise]?.[field]) || 0;
+    handleChange(exercise, field, currentVal + step);
   };
-
   const decrementValue = (exercise, field, step = 1) => {
-    const current = parseInt(exerciseData[exercise]?.[field]) || 0;
-    handleChange(exercise, field, Math.max(0, current - step));
+    const currentVal = parseInt(exerciseData[exercise]?.[field]) || 0;
+    handleChange(exercise, field, Math.max(0, currentVal - step));
   };
 
-  const allExercisesChecked = checked.every((section) =>
-    section.every((exercise) => exercise)
-  );
+  const goToNextExercise = () => {
+    const index = exerciseQueue.indexOf(current);
+    const next = exerciseQueue[index + 1];
+    if (next) {
+      setShowTimer(true);
+      setTimeout(() => setCurrent(next), 1000);
+    }
+  };
 
-  const totalExercises = checked.reduce((sum, section) => sum + section.length, 0);
-  const totalCompleted = checked.reduce(
-    (sum, section) => sum + section.filter(Boolean).length,
-    0
-  );
-  const progress = Math.round((totalCompleted / totalExercises) * 100);
+  const totalExercises = checked.reduce((sum, s) => sum + s.length, 0);
+  const completedExercises = checked.reduce((sum, s) => sum + s.filter(Boolean).length, 0);
+  const progress = Math.round((completedExercises / totalExercises) * 100);
 
-  const handleComplete = () => {
+  const handleCompleteSession = () => {
     const timestamp = new Date().toLocaleString();
     const history = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
     history[day] = [...(history[day] || []), timestamp];
     localStorage.setItem("workoutHistory", JSON.stringify(history));
-
-    // Save last-used exercise values globally
-    const allSaved = { ...lastUsed };
-    for (const [exercise, data] of Object.entries(exerciseData)) {
-      allSaved[exercise] = data;
-    }
-    localStorage.setItem("lastExerciseData", JSON.stringify(allSaved));
-
-    setCompleted(true);
+    localStorage.setItem("lastExerciseData", JSON.stringify({ ...lastUsed, ...exerciseData }));
     setShowSummary(true);
     onComplete();
   };
@@ -310,26 +326,20 @@ const WorkoutDay = ({ day, data, onComplete }) => {
       <div className="text-white p-4">
         <h2 className="text-2xl font-bold mb-4">{day} – Summary</h2>
         <ul className="space-y-4">
-          {Object.entries(exerciseData).map(([exercise, data], idx) => (
-            <li key={idx} className="bg-gray-900 p-4 rounded-lg">
-              <div className="text-lg font-semibold mb-1">{exercise}</div>
-              <div className="text-sm text-gray-300">
-                Sets: {data.sets || 0} | Weight: {data.weight || 0} lbs
-              </div>
+          {Object.entries(exerciseData).map(([exercise, data], i) => (
+            <li key={i} className="bg-gray-900 p-4 rounded">
+              <div className="font-semibold">{exercise}</div>
+              <div className="text-sm text-gray-400">{data.sets} sets @ {data.weight} lbs</div>
               {data.reps && (
-                <div className="text-sm text-gray-400 mt-1">
-                  Reps: {data.reps.join(", ")}
-                </div>
+                <div className="text-sm text-gray-500">Reps: {data.reps.join(', ')}</div>
               )}
             </li>
           ))}
         </ul>
         <button
           onClick={() => setShowSummary(false)}
-          className="mt-6 px-4 py-2 border border-blue-500 rounded-full text-blue-500 hover:bg-blue-500 hover:text-black"
-        >
-          ← Back to Workout
-        </button>
+          className="mt-6 px-4 py-2 border border-blue-500 rounded-full text-blue-500"
+        >← Back to Workout</button>
       </div>
     );
   }
@@ -351,64 +361,69 @@ const WorkoutDay = ({ day, data, onComplete }) => {
           <ul className="space-y-6">
             {section.exercises.map((exercise, j) => {
               const last = lastUsed[exercise];
+              const isCurrent = exercise === current;
               return (
-                <li key={j} className="bg-[#1a1a1a] rounded-xl p-4 shadow-md">
-                  <div className="flex items-center justify-between">
+                <li
+                  key={j}
+                  ref={isCurrent ? currentRef : null}
+                  className={`p-4 rounded-xl shadow ${isCurrent ? 'bg-green-700' : 'bg-gray-900'}`}
+                >
+                  <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={checked[i][j]}
-                        onChange={() => toggleCheckbox(i, j)}
-                        className="w-5 h-5"
-                      />
-                      <span className="text-lg font-semibold">{exercise}</span>
+                      <input type="checkbox" checked={checked[i][j]} onChange={() => toggleCheckbox(i, j)} />
+                      <span className="font-semibold">{exercise}</span>
                     </div>
+                    {isCurrent && (
+                      <button
+                        onClick={() => { setShowTimer(true); goToNextExercise(); }}
+                        className="text-sm px-3 py-1 bg-white text-black rounded"
+                      >✅ Done / Next</button>
+                    )}
                   </div>
                   {last && (
-                    <div className="ml-6 text-sm text-gray-400 mt-1">
-                      Last used: {last.sets || 0} sets, {last.weight || 0} lbs{last.reps ? ` – Reps: ${last.reps.join(", ")}` : ""}
+                    <div className="text-sm text-gray-400 mb-2">
+                      Last used: {last.sets || 0} sets @ {last.weight || 0} lbs {last.reps?.length ? `– Reps: ${last.reps.join(', ')}` : ""}
                     </div>
                   )}
-                  <div className="ml-6 mt-2 flex flex-wrap gap-6">
+                  <div className="flex gap-6 flex-wrap">
                     <div>
-                      <label className="block text-sm mb-1">Sets</label>
-                      <div className="flex items-center space-x-2">
-                        <button onClick={() => decrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">-</button>
+                      <label className="text-sm">Sets</label>
+                      <div className="flex items-center gap-1">
+                        <button onClick={() => decrementValue(exercise, "sets")} className="px-2 bg-gray-700">-</button>
                         <input
                           type="number"
                           value={exerciseData[exercise]?.sets || ""}
                           onChange={(e) => handleChange(exercise, "sets", e.target.value)}
-                          className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-16 text-center"
+                          className="w-16 px-2 py-1 bg-black border border-gray-600 text-white rounded text-center"
                         />
-                        <button onClick={() => incrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                        <button onClick={() => incrementValue(exercise, "sets")} className="px-2 bg-gray-700">+</button>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm mb-1">Weight (lbs)</label>
-                      <div className="flex items-center space-x-2">
-                        <button onClick={() => decrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">-</button>
+                      <label className="text-sm">Weight (lbs)</label>
+                      <div className="flex items-center gap-1">
+                        <button onClick={() => decrementValue(exercise, "weight", 5)} className="px-2 bg-gray-700">-</button>
                         <input
                           type="number"
                           value={exerciseData[exercise]?.weight || ""}
                           onChange={(e) => handleChange(exercise, "weight", e.target.value)}
-                          className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-20 text-center"
+                          className="w-20 px-2 py-1 bg-black border border-gray-600 text-white rounded text-center"
                         />
-                        <button onClick={() => incrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                        <button onClick={() => incrementValue(exercise, "weight", 5)} className="px-2 bg-gray-700">+</button>
                       </div>
                     </div>
                   </div>
                   {exerciseData[exercise]?.reps?.length > 0 && (
-                    <div className="ml-6 mt-4">
-                      <label className="block text-sm font-medium mb-1">Reps per set:</label>
-                      <div className="flex flex-wrap gap-2">
+                    <div className="mt-3">
+                      <label className="text-sm">Reps per set:</label>
+                      <div className="flex gap-2 flex-wrap mt-1">
                         {exerciseData[exercise].reps.map((rep, idx) => (
                           <input
                             key={idx}
                             type="number"
-                            placeholder={`Set ${idx + 1}`}
                             value={rep}
                             onChange={(e) => handleRepChange(exercise, idx, e.target.value)}
-                            className="bg-black border border-gray-600 rounded px-2 py-1 w-16 text-center text-sm"
+                            className="w-16 px-2 py-1 bg-black border border-gray-600 text-white rounded text-center text-sm"
                           />
                         ))}
                       </div>
@@ -420,16 +435,17 @@ const WorkoutDay = ({ day, data, onComplete }) => {
           </ul>
         </div>
       ))}
-      {allExercisesChecked && (
-        <div className="mt-6">
+      {completedExercises === totalExercises && (
+        <div className="mt-8 text-center">
           <button
-            onClick={handleComplete}
-            className="w-full max-w-md mx-auto flex items-center justify-center gap-2 px-6 py-3 border border-green-500 rounded-full text-green-500 hover:bg-green-700/10"
+            onClick={handleCompleteSession}
+            className="px-6 py-3 border border-green-500 text-green-500 rounded-full hover:bg-green-700/20"
           >
-            <span>✓</span> Mark Entire Session as Complete
+            ✅ Mark Session Complete
           </button>
         </div>
       )}
+      {showTimer && <RestTimer duration={30} onFinish={() => setShowTimer(false)} />}
     </div>
   );
 };
@@ -439,24 +455,19 @@ export default function App() {
   const [history, setHistory] = useState({});
 
   useEffect(() => {
-    const storedHistory = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
-    setHistory(storedHistory);
-  }, [selectedDay]);
-
-  const handleUpdateHistory = () => {
-    const updated = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
-    setHistory(updated);
-  };
+    const saved = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
+    setHistory(saved);
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white p-4">
       {!selectedDay ? (
         <>
-          <div className="flex flex-col items-center gap-4 mb-8">
+          <div className="space-y-4 mb-6">
             {Object.keys(workouts).map((day) => (
               <button
                 key={day}
-                className="w-full max-w-md bg-gray-900 text-white py-4 rounded-2xl text-xl shadow-lg"
+                className="w-full max-w-md bg-gray-900 py-4 rounded-xl text-xl font-semibold shadow"
                 onClick={() => setSelectedDay(day)}
               >
                 {day}
@@ -484,15 +495,15 @@ export default function App() {
           </div>
         </>
       ) : (
-        <div>
+        <>
           <button
             onClick={() => setSelectedDay(null)}
-            className="mb-4 text-blue-400 underline"
+            className="text-blue-400 underline mb-4"
           >
             ← Back
           </button>
-          <WorkoutDay day={selectedDay} data={workouts[selectedDay]} onComplete={handleUpdateHistory} />
-        </div>
+          <WorkoutDay day={selectedDay} data={workouts[selectedDay]} onComplete={() => {}} />
+        </>
       )}
     </div>
   );
