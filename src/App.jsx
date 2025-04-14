@@ -228,13 +228,38 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   };
 
   const handleChange = (exercise, field, value) => {
-    setExerciseData((prev) => ({
-      ...prev,
-      [exercise]: {
-        ...prev[exercise],
-        [field]: value,
-      },
-    }));
+    setExerciseData((prev) => {
+      const updated = {
+        ...prev,
+        [exercise]: {
+          ...prev[exercise],
+          [field]: value,
+        },
+      };
+
+      // Reset reps if sets number changes
+      if (field === "sets") {
+        const sets = parseInt(value) || 0;
+        updated[exercise].reps = Array(sets).fill("");
+      }
+
+      return updated;
+    });
+  };
+
+  const handleRepChange = (exercise, index, value) => {
+    setExerciseData((prev) => {
+      const updatedReps = [...(prev[exercise]?.reps || [])];
+      updatedReps[index] = value;
+
+      return {
+        ...prev,
+        [exercise]: {
+          ...prev[exercise],
+          reps: updatedReps,
+        },
+      };
+    });
   };
 
   const allExercisesChecked = checked.every((section) =>
@@ -256,7 +281,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
       {data.sections.map((section, i) => (
         <div key={i} className="mb-6">
           <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
-          <ul className="space-y-4">
+          <ul className="space-y-6">
             {section.exercises.map((exercise, j) => (
               <li key={j} className="space-y-1">
                 <div className="flex items-center space-x-2">
@@ -288,6 +313,23 @@ const WorkoutDay = ({ day, data, onComplete }) => {
                     />
                   </div>
                 </div>
+                {exerciseData[exercise]?.reps?.length > 0 && (
+                  <div className="ml-6 mt-2">
+                    <label className="block text-sm font-medium mb-1">Reps per set:</label>
+                    <div className="flex flex-wrap gap-2">
+                      {exerciseData[exercise].reps.map((rep, idx) => (
+                        <input
+                          key={idx}
+                          type="number"
+                          placeholder={`Set ${idx + 1}`}
+                          value={rep}
+                          onChange={(e) => handleRepChange(exercise, idx, e.target.value)}
+                          className="bg-gray-800 border border-gray-600 rounded px-2 py-1 w-16 text-sm"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
