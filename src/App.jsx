@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { db } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 const workouts = {
   "Day 1": {
@@ -570,6 +571,14 @@ const saveLastExerciseData = async (data) => {
 
   return (
     <div className="min-h-screen bg-black text-white p-4">
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => signOut(auth)}
+          className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded"
+        >
+        Log Out
+      </button>
+    </div>
       <AnimatePresence mode="wait">
         {!selectedDay ? (
           <motion.div
