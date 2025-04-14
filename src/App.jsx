@@ -325,11 +325,13 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   return (
     <div className="text-white p-4">
       <h2 className="text-2xl font-bold mb-4">{day} – {data.title}</h2>
-      <div className="w-full bg-gray-800 h-4 rounded-full mb-6 overflow-hidden">
+      <div className="sticky top-0 z-10 bg-black py-2 mb-6">
+       <div className="w-full bg-gray-800 h-4 rounded-full overflow-hidden">
         <div
-          className="h-4 bg-green-500 rounded-full transition-all duration-300"
-          style={{ width: `${progress}%` }}
+         className="h-4 bg-green-500 rounded-full transition-all duration-300"
+         style={{ width: `${progress}%` }}
         ></div>
+       </div>
       </div>
       {data.sections.map((section, i) => (
         <div key={i} className="mb-6">
