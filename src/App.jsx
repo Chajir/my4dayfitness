@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+import Login from "./Login";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -527,7 +530,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   );
 };
 
-export default function App() {
+function MainApp() {
   const [selectedDay, setSelectedDay] = useState(() => localStorage.getItem("selectedDay") || null);
   const [history, setHistory] = useState({});
   const [showChart, setShowChart] = useState(false);
@@ -675,4 +678,21 @@ export default function App() {
       </AnimatePresence>
     </div>
   );
+}
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setChecking(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (checking) return <div className="text-white p-4">Loading...</div>;
+  if (!user) return <Login onLogin={() => setUser(auth.currentUser)} />;
+  return <MainApp />;
 }
