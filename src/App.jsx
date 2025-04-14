@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import Login from "./Login";
+import React, { useRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { db } from "./firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const workouts = {
   "Day 1": {
@@ -530,15 +533,30 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   );
 };
 
-function MainApp() {
+function MainApp({ user }) {
   const [selectedDay, setSelectedDay] = useState(() => localStorage.getItem("selectedDay") || null);
   const [history, setHistory] = useState({});
   const [showChart, setShowChart] = useState(false);
 
+  // Fetch workout history from Firestore on load
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
-    setHistory(saved);
-  }, []);
+    const fetchHistory = async () => {
+      const docRef = doc(db, "histories", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setHistory(docSnap.data().history || {});
+      } else {
+        setHistory({});
+      }
+    };
+    fetchHistory();
+  }, [user]);
+
+  // Save history to Firestore on change
+  const saveHistory = async (newHistory) => {
+    const docRef = doc(db, "histories", user.uid);
+    await setDoc(docRef, { history: newHistory });
+  };
 
   useEffect(() => {
     if (selectedDay) localStorage.setItem("selectedDay", selectedDay);
@@ -669,8 +687,15 @@ function MainApp() {
               day={selectedDay}
               data={workouts[selectedDay]}
               onComplete={() => {
-                const saved = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
-                setHistory(saved);
+                const updated = {
+                  ...history,
+                  [selectedDay]: [...(history[selectedDay] || []), {
+                    timestamp: new Date().toLocaleString(),
+                    data: localStorage.getItem(`exerciseData-${selectedDay}`)
+                  }]
+                };
+                setHistory(updated);
+                saveHistory(updated);
               }}
             />
           </motion.div>
@@ -694,5 +719,5 @@ export default function App() {
 
   if (checking) return <div className="text-white p-4">Loading...</div>;
   if (!user) return <Login onLogin={() => setUser(auth.currentUser)} />;
-  return <MainApp />;
+  return <MainApp user={user} />;
 }
