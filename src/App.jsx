@@ -348,7 +348,13 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   }
 
   return (
-    <div className="text-white p-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4 }}
+      className="text-white p-4 space-y-6"
+    >
       <h2 className="text-2xl font-bold mb-4">{day} – {data.title}</h2>
       <div className="sticky top-0 z-10 bg-black py-2 mb-6">
         <div className="w-full bg-gray-800 h-4 rounded-full overflow-hidden">
@@ -359,7 +365,13 @@ const WorkoutDay = ({ day, data, onComplete }) => {
         </div>
       </div>
       {data.sections.map((section, i) => (
-        <div key={i} className="mb-6">
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.1 }}
+          className="mb-6"
+        >
           <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
           <ul className="space-y-6">
             {section.exercises.map((exercise, j) => {
@@ -436,7 +448,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
               );
             })}
           </ul>
-        </div>
+        </motion.div>
       ))}
       {completedExercises === totalExercises && (
         <div className="mt-8 text-center">
@@ -449,7 +461,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
         </div>
       )}
       {showTimer && <RestTimer duration={30} onFinish={() => setShowTimer(false)} />}
-    </div>
+    </motion.div>
   );
 };
 
