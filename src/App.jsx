@@ -536,27 +536,28 @@ const WorkoutDay = ({ day, data, onComplete }) => {
 function MainApp({ user }) {
   const [selectedDay, setSelectedDay] = useState(() => localStorage.getItem("selectedDay") || null);
   const [history, setHistory] = useState({});
+  const [lastUsed, setLastUsed] = useState({});
   const [showChart, setShowChart] = useState(false);
 
-  // Fetch workout history from Firestore on load
-  useEffect(() => {
-    const fetchHistory = async () => {
-      const docRef = doc(db, "histories", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setHistory(docSnap.data().history || {});
-      } else {
-        setHistory({});
-      }
-    };
-    fetchHistory();
-  }, [user]);
-
-  // Save history to Firestore on change
-  const saveHistory = async (newHistory) => {
-    const docRef = doc(db, "histories", user.uid);
-    await setDoc(docRef, { history: newHistory });
+ // Fetch lastExerciseData from Firestore on load
+ useEffect(() => {
+  const fetchLastData = async () => {
+    const docRef = doc(db, "exerciseData", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      localStorage.setItem("lastExerciseData", JSON.stringify(data));
+      setLastUsed(data); // ✅ this is what you were missing
+    }
   };
+  fetchLastData();
+}, [user]);
+
+// Save lastExerciseData to Firestore
+const saveLastExerciseData = async (data) => {
+  const docRef = doc(db, "exerciseData", user.uid);
+  await setDoc(docRef, data);
+};
 
   useEffect(() => {
     if (selectedDay) localStorage.setItem("selectedDay", selectedDay);
@@ -686,17 +687,22 @@ function MainApp({ user }) {
             <WorkoutDay
               day={selectedDay}
               data={workouts[selectedDay]}
+              lastUsed={lastUsed} 
               onComplete={() => {
+                const rawData = localStorage.getItem(`exerciseData-${selectedDay}`);
+                const parsedData = JSON.parse(rawData || "{}");
                 const updated = {
                   ...history,
                   [selectedDay]: [...(history[selectedDay] || []), {
                     timestamp: new Date().toLocaleString(),
-                    data: localStorage.getItem(`exerciseData-${selectedDay}`)
+                    data: JSON.stringify(parsedData)
                   }]
                 };
                 setHistory(updated);
                 saveHistory(updated);
+                saveLastExerciseData({ ...JSON.parse(localStorage.getItem("lastExerciseData") || "{}"), ...parsedData });
               }}
+              
             />
           </motion.div>
         )}
