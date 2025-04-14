@@ -454,13 +454,18 @@ const WorkoutDay = ({ day, data, onComplete }) => {
 };
 
 export default function App() {
-  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(() => localStorage.getItem("selectedDay") || null);
   const [history, setHistory] = useState({});
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
     setHistory(saved);
   }, []);
+
+  useEffect(() => {
+    if (selectedDay) localStorage.setItem("selectedDay", selectedDay);
+    else localStorage.removeItem("selectedDay");
+  }, [selectedDay]);
 
   return (
     <div className="min-h-screen bg-black text-white p-4">
@@ -473,51 +478,51 @@ export default function App() {
             exit={{ opacity: 0, x: 50 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6 max-w-4xl mx-auto">
               {Object.keys(workouts).map((day) => (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   key={day}
-                  className="w-full max-w-md bg-gray-900 py-4 rounded-xl text-xl font-semibold shadow transition"
+                  className="w-full bg-gray-900 py-4 rounded-xl text-xl font-semibold shadow transition"
                   onClick={() => setSelectedDay(day)}
                 >
                   {day}
                 </motion.button>
               ))}
             </div>
-            <div>
-              <h2 className="text-xl font-bold mb-4">Workout History</h2>
-              <div className="flex justify-center">
-                <div className="bg-gray-900 p-4 rounded-xl shadow">
-                  <Calendar
-                    className="mb-4 rounded-xl overflow-hidden"
-                    tileClassName={({ date }) => {
-                      const formatted = date.toLocaleDateString();
-                      return Object.values(history).flat().some(h => h.includes(formatted))
-                        ? "bg-green-500 text-white rounded-full"
-                        : null;
-                    }}
-                  />
-                </div>
-              </div>
-              {Object.keys(history).length === 0 ? (
-                <p className="text-gray-400">No sessions completed yet.</p>
-              ) : (
-                <ul className="space-y-4">
-                  {Object.entries(history).map(([day, entries]) => (
-                    <li key={day}>
-                      <h3 className="font-semibold text-lg">{day}</h3>
-                      <ul className="ml-4 list-disc text-sm text-gray-300">
-                        {entries.map((entry, i) => (
-                          <li key={i}>{entry}</li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className="sticky top-0 bg-black z-10 py-2">
+              <h2 className="text-xl font-bold mb-4 text-center">Workout History</h2>
             </div>
+            <div className="flex justify-center mb-4">
+              <div className="bg-gray-900 p-4 rounded-xl shadow">
+                <Calendar
+                  className="rounded-xl overflow-hidden"
+                  tileClassName={({ date }) => {
+                    const formatted = date.toLocaleDateString();
+                    return Object.values(history).flat().some(h => h.includes(formatted))
+                      ? "bg-green-500 text-white rounded-full"
+                      : null;
+                  }}
+                />
+              </div>
+            </div>
+            {Object.keys(history).length === 0 ? (
+              <p className="text-gray-400 text-center">No sessions completed yet.</p>
+            ) : (
+              <ul className="space-y-4 max-w-xl mx-auto">
+                {Object.entries(history).map(([day, entries]) => (
+                  <li key={day}>
+                    <h3 className="font-semibold text-lg">{day}</h3>
+                    <ul className="ml-4 list-disc text-sm text-gray-300">
+                      {entries.map((entry, i) => (
+                        <li key={i}>{entry}</li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            )}
           </motion.div>
         ) : (
           <motion.div
