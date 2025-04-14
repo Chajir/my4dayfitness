@@ -212,11 +212,29 @@ const WorkoutDay = ({ day, data, onComplete }) => {
   const [checked, setChecked] = useState(
     data.sections.map((section) => section.exercises.map(() => false))
   );
+  const [exerciseData, setExerciseData] = useState(() => {
+    const saved = localStorage.getItem(`exerciseData-${day}`);
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem(`exerciseData-${day}`, JSON.stringify(exerciseData));
+  }, [exerciseData, day]);
 
   const toggleCheckbox = (sectionIndex, exerciseIndex) => {
     const updated = [...checked];
     updated[sectionIndex][exerciseIndex] = !updated[sectionIndex][exerciseIndex];
     setChecked(updated);
+  };
+
+  const handleChange = (exercise, field, value) => {
+    setExerciseData((prev) => ({
+      ...prev,
+      [exercise]: {
+        ...prev[exercise],
+        [field]: value,
+      },
+    }));
   };
 
   const allExercisesChecked = checked.every((section) =>
@@ -236,18 +254,40 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     <div className="text-white p-4">
       <h2 className="text-2xl font-bold mb-4">{day} – {data.title}</h2>
       {data.sections.map((section, i) => (
-        <div key={i} className="mb-4">
+        <div key={i} className="mb-6">
           <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-4">
             {section.exercises.map((exercise, j) => (
-              <li key={j} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={checked[i][j]}
-                  onChange={() => toggleCheckbox(i, j)}
-                  className="w-5 h-5"
-                />
-                <span>{exercise}</span>
+              <li key={j} className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={checked[i][j]}
+                    onChange={() => toggleCheckbox(i, j)}
+                    className="w-5 h-5"
+                  />
+                  <span className="font-medium">{exercise}</span>
+                </div>
+                <div className="ml-6 flex flex-wrap gap-4">
+                  <div>
+                    <label className="block text-sm">Sets</label>
+                    <input
+                      type="number"
+                      value={exerciseData[exercise]?.sets || ""}
+                      onChange={(e) => handleChange(exercise, "sets", e.target.value)}
+                      className="bg-gray-800 border border-gray-600 rounded px-2 py-1 w-20"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm">Weight (lbs)</label>
+                    <input
+                      type="text"
+                      value={exerciseData[exercise]?.weight || ""}
+                      onChange={(e) => handleChange(exercise, "weight", e.target.value)}
+                      className="bg-gray-800 border border-gray-600 rounded px-2 py-1 w-24"
+                    />
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
