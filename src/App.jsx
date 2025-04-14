@@ -634,20 +634,21 @@ export default function App() {
               >
                 {showChart ? "Hide Weekly Activity Chart" : "Show Weekly Activity Chart"}
               </button>
-              {showChart && (
-                <div className="bg-gray-900 p-4 rounded-xl shadow">
-                  <h2 className="text-xl font-bold mb-4 text-center">📊 Weekly Activity</h2>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={weeklyData}>
-                      <XAxis dataKey="day" stroke="#ccc" />
-                      <YAxis allowDecimals={false} stroke="#ccc" />
-                      <Tooltip />
-                      <Bar dataKey="count" fill="#10B981" radius={[8, 8, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              )}
             </div>
+
+            {showChart && (
+              <div className="mt-4 max-w-xl mx-auto bg-gray-900 p-4 rounded-xl shadow">
+                <h2 className="text-xl font-bold mb-4 text-center">📊 Weekly Activity</h2>
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={weeklyData}>
+                    <XAxis dataKey="day" stroke="#ccc" />
+                    <YAxis allowDecimals={false} stroke="#ccc" />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#10B981" radius={[8, 8, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </motion.div>
         ) : (
           <motion.div
