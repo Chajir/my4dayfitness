@@ -493,6 +493,9 @@ export default function App() {
     else localStorage.removeItem("selectedDay");
   }, [selectedDay]);
 
+  const streak = calculateStreak(history);
+  const personalBests = getPersonalBests(history);
+
   return (
     <div className="min-h-screen bg-black text-white p-4">
       <AnimatePresence mode="wait">
@@ -517,6 +520,14 @@ export default function App() {
                 </motion.button>
               ))}
             </div>
+
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold mb-2">🔥 Workout Streak: {streak} day{streak !== 1 ? 's' : ''}</h2>
+              {streak === 3 && <p className="text-green-400">💪 3-Day Streak! Keep it up!</p>}
+              {streak === 7 && <p className="text-yellow-400">🔥 One Week Streak! You're on fire!</p>}
+              {streak === 30 && <p className="text-pink-400">🏆 30-Day Legend! Amazing!</p>}
+            </div>
+
             <div className="sticky top-0 bg-black z-10 py-2">
               <h2 className="text-xl font-bold mb-4 text-center">Workout History</h2>
             </div>
@@ -526,7 +537,7 @@ export default function App() {
                   className="rounded-xl overflow-hidden"
                   tileClassName={({ date }) => {
                     const formatted = date.toLocaleDateString();
-                    return Object.values(history).flat().some(h => h.includes(formatted))
+                    return Object.values(history).flat().some(h => h.timestamp.includes(formatted))
                       ? "bg-green-500 text-white rounded-full"
                       : null;
                   }}
@@ -542,13 +553,28 @@ export default function App() {
                     <h3 className="font-semibold text-lg">{day}</h3>
                     <ul className="ml-4 list-disc text-sm text-gray-300">
                       {entries.map((entry, i) => (
-                        <li key={i}>{entry}</li>
+                        <li key={i}>{entry.timestamp}</li>
                       ))}
                     </ul>
                   </li>
                 ))}
               </ul>
             )}
+
+            <div className="mt-10 max-w-xl mx-auto">
+              <h2 className="text-xl font-bold mb-4">🏋️ Personal Bests</h2>
+              {Object.keys(personalBests).length === 0 ? (
+                <p className="text-gray-400 text-sm">No personal bests recorded yet.</p>
+              ) : (
+                <ul className="space-y-2 text-sm text-gray-200">
+                  {Object.entries(personalBests).map(([exercise, best], i) => (
+                    <li key={i} className="bg-gray-800 p-2 rounded">
+                      <strong>{exercise}</strong>: {best.weight} lbs, {best.reps} reps on {best.date}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </motion.div>
         ) : (
           <motion.div
