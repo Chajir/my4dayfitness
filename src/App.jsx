@@ -487,16 +487,20 @@ export default function App() {
               ))}
             </div>
             <div>
-              <h2 className="text-xl font-bold mb-2">Workout History</h2>
-              <Calendar
-                className="mb-4 rounded-xl overflow-hidden"
-                tileClassName={({ date }) => {
-                  const formatted = date.toLocaleDateString();
-                  return Object.values(history).flat().some(h => h.includes(formatted))
-                    ? "bg-green-500 text-white rounded-full"
-                    : null;
-                }}
-              />
+              <h2 className="text-xl font-bold mb-4">Workout History</h2>
+              <div className="flex justify-center">
+                <div className="bg-gray-900 p-4 rounded-xl shadow">
+                  <Calendar
+                    className="mb-4 rounded-xl overflow-hidden"
+                    tileClassName={({ date }) => {
+                      const formatted = date.toLocaleDateString();
+                      return Object.values(history).flat().some(h => h.includes(formatted))
+                        ? "bg-green-500 text-white rounded-full"
+                        : null;
+                    }}
+                  />
+                </div>
+              </div>
               {Object.keys(history).length === 0 ? (
                 <p className="text-gray-400">No sessions completed yet.</p>
               ) : (
