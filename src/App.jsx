@@ -216,6 +216,10 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     const saved = localStorage.getItem(`exerciseData-${day}`);
     return saved ? JSON.parse(saved) : {};
   });
+  const [lastUsed, setLastUsed] = useState(() => {
+    const saved = localStorage.getItem("lastExerciseData") || "{}";
+    return JSON.parse(saved);
+  });
   const [showSummary, setShowSummary] = useState(false);
 
   useEffect(() => {
@@ -288,6 +292,14 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     const history = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
     history[day] = [...(history[day] || []), timestamp];
     localStorage.setItem("workoutHistory", JSON.stringify(history));
+
+    // Save last-used exercise values globally
+    const allSaved = { ...lastUsed };
+    for (const [exercise, data] of Object.entries(exerciseData)) {
+      allSaved[exercise] = data;
+    }
+    localStorage.setItem("lastExerciseData", JSON.stringify(allSaved));
+
     setCompleted(true);
     setShowSummary(true);
     onComplete();
@@ -326,77 +338,85 @@ const WorkoutDay = ({ day, data, onComplete }) => {
     <div className="text-white p-4">
       <h2 className="text-2xl font-bold mb-4">{day} – {data.title}</h2>
       <div className="sticky top-0 z-10 bg-black py-2 mb-6">
-       <div className="w-full bg-gray-800 h-4 rounded-full overflow-hidden">
-        <div
-         className="h-4 bg-green-500 rounded-full transition-all duration-300"
-         style={{ width: `${progress}%` }}
-        ></div>
-       </div>
+        <div className="w-full bg-gray-800 h-4 rounded-full overflow-hidden">
+          <div
+            className="h-4 bg-green-500 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
       </div>
       {data.sections.map((section, i) => (
         <div key={i} className="mb-6">
           <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
           <ul className="space-y-6">
-            {section.exercises.map((exercise, j) => (
-              <li key={j} className="bg-[#1a1a1a] rounded-xl p-4 shadow-md">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={checked[i][j]}
-                      onChange={() => toggleCheckbox(i, j)}
-                      className="w-5 h-5"
-                    />
-                    <span className="text-lg font-semibold">{exercise}</span>
-                  </div>
-                </div>
-                <div className="ml-6 mt-2 flex flex-wrap gap-6">
-                  <div>
-                    <label className="block text-sm mb-1">Sets</label>
+            {section.exercises.map((exercise, j) => {
+              const last = lastUsed[exercise];
+              return (
+                <li key={j} className="bg-[#1a1a1a] rounded-xl p-4 shadow-md">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <button onClick={() => decrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">-</button>
                       <input
-                        type="number"
-                        value={exerciseData[exercise]?.sets || ""}
-                        onChange={(e) => handleChange(exercise, "sets", e.target.value)}
-                        className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-16 text-center"
+                        type="checkbox"
+                        checked={checked[i][j]}
+                        onChange={() => toggleCheckbox(i, j)}
+                        className="w-5 h-5"
                       />
-                      <button onClick={() => incrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                      <span className="text-lg font-semibold">{exercise}</span>
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm mb-1">Weight (lbs)</label>
-                    <div className="flex items-center space-x-2">
-                      <button onClick={() => decrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">-</button>
-                      <input
-                        type="number"
-                        value={exerciseData[exercise]?.weight || ""}
-                        onChange={(e) => handleChange(exercise, "weight", e.target.value)}
-                        className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-20 text-center"
-                      />
-                      <button onClick={() => incrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                  {last && (
+                    <div className="ml-6 text-sm text-gray-400 mt-1">
+                      Last used: {last.sets || 0} sets, {last.weight || 0} lbs{last.reps ? ` – Reps: ${last.reps.join(", ")}` : ""}
                     </div>
-                  </div>
-                </div>
-                {exerciseData[exercise]?.reps?.length > 0 && (
-                  <div className="ml-6 mt-4">
-                    <label className="block text-sm font-medium mb-1">Reps per set:</label>
-                    <div className="flex flex-wrap gap-2">
-                      {exerciseData[exercise].reps.map((rep, idx) => (
+                  )}
+                  <div className="ml-6 mt-2 flex flex-wrap gap-6">
+                    <div>
+                      <label className="block text-sm mb-1">Sets</label>
+                      <div className="flex items-center space-x-2">
+                        <button onClick={() => decrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">-</button>
                         <input
-                          key={idx}
                           type="number"
-                          placeholder={`Set ${idx + 1}`}
-                          value={rep}
-                          onChange={(e) => handleRepChange(exercise, idx, e.target.value)}
-                          className="bg-black border border-gray-600 rounded px-2 py-1 w-16 text-center text-sm"
+                          value={exerciseData[exercise]?.sets || ""}
+                          onChange={(e) => handleChange(exercise, "sets", e.target.value)}
+                          className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-16 text-center"
                         />
-                      ))}
+                        <button onClick={() => incrementValue(exercise, "sets")} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">Weight (lbs)</label>
+                      <div className="flex items-center space-x-2">
+                        <button onClick={() => decrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">-</button>
+                        <input
+                          type="number"
+                          value={exerciseData[exercise]?.weight || ""}
+                          onChange={(e) => handleChange(exercise, "weight", e.target.value)}
+                          className="bg-black text-white border border-gray-600 rounded px-2 py-1 w-20 text-center"
+                        />
+                        <button onClick={() => incrementValue(exercise, "weight", 5)} className="px-2 py-1 bg-gray-700 rounded">+</button>
+                      </div>
                     </div>
                   </div>
-                )}
-              </li>
-            ))}
+                  {exerciseData[exercise]?.reps?.length > 0 && (
+                    <div className="ml-6 mt-4">
+                      <label className="block text-sm font-medium mb-1">Reps per set:</label>
+                      <div className="flex flex-wrap gap-2">
+                        {exerciseData[exercise].reps.map((rep, idx) => (
+                          <input
+                            key={idx}
+                            type="number"
+                            placeholder={`Set ${idx + 1}`}
+                            value={rep}
+                            onChange={(e) => handleRepChange(exercise, idx, e.target.value)}
+                            className="bg-black border border-gray-600 rounded px-2 py-1 w-16 text-center text-sm"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}
