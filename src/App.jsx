@@ -210,6 +210,39 @@ const workouts = {
   },
 };
 
+// Helper function to calculate personal bests
+const getPersonalBests = (exerciseHistory) => {
+  const bests = {};
+  Object.entries(exerciseHistory).forEach(([day, sessions]) => {
+    sessions.forEach((entry) => {
+      const parsed = JSON.parse(entry.data || '{}');
+      Object.entries(parsed).forEach(([exercise, data]) => {
+        const weight = parseInt(data.weight || 0);
+        const reps = (data.reps || []).reduce((sum, r) => sum + parseInt(r || 0), 0);
+        if (!bests[exercise] || weight > bests[exercise].weight || reps > bests[exercise].reps) {
+          bests[exercise] = { weight, reps, date: entry.timestamp };
+        }
+      });
+    });
+  });
+  return bests;
+};
+
+// Count workout streak
+const calculateStreak = (history) => {
+  const today = new Date();
+  let streak = 0;
+  for (let i = 0; i < 365; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+    const dateString = date.toLocaleDateString();
+    if (Object.values(history).flat().some(h => h.timestamp.includes(dateString))) {
+      streak++;
+    } else break;
+  }
+  return streak;
+};
+
 const RestTimer = ({ duration, onFinish }) => {
   const [seconds, setSeconds] = useState(duration);
 
