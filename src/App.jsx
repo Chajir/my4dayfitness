@@ -488,32 +488,30 @@ export default function App() {
             </div>
             <div>
               <h2 className="text-xl font-bold mb-2">Workout History</h2>
+              <Calendar
+                className="mb-4 rounded-xl overflow-hidden"
+                tileClassName={({ date }) => {
+                  const formatted = date.toLocaleDateString();
+                  return Object.values(history).flat().some(h => h.includes(formatted))
+                    ? "bg-green-500 text-white rounded-full"
+                    : null;
+                }}
+              />
               {Object.keys(history).length === 0 ? (
                 <p className="text-gray-400">No sessions completed yet.</p>
               ) : (
-                <>
-                  <Calendar
-                    className="mb-4 rounded-xl overflow-hidden"
-                    tileClassName={({ date }) => {
-                      const formatted = date.toLocaleDateString();
-                      return Object.values(history).flat().some(h => h.includes(formatted))
-                        ? "bg-green-500 text-white rounded-full"
-                        : null;
-                    }}
-                  />
-                  <ul className="space-y-4">
-                    {Object.entries(history).map(([day, entries]) => (
-                      <li key={day}>
-                        <h3 className="font-semibold text-lg">{day}</h3>
-                        <ul className="ml-4 list-disc text-sm text-gray-300">
-                          {entries.map((entry, i) => (
-                            <li key={i}>{entry}</li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                  </ul>
-                </>
+                <ul className="space-y-4">
+                  {Object.entries(history).map(([day, entries]) => (
+                    <li key={day}>
+                      <h3 className="font-semibold text-lg">{day}</h3>
+                      <ul className="ml-4 list-disc text-sm text-gray-300">
+                        {entries.map((entry, i) => (
+                          <li key={i}>{entry}</li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           </motion.div>
