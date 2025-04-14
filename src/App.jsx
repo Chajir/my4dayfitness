@@ -366,6 +366,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
             {section.exercises.map((exercise, j) => {
               const last = lastUsed[exercise];
               const isCurrent = exercise === current;
+              const videoLink = exerciseData[exercise]?.video || workouts?.[day]?.sections?.[i]?.video;
               return (
                 <li
                   key={j}
@@ -377,20 +378,27 @@ const WorkoutDay = ({ day, data, onComplete }) => {
                       <input type="checkbox" checked={checked[i][j]} onChange={() => toggleCheckbox(i, j)} />
                       <span className="font-semibold">{exercise}</span>
                     </div>
-                    {isCurrent && (
-                      <motion.button
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => { setShowTimer(true); goToNextExercise(); }}
-                        className="text-sm px-3 py-1 bg-white text-black rounded"
-                      >✅ Done / Next</motion.button>
-                    )}
+                    <div className="flex items-center space-x-2">
+                      {videoLink && (
+                        <a href={videoLink} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-300 underline">
+                          ▶️ Video
+                        </a>
+                      )}
+                      {isCurrent && (
+                        <motion.button
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => { setShowTimer(true); goToNextExercise(); }}
+                          className="text-sm px-3 py-1 bg-white text-black rounded"
+                        >✅ Done / Next</motion.button>
+                      )}
+                    </div>
                   </div>
                   {last && (
                     <div className="text-sm text-gray-400 mb-2">
                       Last used: {last.sets || 0} sets @ {last.weight || 0} lbs {last.reps?.length ? `– Reps: ${last.reps.join(', ')}` : ""}
                     </div>
                   )}
-                  <div className="flex gap-6 flex-wrap">
+                  <div className="flex gap-6 flex-wrap mb-2">
                     <div>
                       <label className="text-sm">Sets</label>
                       <div className="flex items-center gap-1">
@@ -419,7 +427,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
                     </div>
                   </div>
                   {exerciseData[exercise]?.reps?.length > 0 && (
-                    <div className="mt-3">
+                    <div className="mt-2">
                       <label className="text-sm">Reps per set:</label>
                       <div className="flex gap-2 flex-wrap mt-1">
                         {exerciseData[exercise].reps.map((rep, idx) => (
@@ -434,6 +442,16 @@ const WorkoutDay = ({ day, data, onComplete }) => {
                       </div>
                     </div>
                   )}
+                  <div className="mt-3">
+                    <label className="text-sm block mb-1">Notes</label>
+                    <textarea
+                      rows={2}
+                      className="w-full bg-black border border-gray-600 text-white rounded px-2 py-1 text-sm"
+                      placeholder="e.g. Felt strong, next time increase weight"
+                      value={exerciseData[exercise]?.note || ""}
+                      onChange={(e) => handleChange(exercise, "note", e.target.value)}
+                    />
+                  </div>
                 </li>
               );
             })}
