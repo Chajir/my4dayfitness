@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const workouts = {
   "Day 1": {
@@ -463,61 +464,84 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-black text-white p-4">
-      {!selectedDay ? (
-        <>
-          <div className="space-y-4 mb-6">
-            {Object.keys(workouts).map((day) => (
-              <button
-                key={day}
-                className="w-full max-w-md bg-gray-900 py-4 rounded-xl text-xl font-semibold shadow"
-                onClick={() => setSelectedDay(day)}
-              >
-                {day}
-              </button>
-            ))}
-          </div>
-          <div>
-            <h2 className="text-xl font-bold mb-2">Workout History</h2>
-            {Object.keys(history).length === 0 ? (
-              <p className="text-gray-400">No sessions completed yet.</p>
-            ) : (
-              <>
-                <Calendar
-                  className="mb-4 rounded-xl overflow-hidden"
-                  tileClassName={({ date }) => {
-                    const formatted = date.toLocaleDateString();
-                    return Object.values(history).flat().some(h => h.includes(formatted))
-                      ? "bg-green-500 text-white rounded-full"
-                      : null;
-                  }}
-                />
-                <ul className="space-y-4">
-                  {Object.entries(history).map(([day, entries]) => (
-                    <li key={day}>
-                      <h3 className="font-semibold text-lg">{day}</h3>
-                      <ul className="ml-4 list-disc text-sm text-gray-300">
-                        {entries.map((entry, i) => (
-                          <li key={i}>{entry}</li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
-        </>
-      ) : (
-        <>
-          <button
-            onClick={() => setSelectedDay(null)}
-            className="text-blue-400 underline mb-4"
+      <AnimatePresence mode="wait">
+        {!selectedDay ? (
+          <motion.div
+            key="home"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 50 }}
+            transition={{ duration: 0.3 }}
           >
-            ← Back
-          </button>
-          <WorkoutDay day={selectedDay} data={workouts[selectedDay]} onComplete={() => {}} />
-        </>
-      )}
+            <div className="space-y-4 mb-6">
+              {Object.keys(workouts).map((day) => (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  key={day}
+                  className="w-full max-w-md bg-gray-900 py-4 rounded-xl text-xl font-semibold shadow transition"
+                  onClick={() => setSelectedDay(day)}
+                >
+                  {day}
+                </motion.button>
+              ))}
+            </div>
+            <div>
+              <h2 className="text-xl font-bold mb-2">Workout History</h2>
+              {Object.keys(history).length === 0 ? (
+                <p className="text-gray-400">No sessions completed yet.</p>
+              ) : (
+                <>
+                  <Calendar
+                    className="mb-4 rounded-xl overflow-hidden"
+                    tileClassName={({ date }) => {
+                      const formatted = date.toLocaleDateString();
+                      return Object.values(history).flat().some(h => h.includes(formatted))
+                        ? "bg-green-500 text-white rounded-full"
+                        : null;
+                    }}
+                  />
+                  <ul className="space-y-4">
+                    {Object.entries(history).map(([day, entries]) => (
+                      <li key={day}>
+                        <h3 className="font-semibold text-lg">{day}</h3>
+                        <ul className="ml-4 list-disc text-sm text-gray-300">
+                          {entries.map((entry, i) => (
+                            <li key={i}>{entry}</li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="day"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+          >
+            <button
+              onClick={() => setSelectedDay(null)}
+              className="text-blue-400 underline mb-4"
+            >
+              ← Back
+            </button>
+            <WorkoutDay
+              day={selectedDay}
+              data={workouts[selectedDay]}
+              onComplete={() => {
+                const saved = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
+                setHistory(saved);
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
