@@ -530,6 +530,7 @@ const WorkoutDay = ({ day, data, onComplete }) => {
 export default function App() {
   const [selectedDay, setSelectedDay] = useState(() => localStorage.getItem("selectedDay") || null);
   const [history, setHistory] = useState({});
+  const [showChart, setShowChart] = useState(false);
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("workoutHistory") || "{}");
@@ -577,18 +578,6 @@ export default function App() {
               {streak === 30 && <p className="text-pink-400">🏆 30-Day Legend! Amazing!</p>}
             </div>
 
-            <div className="max-w-xl mx-auto mb-6">
-              <h2 className="text-xl font-bold mb-2 text-center">📊 Weekly Activity</h2>
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={weeklyData}>
-                  <XAxis dataKey="day" stroke="#ccc" />
-                  <YAxis allowDecimals={false} stroke="#ccc" />
-                  <Tooltip />
-                  <Bar dataKey="count" fill="#10B981" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-
             <div className="sticky top-0 bg-black z-10 py-2">
               <h2 className="text-xl font-bold mb-4 text-center">Workout History</h2>
             </div>
@@ -634,6 +623,28 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
+              )}
+            </div>
+
+            <div className="mt-10 max-w-xl mx-auto">
+              <button
+                onClick={() => setShowChart(!showChart)}
+                className="w-full bg-gray-800 text-white py-2 px-4 rounded mb-4 hover:bg-gray-700 transition"
+              >
+                {showChart ? "Hide Weekly Activity Chart" : "Show Weekly Activity Chart"}
+              </button>
+              {showChart && (
+                <div className="bg-gray-900 p-4 rounded-xl shadow">
+                  <h2 className="text-xl font-bold mb-4 text-center">📊 Weekly Activity</h2>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={weeklyData}>
+                      <XAxis dataKey="day" stroke="#ccc" />
+                      <YAxis allowDecimals={false} stroke="#ccc" />
+                      <Tooltip />
+                      <Bar dataKey="count" fill="#10B981" radius={[8, 8, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               )}
             </div>
           </motion.div>
