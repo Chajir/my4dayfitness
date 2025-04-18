@@ -82,20 +82,10 @@ export default function MainAppCrossFit({ user, setMode }) {
 
   return (
     <div className="text-white min-h-screen bg-black p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">💥 CrossFit Mode</h2>
-        <button
-          onClick={() => setMode(null)}
-          className="text-blue-400 underline text-sm"
-        >
-          ← Back to Mode Selection
-        </button>
-      </div>
-
       <div className="text-center mb-6">
         <h2 className="text-xl font-bold mb-2">Workout Streak: {streak} day{streak !== 1 ? 's' : ''}</h2>
       </div>
-
+  
       <div className="flex justify-center mb-6">
         <div className="bg-gray-900 p-4 rounded-xl shadow">
           <Calendar
@@ -109,7 +99,7 @@ export default function MainAppCrossFit({ user, setMode }) {
           />
         </div>
       </div>
-
+  
       <WorkoutDay
         day={"CrossFit"}
         data={workout}
@@ -117,7 +107,7 @@ export default function MainAppCrossFit({ user, setMode }) {
         onComplete={handleComplete}
         user={user}
       />
-
+  
       <div className="mt-8 max-w-xl mx-auto">
         <h2 className="text-xl font-bold mb-4">🏋️ Personal Bests</h2>
         {Object.keys(personalBests).length === 0 ? (
@@ -132,7 +122,7 @@ export default function MainAppCrossFit({ user, setMode }) {
           </ul>
         )}
       </div>
-
+  
       <div className="mt-10 max-w-xl mx-auto">
         <button
           onClick={() => setShowChart(!showChart)}
