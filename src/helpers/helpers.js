@@ -68,6 +68,53 @@ export function generateAIWorkout(lastUsed, injuries = [], streak = 0, preferenc
   };
 }
 
+export function generateCrossFitWorkout() {
+  const wodStyles = ["AMRAP", "RFT", "EMOM"];
+  const selectedStyle = wodStyles[Math.floor(Math.random() * wodStyles.length)];
+
+  const movements = [
+    { name: "Burpees", reps: 15 },
+    { name: "Thrusters", reps: 12 },
+    { name: "Wall Balls", reps: 20 },
+    { name: "Box Jumps", reps: 10 },
+    { name: "Kettlebell Swings", reps: 15 },
+    { name: "Double Unders", reps: 50 },
+    { name: "Pull-Ups", reps: 8 },
+    { name: "Deadlifts", reps: 5 },
+    { name: "Rowing (calories)", reps: 12 },
+    { name: "Handstand Push-Ups", reps: 6 },
+    { name: "Overhead Squats", reps: 10 },
+    { name: "Sit-Ups", reps: 25 }
+  ];
+
+  // Randomize and pick 4 exercises
+  const shuffled = movements.sort(() => 0.5 - Math.random());
+  const selectedExercises = shuffled.slice(0, 4);
+
+  const formatted = selectedExercises.map(ex => ({
+    name: ex.name,
+    reps: ex.reps,
+    sets: 3, // default
+    weight: 0,
+  }));
+
+  const titleMap = {
+    AMRAP: "⏱ 12-Min AMRAP: As Many Rounds As Possible",
+    RFT: "🏁 3 Rounds For Time",
+    EMOM: "⏲ EMOM: Every Minute On the Minute (12 min)"
+  };
+
+  return {
+    title: titleMap[selectedStyle],
+    sections: [
+      {
+        name: selectedStyle,
+        exercises: formatted
+      }
+    ]
+  };
+}
+
 export function calculateStreak(history) {
   return Object.values(history).flat().reduce((acc, session) => acc + 1, 0);
 }

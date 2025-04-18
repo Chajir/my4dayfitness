@@ -10,6 +10,7 @@ import Login from "./Login";
 import ModeSelection from "./ModeSelection";
 import MainAppStatic from "./MainAppStatic";
 import MainAppAI from "./MainAppAI";
+import MainAppCrossFit from "./MainAppCrossFit";
 import WorkoutDay from "./components/WorkoutDay";
 import workouts from "./data/workouts";
 import { calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
@@ -37,11 +38,10 @@ function App() {
   };
 
   const renderMainApp = () => {
-    return mode === "static" ? (
-      <MainAppStatic user={user} setMode={setMode} />
-    ) : (
-      <MainAppAI user={user} setMode={setMode} />
-    );
+    if (mode === "static") return <MainAppStatic user={user} setMode={setMode} />;
+    if (mode === "ai") return <MainAppAI user={user} setMode={setMode} />;
+    if (mode === "crossfit") return <MainAppCrossFit user={user} setMode={setMode} />; // ✅ CrossFit
+    return null;
   };
 
   return (
@@ -53,7 +53,11 @@ function App() {
       />
 
       <AnimatePresence mode="wait">
-        {!mode ? <ModeSelection setMode={setMode} /> : renderMainApp()}
+        {!mode ? (
+          <ModeSelection setMode={setMode} />
+        ) : (
+          renderMainApp()
+        )}
       </AnimatePresence>
     </div>
   );
