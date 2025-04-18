@@ -98,15 +98,6 @@ export default function WorkoutDay({ day, data, onComplete, lastUsed = {}, user,
   return (
     <motion.div className="bg-black text-white min-h-screen p-4">
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">{day} – {data.title}</h2>
-          <button
-            onClick={() => setMode(null)}
-            className="text-blue-400 underline text-sm"
-          >
-            ← Back to Mode Selection
-          </button>
-        </div>
 
         <div className="sticky top-0 z-30 bg-black py-3 shadow-lg">
         <h2 className="text-2xl font-bold mb-2">{day} – {data.title}</h2>
