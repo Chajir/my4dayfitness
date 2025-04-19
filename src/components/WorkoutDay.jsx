@@ -48,9 +48,14 @@ export default function WorkoutDay({ day, data, onComplete, lastUsed = {}, user,
     if (currentRef.current) currentRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [current]);
 
-  const totalExercises = checked.flat().length;
+  const totalExercises =
+  checked.flat().length - skipped.flat().filter(Boolean).length;
+
   const completedExercises = checked.flat().filter(Boolean).length;
-  const progress = Math.round((completedExercises / totalExercises) * 100);
+
+  const progress = totalExercises > 0
+    ? Math.round((completedExercises / totalExercises) * 100)
+    : 0;
 
   const toggleCheckbox = (i, j) => {
     const updated = [...checked];
