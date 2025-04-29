@@ -22,7 +22,7 @@ function InjuryForm({ onSave, user, currentInjuries }) {
   };
 
   const handleSave = async () => {
-    console.log("Saving injuries:", selected); // Debug log
+    console.log("Saving injuries in InjuryForm:", selected); // Debug log
     await setDoc(doc(db, "injuries", user.uid), { types: selected });
     onSave(selected); // Pass updated injuries to parent
   };
@@ -81,11 +81,11 @@ export default function MainAppCrossFit({ user, setMode }) {
 
       const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
       setInjuries(userInjuries);
-      console.log("Initial fetch - Injuries:", userInjuries); // Debug log
+      console.log("MainAppCrossFit - Initial fetch - Injuries:", userInjuries); // Debug log
 
       const newWorkout = await generateCrossFitWorkout(userInjuries);
       setWorkout(newWorkout);
-      console.log("Initial CrossFit workout:", newWorkout); // Debug log
+      console.log("MainAppCrossFit - Initial CrossFit workout:", newWorkout); // Debug log
     };
 
     fetchData();
@@ -94,10 +94,10 @@ export default function MainAppCrossFit({ user, setMode }) {
   // Regenerate workout when injuries change
   useEffect(() => {
     const generateWorkout = async () => {
-      console.log("Regenerating CrossFit workout with injuries:", injuries); // Debug log
+      console.log("MainAppCrossFit - Regenerating CrossFit workout with injuries:", injuries); // Debug log
       const newWorkout = await generateCrossFitWorkout(injuries);
       setWorkout(newWorkout);
-      console.log("Regenerated CrossFit workout:", newWorkout); // Debug log
+      console.log("MainAppCrossFit - Regenerated CrossFit workout:", newWorkout); // Debug log
     };
     generateWorkout();
   }, [injuries]);
@@ -151,13 +151,19 @@ export default function MainAppCrossFit({ user, setMode }) {
           >
             {showInjuryForm ? "Hide Injuries" : "Edit Injuries"}
           </button>
+          <button
+            onClick={() => setMode(null)} // Add Change Mode button
+            className="text-gray-400 underline text-sm"
+          >
+            Change Mode
+          </button>
         </div>
       </div>
 
       {showInjuryForm && (
         <InjuryForm
           onSave={(newInjuries) => {
-            console.log("InjuryForm onSave - New injuries:", newInjuries); // Debug log
+            console.log("MainAppCrossFit - InjuryForm onSave - New injuries:", newInjuries); // Debug log
             setInjuries(newInjuries);
             setShowInjuryForm(false);
           }}

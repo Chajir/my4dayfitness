@@ -8,20 +8,13 @@ import PreferencesForm from "./components/PreferencesForm";
 import { generateAIWorkout, calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
-function InjuryForm({ onSave, user }) {
-  const [selected, setSelected] = useState([]);
+function InjuryForm({ onSave, user, currentInjuries }) {
+  const [selected, setSelected] = useState(currentInjuries || []);
   const injuries = ["shoulders", "back", "legs", "chest"];
 
   useEffect(() => {
-    const fetchInjuries = async () => {
-      const ref = doc(db, "injuries", user.uid);
-      const snap = await getDoc(ref);
-      if (snap.exists()) {
-        setSelected(snap.data().types || []);
-      }
-    };
-    fetchInjuries();
-  }, [user]);
+    setSelected(currentInjuries || []); // Sync with parent state
+  }, [currentInjuries]);
 
   const toggle = (type) => {
     setSelected((prev) =>
@@ -30,8 +23,9 @@ function InjuryForm({ onSave, user }) {
   };
 
   const handleSave = async () => {
+    console.log("Saving injuries in InjuryForm:", selected); // Debug log
     await setDoc(doc(db, "injuries", user.uid), { types: selected });
-    onSave();
+    onSave(selected); // Pass updated injuries to parent
   };
 
   return (
@@ -65,6 +59,7 @@ export default function MainAppAI({ user, setMode }) {
   const [lastUsed, setLastUsed] = useState({});
   const [history, setHistory] = useState({});
   const [preferences, setPreferences] = useState(undefined);
+  const [injuries, setInjuries] = useState([]);
   const [streak, setStreak] = useState(0);
   const [showChart, setShowChart] = useState(false);
   const [showInjuryForm, setShowInjuryForm] = useState(false);
@@ -91,26 +86,33 @@ export default function MainAppAI({ user, setMode }) {
       setPreferences(prefs);
 
       const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
+      setInjuries(userInjuries);
+      console.log("MainAppAI - Initial fetch - Injuries:", userInjuries); // Debug log
 
       if (prefs) {
         const aiWorkout = await generateAIWorkout(last, userInjuries, calculateStreak(hist), prefs);
         setWorkout(aiWorkout);
+        console.log("MainAppAI - Initial workout:", aiWorkout); // Debug log
       }
     };
     fetchData();
   }, [user]);
 
+  // Regenerate workout when injuries, preferences, history, or lastUsed change
   useEffect(() => {
-    if (!preferences) return;
+    if (!preferences) {
+      console.log("MainAppAI - Skipping workout generation: preferences not loaded"); // Debug log
+      return;
+    }
 
-    const fetchWorkout = async () => {
-      const snap4 = await getDoc(doc(db, "injuries", user.uid));
-      const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
-      const aiWorkout = await generateAIWorkout(lastUsed, userInjuries, calculateStreak(history), preferences);
+    const generateWorkout = async () => {
+      console.log("MainAppAI - Regenerating workout with injuries:", injuries); // Debug log
+      const aiWorkout = await generateAIWorkout(lastUsed, injuries, calculateStreak(history), preferences);
       setWorkout(aiWorkout);
+      console.log("MainAppAI - Regenerated workout:", aiWorkout); // Debug log
     };
-    fetchWorkout();
-  }, [preferences, history, lastUsed]);
+    generateWorkout();
+  }, [injuries, preferences, history, lastUsed]);
 
   const savePreferences = async (prefs) => {
     await setDoc(doc(db, "preferences", user.uid), prefs);
@@ -180,22 +182,24 @@ export default function MainAppAI({ user, setMode }) {
           >
             {showInjuryForm ? "Hide Injuries" : "Edit Injuries"}
           </button>
+          <button
+            onClick={() => setMode(null)} // Add Change Mode button
+            className="text-gray-400 underline text-sm"
+          >
+            Change Mode
+          </button>
         </div>
       </div>
 
       {showInjuryForm && (
         <InjuryForm
-          onSave={() => {
+          onSave={(newInjuries) => {
+            console.log("MainAppAI - InjuryForm onSave - New injuries:", newInjuries); // Debug log
+            setInjuries(newInjuries);
             setShowInjuryForm(false);
-            const fetchWorkout = async () => {
-              const snap4 = await getDoc(doc(db, "injuries", user.uid));
-              const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
-              const aiWorkout = await generateAIWorkout(lastUsed, userInjuries, calculateStreak(history), preferences);
-              setWorkout(aiWorkout);
-            };
-            fetchWorkout();
           }}
           user={user}
+          currentInjuries={injuries}
         />
       )}
 
