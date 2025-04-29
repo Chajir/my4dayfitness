@@ -5,8 +5,7 @@ import { db } from "./firebase";
 import WorkoutDay from "./components/WorkoutDay";
 import Calendar from "react-calendar";
 import PreferencesForm from "./components/PreferencesForm";
-import { generateAIWorkout } from "./helpers/helpers";
-import { calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
+import { generateAIWorkout, calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
 function InjuryForm({ onSave, user }) {
@@ -74,76 +73,62 @@ export default function MainAppAI({ user, setMode }) {
     const fetchData = async () => {
       const uid = user.uid;
 
-      const ref1 = doc(db, "exerciseData", uid);
-      const snap1 = await getDoc(ref1);
+      const [snap1, snap2, snap3, snap4] = await Promise.all([
+        getDoc(doc(db, "exerciseData", uid)),
+        getDoc(doc(db, "history", uid)),
+        getDoc(doc(db, "preferences", uid)),
+        getDoc(doc(db, "injuries", uid)),
+      ]);
+
       const last = snap1.exists() ? snap1.data() : {};
       setLastUsed(last);
 
-      const ref2 = doc(db, "history", uid);
-      const snap2 = await getDoc(ref2);
       const hist = snap2.exists() ? snap2.data() : {};
       setHistory(hist);
+      setStreak(calculateStreak(hist));
 
-      const ref3 = doc(db, "preferences", uid);
-      const snap3 = await getDoc(ref3);
       const prefs = snap3.exists() ? snap3.data() : null;
       setPreferences(prefs);
 
-      const ref4 = doc(db, "injuries", uid);
-      const snap4 = await getDoc(ref4);
       const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
 
-      if (prefs) generateWorkout(hist, prefs, last, userInjuries);
+      if (prefs) {
+        const aiWorkout = await generateAIWorkout(last, userInjuries, calculateStreak(hist), prefs);
+        setWorkout(aiWorkout);
+      }
     };
     fetchData();
   }, [user]);
 
   useEffect(() => {
     if (!preferences) return;
-  
-    const fetchWorkout = async () => {
-      const ref4 = doc(db, "injuries", user.uid);
-      const snap4 = await getDoc(ref4);
-      const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
-  
-      generateWorkout(history, preferences, lastUsed, userInjuries);
-    };
-  
-    fetchWorkout();
-  }, [preferences]);
-  
 
-  const generateWorkout = (hist, prefs, last, userInjuries) => {
-    const flatSessions = Object.values(hist).flat();
-    const days = [...new Set(flatSessions.map((e) => e.timestamp?.split(",")[0]))];
-    const calculatedStreak = days.length;
-    setStreak(calculatedStreak);
-    const aiWorkout = generateAIWorkout(last || {}, userInjuries || [], calculatedStreak, prefs);
-    setWorkout(aiWorkout);
-  };
+    const fetchWorkout = async () => {
+      const snap4 = await getDoc(doc(db, "injuries", user.uid));
+      const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
+      const aiWorkout = await generateAIWorkout(lastUsed, userInjuries, calculateStreak(history), preferences);
+      setWorkout(aiWorkout);
+    };
+    fetchWorkout();
+  }, [preferences, history, lastUsed]);
 
   const savePreferences = async (prefs) => {
-    const uid = user.uid;
-    const ref = doc(db, "preferences", uid);
-    await setDoc(ref, prefs);
+    await setDoc(doc(db, "preferences", user.uid), prefs);
     setPreferences(prefs);
   };
 
   const resetPreferences = async () => {
-    const uid = user.uid;
-    await deleteDoc(doc(db, "preferences", uid));
+    await deleteDoc(doc(db, "preferences", user.uid));
     setPreferences(null);
     setWorkout(null);
   };
 
   const saveHistory = async (data) => {
-    const docRef = doc(db, "history", user.uid);
-    await setDoc(docRef, data);
+    await setDoc(doc(db, "history", user.uid), data);
   };
 
   const saveLastUsed = async (data) => {
-    const docRef = doc(db, "exerciseData", user.uid);
-    await setDoc(docRef, data);
+    await setDoc(doc(db, "exerciseData", user.uid), data);
   };
 
   const handleComplete = () => {
@@ -202,14 +187,20 @@ export default function MainAppAI({ user, setMode }) {
         <InjuryForm
           onSave={() => {
             setShowInjuryForm(false);
-            generateWorkout(history, preferences, lastUsed);
+            const fetchWorkout = async () => {
+              const snap4 = await getDoc(doc(db, "injuries", user.uid));
+              const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
+              const aiWorkout = await generateAIWorkout(lastUsed, userInjuries, calculateStreak(history), preferences);
+              setWorkout(aiWorkout);
+            };
+            fetchWorkout();
           }}
           user={user}
         />
       )}
 
       <div className="text-center mb-6">
-        <h2 className="text-xl font-bold mb-2">Workout Streak: {streak} day{streak !== 1 ? 's' : ''}</h2>
+        <h2 className="text-xl font-bold mb-2">Workout Streak: {streak} day{streak !== 1 ? "s" : ""}</h2>
       </div>
 
       <div className="flex justify-center mb-6">
@@ -218,7 +209,7 @@ export default function MainAppAI({ user, setMode }) {
             className="rounded-xl overflow-hidden"
             tileClassName={({ date }) => {
               const formatted = date.toLocaleDateString();
-              return Object.values(history).flat().some(h => h.timestamp.includes(formatted))
+              return Object.values(history).flat().some((h) => h.timestamp.includes(formatted))
                 ? "bg-green-500 text-white rounded-full"
                 : null;
             }}
@@ -231,7 +222,7 @@ export default function MainAppAI({ user, setMode }) {
         data={workout}
         lastUsed={lastUsed}
         onComplete={handleComplete}
-        user={user} 
+        user={user}
       />
 
       <div className="mt-8 max-w-xl mx-auto">

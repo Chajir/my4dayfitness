@@ -1,117 +1,151 @@
 // src/helpers/helpers.js
+import exerciseMap from "../data/exerciseMap";
 
 export function generateAIWorkout(lastUsed, injuries = [], streak = 0, preferences = {}) {
   const { goal = "fat_loss", equipment = "bodyweight", sessionLength = "30" } = preferences;
 
-  const allExercises = [
-    { name: "Jumping Jacks", category: "warmup", type: "cardio", duration: 30 },
-    { name: "Push Ups", category: "strength", type: "bodyweight" },
-    { name: "Dumbbell Squats", category: "strength", type: "dumbbell" },
-    { name: "Kettlebell Swing", category: "strength", type: "full_gym" },
-    { name: "Plank", category: "core", type: "bodyweight", duration: 30 },
-    { name: "Mountain Climbers", category: "cardio", type: "bodyweight", duration: 30 },
-    { name: "Bicep Curls", category: "strength", type: "dumbbell" },
-    { name: "Leg Press", category: "strength", type: "full_gym" },
-    { name: "Treadmill Run", category: "cardio", type: "full_gym", duration: 300 }
-  ];
-
-  const filtered = allExercises.filter(ex => {
-    if (injuries.some(inj => ex.name.toLowerCase().includes(inj))) return false;
-    if (equipment === "bodyweight" && ex.type !== "bodyweight") return false;
-    if (equipment === "dumbbells" && ex.type === "full_gym") return false;
-    return true;
+  const safeExercises = Object.keys(exerciseMap).filter((ex) => {
+    const exercise = exerciseMap[ex];
+    return (
+      exercise.category !== "rehab" &&
+      !injuries.some((injury) => exercise.bodyParts.includes(injury)) &&
+      (equipment === "full_gym" ||
+        (equipment === "dumbbells" && exercise.type !== "full_gym") ||
+        (equipment === "bodyweight" && exercise.type === "bodyweight"))
+    );
   });
+
+  const rehabExercises = injuries
+    .flatMap((injury) =>
+      Object.keys(exerciseMap).filter(
+        (ex) => exerciseMap[ex].category === "rehab" && exerciseMap[ex].bodyParts.includes(injury)
+      )
+    )
+    .slice(0, 2);
 
   const getWorkoutByGoal = (goal) => {
     if (goal === "fat_loss") {
-      return filtered.filter(ex => ex.category === "cardio" || ex.duration);
+      return safeExercises.filter((ex) => exerciseMap[ex].category === "cardio" || exerciseMap[ex].duration);
     } else if (goal === "muscle_gain") {
-      return filtered.filter(ex => ex.category === "strength").slice(0, 5);
+      return safeExercises.filter((ex) => exerciseMap[ex].category === "strength").slice(0, 5);
     } else if (goal === "strength") {
-      return filtered.filter(ex => ex.category === "strength").map(ex => ({ ...ex, sets: 4, reps: 6 }));
+      return safeExercises.filter((ex) => exerciseMap[ex].category === "strength").map((ex) => ({
+        name: ex,
+        sets: 4,
+        reps: 6,
+      }));
     } else if (goal === "endurance") {
-      return filtered.filter(ex => ex.category === "cardio" || ex.duration);
+      return safeExercises.filter((ex) => exerciseMap[ex].category === "cardio" || exerciseMap[ex].duration);
     }
-    return filtered.slice(0, 5);
+    return safeExercises.slice(0, 5);
   };
 
   const baseWorkout = getWorkoutByGoal(goal);
   const sections = [
     {
+      name: "Warm-up",
+      exercises: safeExercises
+        .filter((ex) => exerciseMap[ex].category === "warmup")
+        .slice(0, 1)
+        .map((ex) => ({
+          name: ex,
+          duration: 30,
+          sets: 3,
+          reps: 15,
+          rest: 30,
+        })),
+    },
+    {
       name: "Main Session",
-      exercises: baseWorkout.map(ex => ({
-        name: ex.name,
-        duration: ex.duration || undefined,
+      exercises: baseWorkout.map((ex) => ({
+        name: typeof ex === "string" ? ex : ex.name,
         sets: ex.sets || 3,
         reps: ex.reps || 12,
-        weight: lastUsed[ex.name]?.weight || 0
-      }))
-    }
-  ];
-
-  if (sessionLength === "45") {
-    sections.push({
-      name: "Bonus Round",
-      exercises: filtered.filter(e => !baseWorkout.includes(e)).slice(0, 3).map(ex => ({
-        name: ex.name,
-        duration: ex.duration || undefined,
+        rest: 60,
+        weight: lastUsed[typeof ex === "string" ? ex : ex.name]?.weight || 0,
+      })),
+    },
+    {
+      name: "Rehab",
+      exercises: rehabExercises.map((ex) => ({
+        name: ex,
         sets: 2,
-        reps: 15,
-        weight: lastUsed[ex.name]?.weight || 0
-      }))
-    });
-  }
+        reps: 10,
+        rest: 30,
+      })),
+    },
+    {
+      name: "Cool-down",
+      exercises: [{ name: "Hamstring Stretch", sets: 2, reps: 10, rest: 30 }],
+    },
+  ].filter((section) => section.exercises.length > 0);
 
   return {
     title: "AI Generated Workout",
-    sections
+    sections,
   };
 }
 
-export function generateCrossFitWorkout() {
+export function generateCrossFitWorkout(injuries = []) {
   const wodStyles = ["AMRAP", "RFT", "EMOM"];
   const selectedStyle = wodStyles[Math.floor(Math.random() * wodStyles.length)];
 
-  const movements = [
-    { name: "Burpees", reps: 15 },
-    { name: "Thrusters", reps: 12 },
-    { name: "Wall Balls", reps: 20 },
-    { name: "Box Jumps", reps: 10 },
-    { name: "Kettlebell Swings", reps: 15 },
-    { name: "Double Unders", reps: 50 },
-    { name: "Pull-Ups", reps: 8 },
-    { name: "Deadlifts", reps: 5 },
-    { name: "Rowing (calories)", reps: 12 },
-    { name: "Handstand Push-Ups", reps: 6 },
-    { name: "Overhead Squats", reps: 10 },
-    { name: "Sit-Ups", reps: 25 }
-  ];
+  const safeExercises = Object.keys(exerciseMap).filter(
+    (ex) =>
+      exerciseMap[ex].category !== "rehab" &&
+      !injuries.some((injury) => exerciseMap[ex].bodyParts.includes(injury))
+  );
 
-  // Randomize and pick 4 exercises
-  const shuffled = movements.sort(() => 0.5 - Math.random());
+  const rehabExercises = injuries
+    .flatMap((injury) =>
+      Object.keys(exerciseMap).filter(
+        (ex) => exerciseMap[ex].category === "rehab" && exerciseMap[ex].bodyParts.includes(injury)
+      )
+    )
+    .slice(0, 2);
+
+  const shuffled = safeExercises.sort(() => 0.5 - Math.random());
   const selectedExercises = shuffled.slice(0, 4);
-
-  const formatted = selectedExercises.map(ex => ({
-    name: ex.name,
-    reps: ex.reps,
-    sets: 3, // default
-    weight: 0,
-  }));
 
   const titleMap = {
     AMRAP: "⏱ 12-Min AMRAP: As Many Rounds As Possible",
     RFT: "🏁 3 Rounds For Time",
-    EMOM: "⏲ EMOM: Every Minute On the Minute (12 min)"
+    EMOM: "⏲ EMOM: Every Minute On the Minute (12 min)",
   };
+
+  const sections = [
+    {
+      name: "Warm-up",
+      exercises: [{ name: "Jumping Jacks", sets: 3, reps: 15, rest: 30 }],
+    },
+    {
+      name: selectedStyle,
+      exercises: selectedExercises.map((ex) => ({
+        name: ex,
+        sets: 3,
+        reps: 12,
+        rest: 45,
+        weight: 0,
+      })),
+    },
+    {
+      name: "Rehab",
+      exercises: rehabExercises.map((ex) => ({
+        name: ex,
+        sets: 2,
+        reps: 10,
+        rest: 30,
+      })),
+    },
+    {
+      name: "Cool-down",
+      exercises: [{ name: "Quad Stretch", sets: 2, reps: 10, rest: 30 }],
+    },
+  ].filter((section) => section.exercises.length > 0);
 
   return {
     title: titleMap[selectedStyle],
-    sections: [
-      {
-        name: selectedStyle,
-        exercises: formatted
-      }
-    ]
+    sections,
   };
 }
 
@@ -139,7 +173,7 @@ export function getPersonalBests(history) {
 export function getWeeklyData(history) {
   const counts = {};
   Object.values(history).flat().forEach(({ timestamp }) => {
-    const day = new Date(timestamp).toLocaleDateString(undefined, { weekday: 'short' });
+    const day = new Date(timestamp).toLocaleDateString(undefined, { weekday: "short" });
     counts[day] = (counts[day] || 0) + 1;
   });
   return Object.entries(counts).map(([day, count]) => ({ day, count }));

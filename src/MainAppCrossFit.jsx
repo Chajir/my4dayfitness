@@ -4,9 +4,60 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import WorkoutDay from "./components/WorkoutDay";
 import Calendar from "react-calendar";
-import { generateCrossFitWorkout } from "./helpers/helpers"; // ✅ Your new CrossFit logic here
-import { calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
+import { generateCrossFitWorkout, calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+
+function InjuryForm({ onSave, user }) {
+  const [selected, setSelected] = useState([]);
+  const injuries = ["shoulders", "back", "legs", "chest"];
+
+  useEffect(() => {
+    const fetchInjuries = async () => {
+      const ref = doc(db, "injuries", user.uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        setSelected(snap.data().types || []);
+      }
+    };
+    fetchInjuries();
+  }, [user]);
+
+  const toggle = (type) => {
+    setSelected((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
+
+  const handleSave = async () => {
+    await setDoc(doc(db, "injuries", user.uid), { types: selected });
+    onSave();
+  };
+
+  return (
+    <div className="text-white p-4 bg-gray-800 rounded-xl mb-6">
+      <h3 className="font-semibold mb-2">🩹 Report Any Injuries</h3>
+      <div className="flex gap-2 flex-wrap">
+        {injuries.map((type) => (
+          <button
+            key={type}
+            onClick={() => toggle(type)}
+            className={`px-3 py-1 rounded ${
+              selected.includes(type) ? "bg-red-500" : "bg-gray-600"
+            }`}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+      <button
+        className="mt-4 bg-blue-600 py-2 px-4 rounded"
+        onClick={handleSave}
+      >
+        Save Injuries
+      </button>
+    </div>
+  );
+}
 
 export default function MainAppCrossFit({ user, setMode }) {
   const [workout, setWorkout] = useState(null);
@@ -14,26 +65,28 @@ export default function MainAppCrossFit({ user, setMode }) {
   const [history, setHistory] = useState({});
   const [streak, setStreak] = useState(0);
   const [showChart, setShowChart] = useState(false);
+  const [showInjuryForm, setShowInjuryForm] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const uid = user.uid;
 
-      const ref1 = doc(db, "exerciseData", uid);
-      const snap1 = await getDoc(ref1);
+      const [snap1, snap2, snap4] = await Promise.all([
+        getDoc(doc(db, "exerciseData", uid)),
+        getDoc(doc(db, "history", uid)),
+        getDoc(doc(db, "injuries", uid)),
+      ]);
+
       const last = snap1.exists() ? snap1.data() : {};
       setLastUsed(last);
 
-      const ref2 = doc(db, "history", uid);
-      const snap2 = await getDoc(ref2);
       const hist = snap2.exists() ? snap2.data() : {};
       setHistory(hist);
+      setStreak(calculateStreak(hist));
 
-      const flatSessions = Object.values(hist).flat();
-      const uniqueDays = [...new Set(flatSessions.map(e => e.timestamp?.split(",")[0]))];
-      setStreak(uniqueDays.length);
+      const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
 
-      const newWorkout = generateCrossFitWorkout(); // ✅ Pure logic
+      const newWorkout = await generateCrossFitWorkout(userInjuries);
       setWorkout(newWorkout);
     };
 
@@ -41,18 +94,16 @@ export default function MainAppCrossFit({ user, setMode }) {
   }, [user]);
 
   const saveHistory = async (data) => {
-    const ref = doc(db, "history", user.uid);
-    await setDoc(ref, data);
+    await setDoc(doc(db, "history", user.uid), data);
   };
 
   const saveLastUsed = async (data) => {
-    const ref = doc(db, "exerciseData", user.uid);
-    await setDoc(ref, data);
+    await setDoc(doc(db, "exerciseData", user.uid), data);
   };
 
   const handleComplete = () => {
     const parsedData = workout.sections
-      .flatMap(s => s.exercises)
+      .flatMap((s) => s.exercises)
       .reduce((acc, curr) => {
         acc[curr.name] = {
           weight: curr.weight || 0,
@@ -82,24 +133,52 @@ export default function MainAppCrossFit({ user, setMode }) {
 
   return (
     <div className="text-white min-h-screen bg-black p-6">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-bold mb-2">Workout Streak: {streak} day{streak !== 1 ? 's' : ''}</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">💥 CrossFit Dashboard</h2>
+        <div className="flex gap-4">
+          <button
+            onClick={() => setShowInjuryForm(!showInjuryForm)}
+            className="text-red-400 underline text-sm"
+          >
+            {showInjuryForm ? "Hide Injuries" : "Edit Injuries"}
+          </button>
+        </div>
       </div>
-  
+
+      {showInjuryForm && (
+        <InjuryForm
+          onSave={() => {
+            setShowInjuryForm(false);
+            const fetchWorkout = async () => {
+              const snap4 = await getDoc(doc(db, "injuries", user.uid));
+              const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
+              const newWorkout = await generateCrossFitWorkout(userInjuries);
+              setWorkout(newWorkout);
+            };
+            fetchWorkout();
+          }}
+          user={user}
+        />
+      )}
+
+      <div className="text-center mb-6">
+        <h2 className="text-xl font-bold mb-2">Workout Streak: {streak} day{streak !== 1 ? "s" : ""}</h2>
+      </div>
+
       <div className="flex justify-center mb-6">
         <div className="bg-gray-900 p-4 rounded-xl shadow">
           <Calendar
             className="rounded-xl overflow-hidden"
             tileClassName={({ date }) => {
               const formatted = date.toLocaleDateString();
-              return Object.values(history).flat().some(h => h.timestamp.includes(formatted))
+              return Object.values(history).flat().some((h) => h.timestamp.includes(formatted))
                 ? "bg-green-500 text-white rounded-full"
                 : null;
             }}
           />
         </div>
       </div>
-  
+
       <WorkoutDay
         day={"CrossFit"}
         data={workout}
@@ -107,7 +186,7 @@ export default function MainAppCrossFit({ user, setMode }) {
         onComplete={handleComplete}
         user={user}
       />
-  
+
       <div className="mt-8 max-w-xl mx-auto">
         <h2 className="text-xl font-bold mb-4">🏋️ Personal Bests</h2>
         {Object.keys(personalBests).length === 0 ? (
@@ -122,7 +201,7 @@ export default function MainAppCrossFit({ user, setMode }) {
           </ul>
         )}
       </div>
-  
+
       <div className="mt-10 max-w-xl mx-auto">
         <button
           onClick={() => setShowChart(!showChart)}
