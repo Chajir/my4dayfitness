@@ -7,20 +7,13 @@ import Calendar from "react-calendar";
 import { generateCrossFitWorkout, calculateStreak, getPersonalBests, getWeeklyData } from "./helpers/helpers";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
-function InjuryForm({ onSave, user }) {
-  const [selected, setSelected] = useState([]);
+function InjuryForm({ onSave, user, currentInjuries }) {
+  const [selected, setSelected] = useState(currentInjuries || []);
   const injuries = ["shoulders", "back", "legs", "chest"];
 
   useEffect(() => {
-    const fetchInjuries = async () => {
-      const ref = doc(db, "injuries", user.uid);
-      const snap = await getDoc(ref);
-      if (snap.exists()) {
-        setSelected(snap.data().types || []);
-      }
-    };
-    fetchInjuries();
-  }, [user]);
+    setSelected(currentInjuries || []); // Sync with parent state
+  }, [currentInjuries]);
 
   const toggle = (type) => {
     setSelected((prev) =>
@@ -29,8 +22,9 @@ function InjuryForm({ onSave, user }) {
   };
 
   const handleSave = async () => {
+    console.log("Saving injuries:", selected); // Debug log
     await setDoc(doc(db, "injuries", user.uid), { types: selected });
-    onSave();
+    onSave(selected); // Pass updated injuries to parent
   };
 
   return (
@@ -63,6 +57,7 @@ export default function MainAppCrossFit({ user, setMode }) {
   const [workout, setWorkout] = useState(null);
   const [lastUsed, setLastUsed] = useState({});
   const [history, setHistory] = useState({});
+  const [injuries, setInjuries] = useState([]);
   const [streak, setStreak] = useState(0);
   const [showChart, setShowChart] = useState(false);
   const [showInjuryForm, setShowInjuryForm] = useState(false);
@@ -85,13 +80,27 @@ export default function MainAppCrossFit({ user, setMode }) {
       setStreak(calculateStreak(hist));
 
       const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
+      setInjuries(userInjuries);
+      console.log("Initial fetch - Injuries:", userInjuries); // Debug log
 
       const newWorkout = await generateCrossFitWorkout(userInjuries);
       setWorkout(newWorkout);
+      console.log("Initial CrossFit workout:", newWorkout); // Debug log
     };
 
     fetchData();
   }, [user]);
+
+  // Regenerate workout when injuries change
+  useEffect(() => {
+    const generateWorkout = async () => {
+      console.log("Regenerating CrossFit workout with injuries:", injuries); // Debug log
+      const newWorkout = await generateCrossFitWorkout(injuries);
+      setWorkout(newWorkout);
+      console.log("Regenerated CrossFit workout:", newWorkout); // Debug log
+    };
+    generateWorkout();
+  }, [injuries]);
 
   const saveHistory = async (data) => {
     await setDoc(doc(db, "history", user.uid), data);
@@ -147,17 +156,13 @@ export default function MainAppCrossFit({ user, setMode }) {
 
       {showInjuryForm && (
         <InjuryForm
-          onSave={() => {
+          onSave={(newInjuries) => {
+            console.log("InjuryForm onSave - New injuries:", newInjuries); // Debug log
+            setInjuries(newInjuries);
             setShowInjuryForm(false);
-            const fetchWorkout = async () => {
-              const snap4 = await getDoc(doc(db, "injuries", user.uid));
-              const userInjuries = snap4.exists() ? snap4.data().types || [] : [];
-              const newWorkout = await generateCrossFitWorkout(userInjuries);
-              setWorkout(newWorkout);
-            };
-            fetchWorkout();
           }}
           user={user}
+          currentInjuries={injuries}
         />
       )}
 
