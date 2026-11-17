@@ -3,7 +3,7 @@
 A phone-first workout app that you add to your Home Screen.
 
 - **Build my plan:** the user enters age, height, weight, pain or injury areas, recent surgery and a few health questions, then picks Weights, Calisthenics or Cardio (any mix), a goal, a level, days per week, session length and equipment. The app builds a plan from those answers (`src/data/generator.js`).
-- **Equinox 4-Day Program:** a ready-made plan you can pick instead (`src/data/equinox.js`).
+- **Classic 4-Day Program:** a ready-made plan you can pick instead (`src/data/classic.js`).
 - **Workout screen:** one exercise at a time with its photo, sets, reps and weight to log, an automatic rest timer, hold timers, interval timers and cardio timers. You can swap any exercise.
 - **Tracking:** week streak, calendar, personal records, history and body weight.
 - **Saving:** data is saved on the phone straight away and synced to Firebase (`fitnessApp/{uid}`). Workouts from the old app are imported automatically.
@@ -31,7 +31,10 @@ npm run dev            # needs Firebase login
 VITE_DEMO=1 npm run dev  # preview mode: no login, data stays in the browser
 ```
 
+## Exercise photos
+Photos live in `src/assets/exercises/` and are matched to exercises by name. See `PHOTOS.md` for the file-name rule and a checklist of missing photos.
+
 ## Later
 - **AI coach:** `generatePlan()` is a pure function, so an AI step can refine its output. That needs a small serverless function, such as a Vercel function, that keeps the API key off the phone.
 - **Apple Health:** wrap the app with Capacitor as an iPhone app. That needs an Apple Developer account and a Mac with Xcode.
-- **Public launch:** add a privacy policy page and a terms page. Delete-account is already in the You tab.
+- **Public launch:** add a privacy policy page and a terms page, and replace any photos you don't own the rights to. Delete-account is already in the You tab.

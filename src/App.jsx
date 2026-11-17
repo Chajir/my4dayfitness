@@ -1,0 +1,112 @@
+import { Component, useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, DEMO } from "./firebase";
+import { StoreProvider, useStore } from "./lib/store";
+import Login from "./screens/Login";
+import Intake from "./screens/Intake";
+import Home from "./screens/Home";
+import Progress from "./screens/Progress";
+import Profile from "./screens/Profile";
+import Player from "./screens/Player";
+import { Icon } from "./components/ui";
+
+const DEMO_USER = { uid: "demo", email: "preview@4dayfit.app" };
+
+export default function App() {
+  const [user, setUser] = useState(DEMO ? DEMO_USER : undefined);
+  useEffect(() => {
+    if (DEMO) return;
+    return onAuthStateChanged(auth, (u) => setUser(u || null));
+  }, []);
+
+  if (user === undefined) return <Splash />;
+  if (!user) return <Login />;
+  return (
+    <Boundary>
+      <StoreProvider user={user} key={user.uid}>
+        <Shell />
+      </StoreProvider>
+    </Boundary>
+  );
+}
+
+class Boundary extends Component {
+  state = { err: null };
+  static getDerivedStateFromError(err) {
+    return { err };
+  }
+  render() {
+    if (!this.state.err) return this.props.children;
+    return (
+      <div className="min-h-screen grid place-items-center px-8 text-center">
+        <div>
+          <div className="h-display text-3xl">Something went wrong</div>
+          <p className="text-mute text-sm mt-2">Your workouts are saved. Reload to continue.</p>
+          <button className="btn-primary mt-6 w-full" onClick={() => location.reload()}>
+            Reload
+          </button>
+        </div>
+      </div>
+    );
+  }
+}
+
+function Splash() {
+  return (
+    <div className="min-h-screen grid place-items-center">
+      <div className="h-display text-4xl text-white/90 animate-pulse">
+        4DAY<span className="text-hot">FIT</span>
+      </div>
+    </div>
+  );
+}
+
+const activeKey = (uid) => `fit:active:${uid}`;
+
+function Shell() {
+  const { ready, profile, user } = useStore();
+  const [tab, setTab] = useState("home");
+  const [editing, setEditing] = useState(null); // null | "full" | "info"
+  const [active, setActive] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(activeKey(user.uid)));
+    } catch {
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    if (active) localStorage.setItem(activeKey(user.uid), JSON.stringify(active));
+    else localStorage.removeItem(activeKey(user.uid));
+  }, [active, user.uid]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tab, !!active, !!editing, !!profile?.plan]);
+
+  if (!ready) return <Splash />;
+  if (!profile?.plan || editing) return <Intake mode={editing} onDone={() => { setEditing(null); setTab("home"); }} onCancel={profile?.plan ? () => setEditing(null) : null} />;
+  if (active) return <Player active={active} setActive={setActive} />;
+
+  return (
+    <div className="min-h-screen pb-28">
+      {tab === "home" && <Home onStart={setActive} />}
+      {tab === "progress" && <Progress />}
+      {tab === "profile" && <Profile onEdit={setEditing} />}
+      <nav className="fixed bottom-0 inset-x-0 z-40 bg-ink/90 backdrop-blur-xl border-t border-white/5 pb-safe">
+        <div className="max-w-md mx-auto grid grid-cols-3">
+          {[
+            ["home", "home", "Today"],
+            ["progress", "chart", "Progress"],
+            ["profile", "user", "You"],
+          ].map(([id, icon, label]) => (
+            <button key={id} onClick={() => setTab(id)} className={`flex flex-col items-center gap-1 pt-3 pb-1 text-[11px] font-semibold ${tab === id ? "text-white" : "text-mute"}`}>
+              <Icon name={icon} size={22} className={tab === id ? "text-hot" : ""} />
+              {label}
+            </button>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+}
