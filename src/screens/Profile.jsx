@@ -7,9 +7,10 @@ import { GOALS, LEVELS, STYLE_LABEL } from "../data/generator";
 import { AREAS } from "../data/library";
 import { cmToFtIn } from "../lib/stats";
 import { classicPlan } from "../data/classic";
+import { versionLabel } from "../config";
 
-export default function Profile({ onEdit }) {
-  const { user, profile, sync, setProfile, wipe } = useStore();
+export default function Profile({ onEdit, onAdmin }) {
+  const { user, profile, sync, setProfile, wipe, isOwner } = useStore();
   const [confirmDel, setConfirmDel] = useState(false);
   const [delText, setDelText] = useState("");
   const [err, setErr] = useState(null);
@@ -48,6 +49,19 @@ export default function Profile({ onEdit }) {
         />
       </section>
       {sync === "local" && !DEMO && <p className="text-xs text-mute mt-2 px-1">Cloud sync is off. Your workouts are safe on this phone and will sync once the connection works.</p>}
+
+      {isOwner && (
+        <button onClick={onAdmin} className="w-full mt-4 rounded-2xl p-[1.5px] bg-brand text-left">
+          <span className="flex items-center gap-3 rounded-[calc(1rem-1.5px)] bg-ink-900 px-4 py-3.5">
+            <Icon name="chart" className="text-hot" />
+            <span className="flex-1">
+              <span className="block font-semibold">Owner dashboard</span>
+              <span className="text-xs text-mute">Users, workouts, hours, plans and devices</span>
+            </span>
+            <Icon name="right" size={18} className="text-mute" />
+          </span>
+        </button>
+      )}
 
       <h3 className="label mt-8 mb-2 px-1">Your plan</h3>
       <section className="card p-4">
@@ -120,6 +134,8 @@ export default function Profile({ onEdit }) {
           Delete account & data
         </button>
       </div>
+
+      <p className="text-center text-xs text-mute/70 pb-8">{versionLabel()}</p>
 
       <Sheet open={confirmDel} title="Delete everything?" onClose={() => setConfirmDel(false)}>
         <p className="text-sm text-mute mb-4">This permanently erases your account, your plan, your health info and all workout history. It can't be undone.</p>

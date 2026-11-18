@@ -3,6 +3,8 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db, DEMO } from "../firebase";
 import { importLegacy } from "./legacy";
+import { buildUsage } from "./usage";
+import { OWNERS_COLLECTION } from "../config";
 
 const Ctx = createContext(null);
 const EMPTY = { profile: null, sessions: [], deleted: [], bodyLog: [] };
@@ -45,6 +47,15 @@ function migrate(d) {
   return { ...d, profile, sessions };
 }
 
+// Usage summary for the owner dashboard. Never allowed to interfere with saving workouts.
+function writeUsage(user, data) {
+  try {
+    setDoc(doc(db, "stats", user.uid), JSON.parse(JSON.stringify(buildUsage(user, data)))).catch(() => {});
+  } catch (e) {
+    console.warn("usage summary skipped", e);
+  }
+}
+
 function merge(a, b) {
   if (!a) return b || EMPTY;
   if (!b) return a;
@@ -65,6 +76,7 @@ export function StoreProvider({ user, children }) {
   const [data, setData] = useState(() => migrate(loadLocal(uid)) || EMPTY);
   const [ready, setReady] = useState(false);
   const [sync, setSync] = useState(DEMO ? "local" : "syncing"); // syncing | ok | local
+  const [isOwner, setIsOwner] = useState(DEMO);
   const timer = useRef(null);
 
   // first load: merge phone copy with cloud copy, import old app history once
@@ -89,6 +101,10 @@ export function StoreProvider({ user, children }) {
         saveLocal(uid, merged);
         await setDoc(doc(db, "fitnessApp", uid), merged);
         setSync("ok");
+        writeUsage(user, merged);
+        getDoc(doc(db, OWNERS_COLLECTION, uid))
+          .then((o) => alive && setIsOwner(o.exists()))
+          .catch(() => {});
       } catch (e) {
         console.warn("Cloud sync unavailable, using phone storage", e);
         setSync("local");
@@ -110,6 +126,7 @@ export function StoreProvider({ user, children }) {
       try {
         await setDoc(doc(db, "fitnessApp", uid), JSON.parse(JSON.stringify(data)));
         setSync("ok");
+        writeUsage(user, data);
       } catch (e) {
         console.warn("Cloud save failed", e);
         setSync("local");
@@ -125,6 +142,7 @@ export function StoreProvider({ user, children }) {
     ready,
     sync,
     profile: data.profile,
+    isOwner,
     sessions: data.sessions,
     setProfile: (patch) => update((d) => ({ ...d, profile: { ...(d.profile || {}), ...patch, updatedAt: Date.now() } })),
     addSession: (s) => update((d) => ({ ...d, sessions: [...d.sessions, s] })),
@@ -134,7 +152,10 @@ export function StoreProvider({ user, children }) {
     wipe: async () => {
       localStorage.removeItem(localKey(uid));
       localStorage.removeItem(`fit:active:${uid}`);
-      if (!DEMO) await deleteDoc(doc(db, "fitnessApp", uid)).catch(() => {});
+      if (!DEMO) {
+        await deleteDoc(doc(db, "fitnessApp", uid)).catch(() => {});
+        await deleteDoc(doc(db, "stats", uid)).catch(() => {});
+      }
     },
   };
 

@@ -8,6 +8,7 @@ import Home from "./screens/Home";
 import Progress from "./screens/Progress";
 import Profile from "./screens/Profile";
 import Player from "./screens/Player";
+import Admin from "./screens/Admin";
 import { Icon } from "./components/ui";
 
 const DEMO_USER = { uid: "demo", email: "preview@4dayfit.app" };
@@ -92,7 +93,8 @@ function Shell() {
     <div className="min-h-screen pb-28">
       {tab === "home" && <Home onStart={setActive} />}
       {tab === "progress" && <Progress />}
-      {tab === "profile" && <Profile onEdit={setEditing} />}
+      {tab === "profile" && <Profile onEdit={setEditing} onAdmin={() => setTab("admin")} />}
+      {tab === "admin" && <Admin onBack={() => setTab("profile")} />}
       <nav className="fixed bottom-0 inset-x-0 z-40 bg-ink/90 backdrop-blur-xl border-t border-white/5 pb-safe">
         <div className="max-w-md mx-auto grid grid-cols-3">
           {[

@@ -23,6 +23,14 @@ These rules make sure each user can only read and write their own data. If you s
 
 Also check **Authentication → Settings → Authorized domains**. `my4dayfitness.vercel.app` must be in that list.
 
+## Owner dashboard
+In the app: **You → Owner dashboard**. It only appears for accounts listed in the Firestore `owners` collection.
+To add an owner: Firebase console → **Authentication** → copy the account's **User UID** → **Firestore Database → Data → Start collection** `owners` → Document ID = that UID → add any field (for example `role` = `owner`) → **Save**.
+The dashboard reads `stats/{uid}`: a usage summary each app writes for itself. It holds no health info.
+
+## Version
+The version number comes from `package.json` (`"version"`) and is shown at the bottom of the You tab. Bump it with each update.
+
 ## Run locally
 
 ```

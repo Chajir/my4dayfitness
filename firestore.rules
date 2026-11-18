@@ -1,10 +1,32 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Each user can only read and write their own data.
+
+    // The owner is any account whose user ID has a document in "owners".
+    // That collection can only be edited in the Firebase console, never from the app.
+    function isOwner() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/owners/$(request.auth.uid));
+    }
+
+    // Each user's private data (plan, workouts, health answers). Only that user.
     match /fitnessApp/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
+
+    // Usage summary for the owner dashboard (no health info).
+    // Each user writes their own; the owner can read everyone's.
+    match /stats/{uid} {
+      allow read: if (request.auth != null && request.auth.uid == uid) || isOwner();
+      allow write, delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Owner list: an account can check whether it is itself an owner. Nobody can write from the app.
+    match /owners/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
     // Old version of the app (read once to import history).
     match /{collection}/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid
