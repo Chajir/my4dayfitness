@@ -31,8 +31,8 @@ npm run dev            # needs Firebase login
 VITE_DEMO=1 npm run dev  # preview mode: no login, data stays in the browser
 ```
 
-## Exercise photos
-Photos live in `src/assets/exercises/` and are matched to exercises by name. See `PHOTOS.md` for the file-name rule and a checklist of missing photos.
+## Exercise photos & videos
+Photos, step photos and short videos live in `src/assets/exercises/` and are matched to exercises by name. See `PHOTOS.md` for the naming rule and a checklist. "How to do it" instructions are in `src/data/howto.js`.
 
 ## Later
 - **AI coach:** `generatePlan()` is a pure function, so an AI step can refine its output. That needs a small serverless function, such as a Vercel function, that keeps the API key off the phone.

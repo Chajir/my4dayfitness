@@ -9,7 +9,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png"],
       workbox: {
-        globPatterns: ["**/*.{js,css,html,png,jpg,ico,svg,woff2}"],
+        // photos are stored for offline use; videos (.mp4/.mov/.webm) are not, so the app stays light
+        globPatterns: ["**/*.{js,css,html,png,jpg,jpeg,webp,ico,svg,woff2}"],
         globIgnores: ["**/*-{cyrillic,cyrillic-ext,greek,greek-ext,vietnamese,latin-ext}-*.woff2"],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },

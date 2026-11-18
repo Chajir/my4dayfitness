@@ -1,10 +1,26 @@
-# Exercise photos
+# Exercise photos & videos
 
-Put photos in `src/assets/exercises/`. The file name must match the exercise name: all lowercase, spaces and symbols become `_`, and apostrophes are dropped.
-Examples: "Barbell Back Squat" → `barbell_back_squat.jpg`, "Child's Pose" → `childs_pose.jpg`.
+Everything goes in **`src/assets/exercises/`** on GitHub. The file name decides which exercise it belongs to.
 
-`.jpg`, `.png` and `.webp` all work. A landscape photo looks best (about 16:10). Any exercise without a photo shows its letter tile.
+## Naming rule
+Use the exercise name in lowercase, with spaces and symbols turned into `_` and apostrophes dropped.
+- "Barbell Back Squat" → `barbell_back_squat`
+- "Child's Pose" → `childs_pose`
+- "Passive 90/90 Glutes Stretch" → `passive_90_90_glutes_stretch`
 
+## What you can add (mix freely, per exercise)
+| You add | The app shows |
+|---|---|
+| `barbell_back_squat.jpg` | the photo |
+| `barbell_back_squat.jpg` + `barbell_back_squat_2.jpg` + `_3.jpg` … | step photos that flip automatically, and can be swiped or tapped |
+| `barbell_back_squat.mp4` (or `.mov`) | a silent looping video (it takes priority over photos; the `.jpg` becomes its preview) |
+| nothing | the letter tile |
+
+- Photos: `.jpg`, `.png` or `.webp`. Landscape (about 16:10) looks best.
+- Videos: 3–6 seconds, landscape, under ~3 MB. iPhone `.mov` files work. `.mp4` plays on every phone.
+- Files for exercises that aren't in a plan yet are fine. They wait until that exercise exists.
+
+## Checklist: Classic 4-Day Program
 ✓ = already have it, ☐ = missing
 
 
