@@ -35,10 +35,10 @@ const TEMPLATES = {
   fullA: { title: "Full Body A", focus: "full", slots: ["squat", "hpush", "hinge", "hpull", "core", "vpush"] },
   fullB: { title: "Full Body B", focus: "full", slots: ["hinge", "vpull", "lunge", "vpush", "core", "arms"] },
   fullC: { title: "Full Body C", focus: "full", slots: ["lunge", "hpull", "squat", "hpush", "core", "calves"] },
-  upper: { title: "Upper Body", focus: "upper", slots: ["hpush", "hpull", "vpush", "vpull", "arms", "core"] },
+  upper: { title: "Upper Body", focus: "upper", slots: ["hpush", "hpull", "vpush", "vpull", "delts", "arms", "core"] },
   lower: { title: "Lower Body", focus: "lower", slots: ["squat", "hinge", "lunge", "core", "calves", "hinge"] },
-  push: { title: "Push", focus: "upper", slots: ["hpush", "vpush", "arms", "hpush", "core", "vpush"] },
-  pull: { title: "Pull", focus: "upper", slots: ["vpull", "hpull", "arms", "hpull", "core", "vpull"] },
+  push: { title: "Push", focus: "upper", slots: ["hpush", "vpush", "delts", "arms", "hpush", "core"] },
+  pull: { title: "Pull", focus: "upper", slots: ["vpull", "hpull", "delts", "arms", "hpull", "core"] },
   legs: { title: "Legs", focus: "lower", slots: ["squat", "hinge", "lunge", "calves", "core", "lunge"] },
 };
 
@@ -135,7 +135,7 @@ export function makeItem(ex, info, c, opts = {}) {
   if (info.age && info.age < 18 && reps[0] < 6) reps = [6, 8];
   if (ex.m === "cali" && HARD_CALI.has(ex.id)) reps = c.level === 2 ? [5, 8] : [3, 6];
   if (ex.m === "cali" && rest < 60) rest = 60;
-  return { ...base, sets, reps, rest };
+  return { ...base, sets, reps, rest, main: !!opts.compound };
 }
 
 function cardioItem(ex, mode, info, c, minutesOverride) {
@@ -210,7 +210,8 @@ export function generatePlan(info) {
   const strengthDays = n - cardioDays;
 
   const used = new Set();
-  const slotCount = { 30: 4, 45: 5, 60: 6 }[info.minutes] || 5;
+  const slotCount = { 30: 4, 45: 5, 60: 7 }[info.minutes] || 5;
+  const wantPower = strengthMods.length && c.level >= 1 && info.goal !== "health" && info.minutes >= 45;
   const finisher = wantCardio && strengthMods.length && ["fat_loss", "endurance"].includes(info.goal) && info.minutes >= 45;
 
   const strength = splitFor(strengthDays).map((tKey, d) => {
@@ -230,10 +231,18 @@ export function generatePlan(info) {
       used.add(ex.id);
       main.push(makeItem(ex, info, c, { compound: i < 3 && !!ex.compound }));
     });
-    const sections = [
-      { name: "Warm-Up", items: warmups(t.focus, info, c, d) },
-      { name: "Main Work", items: main },
-    ];
+    const sections = [{ name: "Warm-Up", items: warmups(t.focus, info, c, d) }];
+    if (wantPower) {
+      let px = null;
+      for (const m of strengthMods) if (!px) px = pickStrength("power", m, c, new Set([...used, ...dayUsed]), d);
+      if (px) {
+        used.add(px.id);
+        const it = makeItem(px, info, c, {});
+        Object.assign(it, { sets: 3, reps: px.m === "weights" ? [6, 8] : [5, 5], rest: 60, main: false });
+        sections.push({ name: "Power", items: [it] });
+      }
+    }
+    sections.push({ name: "Main Work", items: main });
     if (finisher) {
       const cx = pickCardio("interval", c, used, d);
       used.add(cx.id);

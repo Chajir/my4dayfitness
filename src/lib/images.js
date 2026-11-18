@@ -22,7 +22,7 @@ const media = {}; // slug -> { video, photos: [{ n, url }] }
 
 for (const [path, url] of Object.entries(files)) {
   const file = path.split("/").pop();
-  const base = file.replace(/\.[^.]+$/, "").toLowerCase();
+  const base = slug(file.replace(/\.[^.]+$/, ""));
   if (VIDEO.test(file)) {
     (media[base] ||= { photos: [] }).video = url;
     continue;
@@ -35,14 +35,39 @@ for (const [path, url] of Object.entries(files)) {
 }
 for (const k in media) media[k].photos.sort((a, b) => a.n - b.n);
 
+// Same exercise, different name: exercise name → photo/video file name.
+const ALIASES = {
+  barbell_hip_hinge: "barbell_romanian_deadlift",
+  barbell_hip_hinge_rdl: "barbell_romanian_deadlift",
+  dumbbell_romanian_deadlift: "barbell_romanian_deadlift",
+  dumbbell_shoulder_press: "dumbbell_overhead_press",
+  passive_90_90_glutes_stretch: "passive_90_90_hip_stretch",
+  "90_90_hip_stretch": "passive_90_90_hip_stretch",
+  passive_straight_leg_hamstrings_stretch: "passive_straight_leg_hamstring_stretch",
+  straight_leg_hamstrings_stretch: "passive_straight_leg_hamstring_stretch",
+  toe_touch_to_deep_squat: "toe_touch_deep_squat",
+  plank: "front_plank",
+  lat_pulldown: "overhand_grip_lat_pulldown",
+  assisted_pull_up_machine: "overhand_grip_assisted_pull_up",
+  mini_band_hip_flexion: "back_lying_mini_band_hip_flexion",
+  passive_half_kneel_quads_stretch: "active_half_kneel_quads_stretch",
+  incline_treadmill_walk: "treadmill_walk",
+  one_arm_dumbbell_row: "bench_supported_1_arm_dumbbell_row",
+  cable_triceps_pushdown: "cable_triceps_extension",
+  lying_bent_knee_hamstring_stretch: "lying_bent_knee_hamstring",
+  half_kneel_1_arm_landmine_press: "1_arm_landmine_press",
+  "1_leg_dumbbell_hip_hinge": "1_leg_dumbbell_romanian_deadlift",
+};
+
 export function mediaFor(name) {
-  const m = media[slug(name)];
+  const k = slug(name);
+  const m = media[k] || media[ALIASES[k]];
   if (!m) return null;
   return { video: m.video || null, photos: m.photos.map((p) => p.url) };
 }
 
 export const imageFor = (name) => mediaFor(name)?.photos[0] || null;
-export const hasMedia = (name) => !!media[slug(name)];
+export const hasMedia = (name) => !!(media[slug(name)] || media[ALIASES[slug(name)]]);
 
 // for the photo checklist / debugging
 export const allMediaNames = () => Object.keys(media);

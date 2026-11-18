@@ -21,78 +21,292 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - Files for exercises that aren't in a plan yet are fine. They wait until that exercise exists.
 
 ## Checklist: Classic 4-Day Program
-✓ = already have it, ☐ = missing
+✓ = photo, 🎬 = video, ☐ = missing
 
+### Day 1 · Resistance Day A
+- ✓ `leg_extension_hip_bridge_march` · Leg Extension Hip Bridge March
+- ✓ `stability_ball_shoulder_ts` · Stability Ball Shoulder T's
+- ✓ `stability_ball_shoulder_ws` · Stability Ball Shoulder W's
+- ✓ `stability_ball_shoulder_ls` · Stability Ball Shoulder L's
+- ✓ `stability_ball_shoulder_ys` · Stability Ball Shoulder Y's
+- ✓ `stationary_inchworm` · Stationary Inchworm
+- 🎬 `alternating_quads_stretch` · Alternating Quads Stretch
+- ✓ `kettlebell_swing` · Kettlebell Swing
+- ✓ `linear_rapid_response_jumps` · Linear Rapid Response Jumps
+- ✓ `stability_ball_trunk_rollout` · Stability Ball Trunk Rollout
+- 🎬 `barbell_deadlift` · Barbell Deadlift
+- ✓ `barbell_bench_press` · Barbell Bench Press
+- ✓ `kettlebell_goblet_bulgarian_split_squat` · Kettlebell Goblet Bulgarian Split Squat
+- ✓ `1_arm_seated_cable_row` · 1 Arm Seated Cable Row
+- ✓ `lying_dumbbell_triceps_extension` · Lying Dumbbell Triceps Extension
+- ✓ `rower` · Rower
+- ✓ `cobra_pose` · Cobra Pose
+- ✓ `passive_lying_hip_abductors_stretch` · Passive Lying Hip Abductors Stretch
 
-## Day 1 · Resistance Day A
-- ✓ `leg_extension_hip_bridge_march.jpg` — Leg Extension Hip Bridge March
-- ✓ `stability_ball_shoulder_ts.jpg` — Stability Ball Shoulder T's
-- ✓ `stability_ball_shoulder_ws.jpg` — Stability Ball Shoulder W's
-- ✓ `stability_ball_shoulder_ls.jpg` — Stability Ball Shoulder L's
-- ✓ `stability_ball_shoulder_ys.jpg` — Stability Ball Shoulder Y's
-- ✓ `stationary_inchworm.jpg` — Stationary Inchworm
-- ✓ `alternating_quads_stretch.jpg` — Alternating Quads Stretch
-- ✓ `kettlebell_swing.jpg` — Kettlebell Swing
-- ✓ `linear_rapid_response_jumps.jpg` — Linear Rapid Response Jumps
-- ✓ `stability_ball_trunk_rollout.jpg` — Stability Ball Trunk Rollout
-- ✓ `barbell_deadlift.jpg` — Barbell Deadlift
-- ✓ `barbell_bench_press.jpg` — Barbell Bench Press
-- ✓ `kettlebell_goblet_bulgarian_split_squat.jpg` — Kettlebell Goblet Bulgarian Split Squat
-- ✓ `1_arm_seated_cable_row.jpg` — 1 Arm Seated Cable Row
-- ✓ `lying_dumbbell_triceps_extension.jpg` — Lying Dumbbell Triceps Extension
-- ✓ `rower.jpg` — Rower
-- ✓ `cobra_pose.jpg` — Cobra Pose
-- ✓ `passive_lying_hip_abductors_stretch.jpg` — Passive Lying Hip Abductors Stretch
+### Day 2 · Resistance Day B
+- ☐ `back_lying_mini_band_hip_internal_rotation` · Back Lying Mini Band Hip Internal Rotation
+- ✓ `stability_ball_shoulder_ls` · Stability Ball Shoulder L's
+- ✓ `stability_ball_shoulder_ys` · Stability Ball Shoulder Y's
+- ☐ `alternating_reverse_lunge` · Alternating Reverse Lunge
+- ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)
+- ☐ `perpendicular_med_ball_hip_toss` · Perpendicular Med Ball Hip Toss
+- ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
+- ☐ `barbell_back_squat` · Barbell Back Squat
+- ☐ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
+- ☐ `neutral_grip_pull_up` · Neutral Grip Pull Up
+- ✓ `1_leg_dumbbell_romanian_deadlift` · 1 Leg Dumbbell Hip Hinge (shared photo)
+- ✓ `1_arm_landmine_press` · Half Kneel 1-Arm Landmine Press (shared photo)
+- ✓ `dumbbell_biceps_curl` · Dumbbell Biceps Curl
+- ☐ `fan_bike` · Fan Bike
+- ✓ `passive_90_90_hip_stretch` · Passive 90/90 Glutes Stretch (shared photo)
+- ✓ `active_lats_stretch` · Active Lats Stretch
 
-## Day 2 · Resistance Day B
-- ☐ `back_lying_mini_band_hip_internal_rotation.jpg` — Back Lying Mini Band Hip Internal Rotation
-- ✓ `stability_ball_shoulder_ls.jpg` — Stability Ball Shoulder L's
-- ✓ `stability_ball_shoulder_ys.jpg` — Stability Ball Shoulder Y's
-- ☐ `alternating_reverse_lunge.jpg` — Alternating Reverse Lunge
-- ☐ `toe_touch_to_deep_squat.jpg` — Toe Touch to Deep Squat
-- ☐ `perpendicular_med_ball_hip_toss.jpg` — Perpendicular Med Ball Hip Toss
-- ☐ `lateral_rapid_response_jumps.jpg` — Lateral Rapid Response Jumps
-- ☐ `barbell_back_squat.jpg` — Barbell Back Squat
-- ☐ `1_arm_kettlebell_farmers_carry.jpg` — 1 Arm Kettlebell Farmer's Carry
-- ☐ `neutral_grip_pull_up.jpg` — Neutral Grip Pull Up
-- ☐ `1_leg_dumbbell_hip_hinge.jpg` — 1 Leg Dumbbell Hip Hinge
-- ☐ `half_kneel_1_arm_landmine_press.jpg` — Half Kneel 1-Arm Landmine Press
-- ☐ `dumbbell_biceps_curl.jpg` — Dumbbell Biceps Curl
-- ☐ `fan_bike.jpg` — Fan Bike
-- ☐ `passive_90_90_glutes_stretch.jpg` — Passive 90/90 Glutes Stretch
-- ☐ `active_lats_stretch.jpg` — Active Lats Stretch
+### Day 3 · Resistance Day C
+- ☐ `side_lying_mini_band_hip_external_rotation` · Side Lying Mini Band Hip External Rotation
+- ☐ `beast_plank` · Beast Plank
+- ✓ `tall_kneel_kettlebell_halo` · Tall Kneel Kettlebell Halo
+- ☐ `alternating_forward_lunge` · Alternating Forward Lunge
+- ☐ `alternating_lateral_lunge` · Alternating Lateral Lunge
+- 🎬 `med_ball_slam` · Med Ball Slam
+- ☐ `pogo_hop` · Pogo Hop
+- ✓ `barbell_romanian_deadlift` · Barbell Hip Hinge (shared photo)
+- ☐ `lateral_beast_crawl` · Lateral Beast Crawl
+- ✓ `dumbbell_incline_bench_press` · Dumbbell Incline Bench Press
+- ☐ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
+- ☐ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
+- ☐ `cable_pallof_press` · Cable Pallof Press
+- ☐ `ski_erg` · Ski Erg
+- ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
+- ✓ `passive_triceps_lats_stretch` · Passive Triceps/Lats Stretch
 
-## Day 3 · Resistance Day C
-- ☐ `side_lying_mini_band_hip_external_rotation.jpg` — Side Lying Mini Band Hip External Rotation
-- ☐ `beast_plank.jpg` — Beast Plank
-- ☐ `tall_kneel_kettlebell_halo.jpg` — Tall Kneel Kettlebell Halo
-- ☐ `alternating_forward_lunge.jpg` — Alternating Forward Lunge
-- ☐ `alternating_lateral_lunge.jpg` — Alternating Lateral Lunge
-- ☐ `med_ball_slam.jpg` — Med Ball Slam
-- ☐ `pogo_hop.jpg` — Pogo Hop
-- ☐ `barbell_hip_hinge.jpg` — Barbell Hip Hinge
-- ☐ `lateral_beast_crawl.jpg` — Lateral Beast Crawl
-- ☐ `dumbbell_incline_bench_press.jpg` — Dumbbell Incline Bench Press
-- ☐ `kettlebell_front_rack_lateral_squat.jpg` — Kettlebell Front Rack Lateral Squat
-- ☐ `alternating_dumbbell_bent_over_row.jpg` — Alternating Dumbbell Bent Over Row
-- ☐ `cable_pallof_press.jpg` — Cable Pallof Press
-- ☐ `ski_erg.jpg` — Ski Erg
-- ☐ `passive_half_kneel_quads_stretch.jpg` — Passive Half Kneel Quads Stretch
-- ☐ `passive_triceps_lats_stretch.jpg` — Passive Triceps/Lats Stretch
+### Day 4 · Alactic Power Intervals
+- ✓ `foam_roll_calves` · Foam Roll Calves
+- ☐ `foam_roll_hamstrings` · Foam Roll Hamstrings
+- ✓ `foam_roll_quadriceps` · Foam Roll Quadriceps
+- ☐ `foam_roll_hip_flexors` · Foam Roll Hip Flexors
+- ✓ `foam_roll_lats` · Foam Roll Lats
+- ✓ `back_lying_mini_band_hip_flexion` · Mini Band Hip Flexion (shared photo)
+- ☐ `mini_band_hip_extension` · Mini Band Hip Extension
+- ☐ `treadmill_butt_kick` · Treadmill Butt Kick
+- ☐ `treadmill_lateral_shuffle` · Treadmill Lateral Shuffle
+- ☐ `treadmill_high_knee_run` · Treadmill High Knee Run
+- ☐ `curve_treadmill_sprint` · Curve Treadmill Sprint
+- ☐ `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
+- ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
+- ✓ `passive_straight_leg_hamstring_stretch` · Passive Straight Leg Hamstrings Stretch (shared photo)
+- ✓ `childs_pose` · Child's Pose
 
-## Day 4 · Alactic Power Intervals
-- ☐ `foam_roll_calves.jpg` — Foam Roll Calves
-- ☐ `foam_roll_hamstrings.jpg` — Foam Roll Hamstrings
-- ☐ `foam_roll_quadriceps.jpg` — Foam Roll Quadriceps
-- ☐ `foam_roll_hip_flexors.jpg` — Foam Roll Hip Flexors
-- ☐ `foam_roll_lats.jpg` — Foam Roll Lats
-- ☐ `mini_band_hip_flexion.jpg` — Mini Band Hip Flexion
-- ☐ `mini_band_hip_extension.jpg` — Mini Band Hip Extension
-- ☐ `treadmill_butt_kick.jpg` — Treadmill Butt Kick
-- ☐ `treadmill_lateral_shuffle.jpg` — Treadmill Lateral Shuffle
-- ☐ `treadmill_high_knee_run.jpg` — Treadmill High Knee Run
-- ☐ `curve_treadmill_sprint.jpg` — Curve Treadmill Sprint
-- ☐ `battle_rope_double_arm_slam.jpg` — Battle Rope Double Arm Slam
-- ☐ `passive_half_kneel_quads_stretch.jpg` — Passive Half Kneel Quads Stretch
-- ☐ `passive_straight_leg_hamstrings_stretch.jpg` — Passive Straight Leg Hamstrings Stretch
-- ☐ `childs_pose.jpg` — Child's Pose
+## Exercise database (used by personalized plans and weekly variety)
+118 of 204 exercises have a photo or video.
+
+### Weights (57/70)
+- ✓ `1_arm_seated_cable_row` · 1 Arm Seated Cable Row
+- ✓ `1_arm_cable_bent_over_reverse_fly` · 1-Arm Cable Bent Over Reverse Fly
+- ✓ `1_arm_cable_biceps_curl` · 1-Arm Cable Biceps Curl
+- ✓ `1_arm_cable_triceps_overhead_extension` · 1-Arm Cable Triceps Overhead Extension
+- 🎬 `1_arm_kettlebell_swing` · 1-Arm Kettlebell Swing
+- ✓ `1_arm_landmine_press` · 1-Arm Landmine Press
+- ✓ `1_arm_landmine_row` · 1-Arm Landmine Row
+- ✓ `1_leg_dumbbell_romanian_deadlift` · 1-Leg Dumbbell Romanian Deadlift
+- ✓ `assisted_dip` · Assisted Dip
+- ✓ `overhand_grip_assisted_pull_up` · Assisted Pull-Up Machine (shared photo)
+- ✓ `barbell_bench_press` · Barbell Bench Press
+- 🎬 `barbell_deadlift` · Barbell Deadlift
+- ✓ `barbell_romanian_deadlift` · Barbell Hip Hinge (RDL) (shared photo)
+- ✓ `barbell_hip_thrust` · Barbell Hip Thrust
+- 🎬 `barbell_pendlay_row` · Barbell Pendlay Row
+- ✓ `bench_supported_1_arm_dumbbell_row` · Bench Supported 1-Arm Dumbbell Row
+- ✓ `cable_face_pull` · Cable Face Pull
+- ✓ `cable_hammer_curl` · Cable Hammer Curl
+- ✓ `cable_overhead_triceps_extension` · Cable Overhead Triceps Extension
+- ✓ `cable_triceps_extension` · Cable Triceps Pushdown (shared photo)
+- ✓ `chest_supported_dumbbell_reverse_fly` · Chest-Supported Dumbbell Reverse Fly
+- ✓ `chest_supported_dumbbell_row` · Chest-Supported Dumbbell Row
+- ✓ `close_grip_barbell_bench_press` · Close Grip Barbell Bench Press
+- ✓ `double_kettlebell_deadlift` · Double Kettlebell Deadlift
+- ✓ `dumbbell_bent_over_reverse_fly` · Dumbbell Bent Over Reverse Fly
+- ✓ `dumbbell_biceps_curl` · Dumbbell Biceps Curl
+- 🎬 `dumbbell_curl_to_overhead_press` · Dumbbell Curl to Overhead Press
+- ✓ `dumbbell_deficit_reverse_lunge` · Dumbbell Deficit Reverse Lunge
+- ✓ `dumbbell_front_raise` · Dumbbell Front Raise
+- ✓ `dumbbell_hammer_curl` · Dumbbell Hammer Curl
+- ✓ `dumbbell_incline_bench_press` · Dumbbell Incline Bench Press
+- ✓ `dumbbell_incline_chest_fly` · Dumbbell Incline Chest Fly
+- ✓ `dumbbell_lateral_raise` · Dumbbell Lateral Raise
+- ✓ `barbell_romanian_deadlift` · Dumbbell Romanian Deadlift (shared photo)
+- ✓ `dumbbell_overhead_press` · Dumbbell Shoulder Press (shared photo)
+- ✓ `ez_bar_biceps_curl` · EZ Bar Biceps Curl
+- ✓ `ez_bar_cable_upright_row` · EZ Bar Cable Upright Row
+- ✓ `1_arm_landmine_press` · Half Kneel 1-Arm Landmine Press (shared photo)
+- ✓ `kettlebell_front_rack_reverse_lunge` · Kettlebell Front Rack Reverse Lunge
+- ✓ `kettlebell_goblet_bulgarian_split_squat` · Kettlebell Goblet Bulgarian Split Squat
+- ✓ `kettlebell_swing` · Kettlebell Swing
+- ✓ `overhand_grip_lat_pulldown` · Lat Pulldown (shared photo)
+- ✓ `lying_dumbbell_triceps_extension` · Lying Dumbbell Triceps Extension
+- 🎬 `med_ball_slam` · Med Ball Slam
+- ✓ `neutral_grip_assisted_pull_up` · Neutral Grip Assisted Pull-Up
+- ✓ `bench_supported_1_arm_dumbbell_row` · One-Arm Dumbbell Row (shared photo)
+- ✓ `plate_loaded_belt_squat` · Plate Loaded Belt Squat
+- ✓ `plate_loaded_deadlift` · Plate Loaded Deadlift
+- ✓ `plate_loaded_kickstand_deadlift` · Plate Loaded Kickstand Deadlift
+- ✓ `plate_loaded_neutral_grip_row` · Plate Loaded Neutral Grip Row
+- ✓ `plate_loaded_overhand_grip_row` · Plate Loaded Overhand Grip Row
+- ✓ `plate_loaded_overhead_press` · Plate Loaded Overhead Press
+- 🎬 `safety_bar_good_morning` · Safety Bar Good Morning
+- ✓ `safety_bar_squat` · Safety Bar Squat
+- ✓ `selectorized_prone_leg_curl` · Selectorized Prone Leg Curl
+- ✓ `selectorized_seated_leg_extension` · Selectorized Seated Leg Extension
+- ✓ `stability_ball_trunk_rollout` · Stability Ball Trunk Rollout
+- ☐ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
+- ☐ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
+- ☐ `barbell_back_squat` · Barbell Back Squat
+- ☐ `barbell_overhead_press` · Barbell Overhead Press
+- ☐ `cable_pallof_press` · Cable Pallof Press
+- ☐ `dumbbell_bench_press` · Dumbbell Bench Press
+- ☐ `dumbbell_calf_raise` · Dumbbell Calf Raise
+- ☐ `dumbbell_reverse_lunge` · Dumbbell Reverse Lunge
+- ☐ `dumbbell_step_up` · Dumbbell Step-Up
+- ☐ `goblet_squat` · Goblet Squat
+- ☐ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
+- ☐ `leg_press` · Leg Press
+- ☐ `machine_chest_press` · Machine Chest Press
+
+### Calisthenics (15/54)
+- ✓ `1_leg_hip_hinge` · 1-Leg Hip Hinge
+- ✓ `box_jump` · Box Jump
+- ✓ `high_plank_alternating_knee_raise` · High Plank Alternating Knee Raise
+- ✓ `lateral_squat` · Lateral Squat
+- ✓ `linear_rapid_response_jumps` · Linear Rapid Response Jumps
+- ✓ `front_plank` · Plank (shared photo)
+- ✓ `push_up` · Push-Up
+- ✓ `stability_ball_bridge_rotation` · Stability Ball Bridge Rotation
+- ✓ `stability_ball_dead_bug` · Stability Ball Dead Bug
+- ✓ `stability_ball_hamstring_curl` · Stability Ball Hamstring Curl
+- ✓ `stability_ball_straight_leg_hip_bridge` · Stability Ball Straight Leg Hip Bridge
+- ✓ `trx_assisted_lateral_lunge` · TRX Assisted Lateral Lunge
+- ✓ `trx_assisted_reverse_lunge` · TRX Assisted Reverse Lunge
+- ✓ `trx_inverted_row` · TRX Inverted Row
+- 🎬 `trx_superman` · TRX Superman
+- ☐ `archer_push_up` · Archer Push-Up
+- ☐ `beast_plank` · Beast Plank
+- ☐ `bench_dip` · Bench Dip
+- ☐ `bodyweight_squat` · Bodyweight Squat
+- ☐ `box_pistol_squat` · Box Pistol Squat
+- ☐ `bulgarian_split_squat` · Bulgarian Split Squat
+- ☐ `calf_raise` · Calf Raise
+- ☐ `chest_to_bar_pull_up` · Chest-to-Bar Pull-Up
+- ☐ `cossack_squat` · Cossack Squat
+- ☐ `dead_bug` · Dead Bug
+- ☐ `elevated_pike_push_up` · Elevated Pike Push-Up
+- ☐ `feet_elevated_inverted_row` · Feet-Elevated Inverted Row
+- ☐ `glute_bridge` · Glute Bridge
+- ☐ `hanging_leg_raise` · Hanging Leg Raise
+- ☐ `hollow_body_hold` · Hollow Body Hold
+- ☐ `incline_inverted_row` · Incline Inverted Row
+- ☐ `incline_push_up` · Incline Push-Up
+- ☐ `inverted_row` · Inverted Row
+- ☐ `jump_squat` · Jump Squat
+- ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
+- ☐ `negative_pull_up` · Negative Pull-Up
+- ☐ `neutral_grip_pull_up` · Neutral Grip Pull Up
+- ☐ `nordic_curl_negative` · Nordic Curl Negative
+- ☐ `parallel_bar_dip` · Parallel Bar Dip
+- ☐ `pike_push_up` · Pike Push-Up
+- ☐ `pogo_hop` · Pogo Hop
+- ☐ `prone_y_t_w_raise` · Prone Y-T-W Raise
+- ☐ `pull_up` · Pull-Up
+- ☐ `shrimp_squat` · Shrimp Squat
+- ☐ `side_plank` · Side Plank
+- ☐ `single_leg_calf_raise` · Single-Leg Calf Raise
+- ☐ `single_leg_glute_bridge` · Single-Leg Glute Bridge
+- ☐ `single_leg_hip_thrust` · Single-Leg Hip Thrust
+- ☐ `sliding_leg_curl` · Sliding Leg Curl
+- ☐ `split_squat` · Split Squat
+- ☐ `superman_hold` · Superman Hold
+- ☐ `table_row` · Table Row
+- ☐ `tempo_squat_3s_down` · Tempo Squat (3s down)
+- ☐ `wall_handstand_push_up` · Wall Handstand Push-Up
+
+### Cardio (3/17)
+- ✓ `treadmill_walk` · Incline Treadmill Walk (shared photo)
+- ✓ `rower` · Rower
+- ✓ `treadmill_walk` · Treadmill Walk
+- ☐ `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
+- ☐ `brisk_walk` · Brisk Walk
+- ☐ `burpees` · Burpees
+- ☐ `elliptical` · Elliptical
+- ☐ `fan_bike` · Fan Bike
+- ☐ `high_knees` · High Knees
+- ☐ `jump_rope` · Jump Rope
+- ☐ `low_step_ups` · Low Step-Ups
+- ☐ `mountain_climbers` · Mountain Climbers
+- ☐ `outdoor_run` · Outdoor Run
+- ☐ `shadow_boxing` · Shadow Boxing
+- ☐ `ski_erg` · Ski Erg
+- ☐ `stationary_bike` · Stationary Bike
+- ☐ `treadmill_run` · Treadmill Run
+
+### Warm-up, cool-down & joint care (43/63)
+- ✓ `passive_90_90_hip_stretch` · 90/90 Hip Stretch (shared photo)
+- ✓ `active_half_kneel_ankle_stretch` · Active Half Kneel Ankle Stretch
+- ✓ `active_half_kneel_quads_stretch` · Active Half Kneel Quads Stretch
+- ✓ `active_lats_stretch` · Active Lats Stretch
+- ✓ `active_stability_ball_pec_stretch` · Active Stability Ball Pec Stretch
+- 🎬 `alternating_quads_stretch` · Alternating Quads Stretch
+- ✓ `assisted_hip_airplane` · Assisted Hip Airplane
+- ✓ `back_lying_mini_band_hip_flexion` · Back Lying Mini Band Hip Flexion
+- ✓ `back_lying_trunk_rotation` · Back Lying Trunk Rotation
+- ✓ `band_pull_apart` · Band Pull-Apart
+- ✓ `bent_over_t_raise` · Bent Over T-Raise
+- ✓ `bent_over_y_raise` · Bent Over Y-Raise
+- ✓ `cat_cow` · Cat-Cow
+- ✓ `childs_pose` · Child's Pose
+- ✓ `cobra_pose` · Cobra Pose
+- ✓ `elevated_scapular_push_up` · Elevated Scapular Push-Up
+- ✓ `foam_roll_adductors` · Foam Roll Adductors
+- ✓ `foam_roll_calves` · Foam Roll Calves
+- ✓ `foam_roll_glutes` · Foam Roll Glutes
+- ✓ `foam_roll_lats` · Foam Roll Lats
+- ✓ `foam_roll_pecs` · Foam Roll Pecs
+- ✓ `foam_roll_quadriceps` · Foam Roll Quadriceps
+- ✓ `foam_roll_thoracic_spine` · Foam Roll Thoracic Spine
+- ✓ `foam_roller_overhead_stretch` · Foam Roller Overhead Stretch
+- ✓ `half_kneel_thoracic_rotation` · Half Kneel Thoracic Rotation
+- ✓ `kneeling_peel_back_thoracic_rotation` · Kneeling Peel Back Thoracic Rotation
+- ✓ `kneeling_reach_under_thoracic_rotation` · Kneeling Reach Under Thoracic Rotation
+- ✓ `lateral_lunge_to_squat` · Lateral Lunge to Squat
+- ✓ `leg_extension_hip_bridge_march` · Leg Extension Hip Bridge March
+- ✓ `long_reverse_lunge_to_thoracic_rotation` · Long Reverse Lunge to Thoracic Rotation
+- ✓ `lying_bent_knee_hamstring` · Lying Bent Knee Hamstring Stretch (shared photo)
+- ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
+- ✓ `passive_lying_hip_abductors_stretch` · Passive Lying Hip Abductors Stretch
+- ✓ `passive_triceps_lats_stretch` · Passive Triceps/Lats Stretch
+- ✓ `quadruped_adductors_rock_back` · Quadruped Adductors Rock Back
+- ✓ `quadruped_thoracic_rotation` · Quadruped Thoracic Rotation
+- ✓ `side_lying_thoracic_rotation` · Side Lying Thoracic Rotation
+- ✓ `stability_ball_overhead_stretch` · Stability Ball Overhead Stretch
+- ✓ `stability_ball_shoulder_ts` · Stability Ball Shoulder T's
+- ✓ `stability_ball_shoulder_ys` · Stability Ball Shoulder Y's
+- ✓ `stationary_inchworm` · Stationary Inchworm
+- ✓ `passive_straight_leg_hamstring_stretch` · Straight Leg Hamstrings Stretch (shared photo)
+- ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)
+- ☐ `90_90_hip_switch` · 90/90 Hip Switch
+- ☐ `ankle_circles` · Ankle Circles
+- ☐ `arm_circles` · Arm Circles
+- ☐ `bird_dog` · Bird Dog
+- ☐ `chin_tucks` · Chin Tucks
+- ☐ `clamshell` · Clamshell
+- ☐ `doorway_chest_stretch` · Doorway Chest Stretch
+- ☐ `easy_pace_warm_up` · Easy Pace Warm-Up
+- ☐ `foam_roll_hamstrings` · Foam Roll Hamstrings
+- ☐ `forearm_flexor_stretch` · Forearm Flexor Stretch
+- ☐ `leg_swings` · Leg Swings
+- ☐ `modified_curl_up` · Modified Curl-Up
+- ☐ `prone_shoulder_y_raise` · Prone Shoulder Y Raise
+- ☐ `short_wall_sit` · Short Wall Sit
+- ☐ `straight_leg_raise` · Straight-Leg Raise
+- ☐ `thoracic_open_book` · Thoracic Open Book
+- ☐ `wall_calf_stretch` · Wall Calf Stretch
+- ☐ `wall_slides` · Wall Slides
+- ☐ `worlds_greatest_stretch` · World's Greatest Stretch
+- ☐ `wrist_circles_rocks` · Wrist Circles & Rocks

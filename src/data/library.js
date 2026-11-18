@@ -18,12 +18,12 @@ add("bb-deadlift", "Barbell Deadlift", { m: "weights", p: "hinge", eq: ["gym"], 
 add("bb-rdl", "Barbell Hip Hinge (RDL)", { m: "weights", p: "hinge", eq: ["gym"], s: ["lowerback", "hips"], lv: [1, 2], compound: true, cue: "Soft knees, push hips back until hamstrings stretch." });
 add("db-rdl", "Dumbbell Romanian Deadlift", { m: "weights", p: "hinge", eq: ["db"], s: ["lowerback", "hips"], compound: true, cue: "Dumbbells slide down your thighs, flat back." });
 add("hip-thrust", "Barbell Hip Thrust", { m: "weights", p: "hinge", eq: ["gym"], s: ["hips"], compound: true, cue: "Chin tucked, ribs down, squeeze glutes at the top." });
-add("kb-swing", "Kettlebell Swing", { m: "weights", p: "hinge", eq: ["db"], s: ["lowerback", "hips"], lv: [1, 2], cue: "Snap the hips; arms just guide the bell." });
+add("kb-swing", "Kettlebell Swing", { ballistic: true, m: "weights", p: "hinge", eq: ["db"], s: ["lowerback", "hips"], lv: [1, 2], cue: "Snap the hips; arms just guide the bell." });
 // lunge
 add("kb-bulgarian", "Kettlebell Goblet Bulgarian Split Squat", { m: "weights", p: "lunge", eq: ["db"], s: ["knees", "hips"], lv: [1, 2], perSide: true, cue: "Rear foot on bench, front knee tracks over toes." });
 add("db-reverse-lunge", "Dumbbell Reverse Lunge", { m: "weights", p: "lunge", eq: ["db"], s: ["knees"], perSide: true, cue: "Step back, lower the back knee softly." });
 add("db-step-up", "Dumbbell Step-Up", { m: "weights", p: "lunge", eq: ["db"], s: ["knees"], perSide: true, cue: "Drive through the heel of the top leg." });
-add("sl-db-hinge", "1 Leg Dumbbell Hip Hinge", { m: "weights", p: "lunge", eq: ["db"], s: ["hips", "lowerback", "ankles"], lv: [1, 2], perSide: true, cue: "Hips square, reach the back leg long." });
+add("sl-db-hinge", "1-Leg Dumbbell Romanian Deadlift", { m: "weights", p: "lunge", eq: ["db"], s: ["hips", "lowerback", "ankles"], lv: [1, 2], perSide: true, cue: "Hips square, reach the back leg long." });
 // horizontal push
 add("bb-bench", "Barbell Bench Press", { m: "weights", p: "hpush", eq: ["gym"], s: ["shoulders", "elbows", "wrists"], lv: [1, 2], compound: true, cue: "Shoulder blades pinned, bar to lower chest." });
 add("db-bench", "Dumbbell Bench Press", { m: "weights", p: "hpush", eq: ["db"], s: ["shoulders", "elbows"], compound: true, cue: "Elbows about 45° from your body." });
@@ -70,7 +70,7 @@ add("incline-row", "Incline Inverted Row", { compound: true, m: "cali", p: "hpul
 add("inverted-row", "Inverted Row", { compound: true, m: "cali", p: "hpull", eq: ["bar"], s: ["elbows"], lv: [1, 1], cue: "Bar at hip height, heels down, squeeze back." });
 add("fe-row", "Feet-Elevated Inverted Row", { compound: true, m: "cali", p: "hpull", eq: ["bar"], s: ["elbows"], lv: [2, 2], cue: "Feet on a box, body parallel to the floor." });
 add("bw-squat", "Bodyweight Squat", { m: "cali", p: "squat", eq: ["none"], s: ["knees", "hips"], lv: [0, 0], compound: true, cue: "Sit down between your heels, chest up." });
-add("jump-squat", "Jump Squat", { m: "cali", p: "squat", eq: ["none"], s: ["knees", "ankles", "impact"], lv: [1, 1], cue: "Land softly and go straight into the next rep." });
+add("jump-squat", "Jump Squat", { ballistic: true, m: "cali", p: "squat", eq: ["none"], s: ["knees", "ankles", "impact"], lv: [1, 1], cue: "Land softly and go straight into the next rep." });
 add("tempo-squat", "Tempo Squat (3s down)", { m: "cali", p: "squat", eq: ["none"], s: ["knees", "hips"], lv: [1, 1], compound: true, cue: "Three seconds down, pause, stand up fast." });
 add("cossack-squat", "Cossack Squat", { m: "cali", p: "squat", eq: ["none"], s: ["knees", "hips"], lv: [1, 2], perSide: true, compound: true, cue: "Shift to one side, other leg straight, toes up." });
 add("box-pistol", "Box Pistol Squat", { compound: true, m: "cali", p: "squat", eq: ["none"], s: ["knees", "hips"], lv: [2, 2], perSide: true, cue: "Sit to a box on one leg, stand without rocking." });
@@ -120,8 +120,8 @@ mob("quad-stretch-alt", "Alternating Quads Stretch", { role: "warmup", focus: "l
 mob("worlds-greatest", "World's Greatest Stretch", { role: "warmup", focus: "full", perSide: true });
 mob("leg-swings", "Leg Swings", { role: "warmup", focus: "lower", perSide: true });
 mob("arm-circles", "Arm Circles", { role: "warmup", focus: "upper", kind: "hold" });
-mob("ball-ts", "Stability Ball Shoulder T's", { role: "warmup", focus: "upper" });
-mob("ball-ys", "Stability Ball Shoulder Y's", { role: "warmup", focus: "upper" });
+mob("ball-ts", "Stability Ball Shoulder T's", { role: "warmup", focus: "upper", eq: ["gym"] });
+mob("ball-ys", "Stability Ball Shoulder Y's", { role: "warmup", focus: "upper", eq: ["gym"] });
 mob("cat-cow", "Cat-Cow", { role: "warmup", focus: "full" });
 mob("easy-cardio", "Easy Pace Warm-Up", { role: "warmup", focus: "cardio", kind: "cardio" });
 // cool-downs
@@ -147,6 +147,99 @@ mob("wrist-circles", "Wrist Circles & Rocks", { role: "care", area: "wrists" });
 mob("chin-tucks", "Chin Tucks", { role: "care", area: "neck" });
 mob("open-book", "Thoracic Open Book", { role: "care", area: "upperback", perSide: true });
 mob("wrist-flexor", "Forearm Flexor Stretch", { role: "care", area: "elbows", kind: "hold", perSide: true });
+
+
+/* ---------------- ADDED NOV 2026 (from the photo/video library) ---------------- */
+// Weights
+add("1-arm-kb-swing", "1-Arm Kettlebell Swing", { ballistic: true, m: "weights", p: "hinge", eq: ["db"], s: ["lowerback", "hips"], lv: [1, 2], perSide: true, cue: "Same hip snap as the two-hand swing; don't let the shoulder rotate." });
+add("db-deficit-reverse-lunge", "Dumbbell Deficit Reverse Lunge", { m: "weights", p: "lunge", eq: ["db"], s: ["knees", "hips"], lv: [1, 2], perSide: true, compound: true, cue: "Stand on a low step, dumbbells at your sides, step back and drop the back knee below the step." });
+add("kb-rack-reverse-lunge", "Kettlebell Front Rack Reverse Lunge", { m: "weights", p: "lunge", eq: ["db"], s: ["knees"], perSide: true, compound: true, cue: "Bell racked at the shoulder, step back, tall torso." });
+add("double-kb-deadlift", "Double Kettlebell Deadlift", { m: "weights", p: "hinge", eq: ["db"], s: ["lowerback", "hips"], compound: true, cue: "Bells between your feet, hinge, stand tall." });
+add("safety-bar-squat", "Safety Bar Squat", { m: "weights", p: "squat", eq: ["gym"], s: ["knees", "hips"], lv: [1, 2], compound: true, cue: "Handles in front, chest up, sit down and drive up." });
+add("belt-squat", "Plate Loaded Belt Squat", { m: "weights", p: "squat", eq: ["gym"], s: ["knees", "hips"], compound: true, cue: "Load hangs from your hips, so your back stays unloaded." });
+add("plate-deadlift", "Plate Loaded Deadlift", { m: "weights", p: "hinge", eq: ["gym"], s: ["lowerback", "hips"], compound: true, cue: "Machine deadlift: flat back, push the floor away." });
+add("kickstand-deadlift", "Plate Loaded Kickstand Deadlift", { m: "weights", p: "hinge", eq: ["gym"], s: ["hips"], perSide: true, cue: "Most weight on the front leg, back toes just for balance." });
+add("safety-bar-good-morning", "Safety Bar Good Morning", { m: "weights", p: "hinge", eq: ["gym"], s: ["lowerback", "hips"], lv: [1, 2], cue: "Soft knees, push hips back until the hamstrings stretch." });
+add("leg-curl", "Selectorized Prone Leg Curl", { m: "weights", p: "hinge", eq: ["gym"], s: ["knees"], cue: "Hips pressed into the pad, curl heels up, lower slowly." });
+add("leg-extension", "Selectorized Seated Leg Extension", { m: "weights", p: "squat", eq: ["gym"], s: ["knees"], cue: "Straighten fully, squeeze, lower slowly." });
+add("pendlay-row", "Barbell Pendlay Row", { m: "weights", p: "hpull", eq: ["gym"], s: ["lowerback"], lv: [1, 2], compound: true, cue: "Back flat to the floor, row the bar from the floor to your ribs." });
+add("landmine-row", "1-Arm Landmine Row", { m: "weights", p: "hpull", eq: ["gym"], s: ["lowerback"], perSide: true, cue: "Staggered stance, row the bar end to your hip." });
+add("plate-neutral-row", "Plate Loaded Neutral Grip Row", { m: "weights", p: "hpull", eq: ["gym"], s: [], compound: true, cue: "Chest on the pad, palms facing, squeeze shoulder blades." });
+add("plate-overhand-row", "Plate Loaded Overhand Grip Row", { m: "weights", p: "hpull", eq: ["gym"], s: [], compound: true, cue: "Chest on the pad, elbows wide, squeeze upper back." });
+add("bench-1arm-row", "Bench Supported 1-Arm Dumbbell Row", { m: "weights", p: "hpull", eq: ["db"], s: [], perSide: true, cue: "Hand on the bench, flat back, elbow to hip." });
+add("neutral-assisted-pullup", "Neutral Grip Assisted Pull-Up", { m: "weights", p: "vpull", eq: ["gym"], s: ["elbows"], lv: [0, 1], cue: "Palms facing, full hang to chin over handles." });
+add("landmine-press-1arm", "1-Arm Landmine Press", { m: "weights", p: "vpush", eq: ["gym"], s: [], perSide: true, cue: "Staggered stance, press up and forward." });
+add("plate-ohp", "Plate Loaded Overhead Press", { m: "weights", p: "vpush", eq: ["gym"], s: ["shoulders"], compound: true, cue: "Back on the pad, press straight up, don't arch." });
+add("curl-to-press", "Dumbbell Curl to Overhead Press", { m: "weights", p: "vpush", eq: ["db"], s: ["shoulders", "elbows"], cue: "Curl up, then press overhead in one smooth move." });
+add("close-grip-bench", "Close Grip Barbell Bench Press", { m: "weights", p: "hpush", eq: ["gym"], s: ["shoulders", "elbows", "wrists"], lv: [1, 2], compound: true, cue: "Hands shoulder-width, elbows tucked, bar to lower chest." });
+add("incline-fly", "Dumbbell Incline Chest Fly", { m: "weights", p: "hpush", eq: ["db"], s: ["shoulders"], cue: "Slight bend in elbows, open wide, hug back up." });
+add("assisted-dip", "Assisted Dip", { m: "weights", p: "arms", eq: ["gym"], s: ["shoulders", "elbows"], lv: [0, 1], cue: "Knees on the pad, lower to 90°, press up." });
+add("cable-curl-1arm", "1-Arm Cable Biceps Curl", { m: "weights", p: "arms", eq: ["gym"], s: ["elbows"], perSide: true, cue: "Elbow still, curl to the shoulder." });
+add("cable-hammer-curl", "Cable Hammer Curl", { m: "weights", p: "arms", eq: ["gym"], s: ["elbows"], cue: "Rope handle, palms facing, elbows pinned." });
+add("db-hammer-curl", "Dumbbell Hammer Curl", { m: "weights", p: "arms", eq: ["db"], s: ["elbows"], cue: "Palms facing each other, no swinging." });
+add("ez-curl", "EZ Bar Biceps Curl", { m: "weights", p: "arms", eq: ["gym"], s: ["elbows", "wrists"], cue: "Angled grip, elbows at your sides." });
+add("cable-oh-triceps", "Cable Overhead Triceps Extension", { m: "weights", p: "arms", eq: ["gym"], s: ["elbows", "shoulders"], cue: "Face away from the cable, extend overhead." });
+add("cable-oh-triceps-1arm", "1-Arm Cable Triceps Overhead Extension", { m: "weights", p: "arms", eq: ["gym"], s: ["elbows", "shoulders"], perSide: true, cue: "Elbow points up, extend fully." });
+add("lateral-raise", "Dumbbell Lateral Raise", { m: "weights", p: "delts", eq: ["db"], s: ["shoulders"], cue: "Raise out to shoulder height, lead with the elbows." });
+add("front-raise", "Dumbbell Front Raise", { m: "weights", p: "delts", eq: ["db"], s: ["shoulders"], cue: "Raise in front to shoulder height, no swinging." });
+add("db-reverse-fly", "Dumbbell Bent Over Reverse Fly", { m: "weights", p: "delts", eq: ["db"], s: ["lowerback"], cue: "Hinge over, open the arms wide, squeeze the back." });
+add("cs-reverse-fly", "Chest-Supported Dumbbell Reverse Fly", { m: "weights", p: "delts", eq: ["db"], s: [], cue: "Chest on an incline bench, open wide, thumbs up." });
+add("cable-reverse-fly-1arm", "1-Arm Cable Bent Over Reverse Fly", { m: "weights", p: "delts", eq: ["gym"], s: [], perSide: true, cue: "Hinge forward, sweep the arm out and back." });
+add("face-pull", "Cable Face Pull", { m: "weights", p: "delts", eq: ["gym"], s: [], cue: "Rope at face height, pull to your forehead, elbows high." });
+add("upright-row", "EZ Bar Cable Upright Row", { m: "weights", p: "delts", eq: ["gym"], s: ["shoulders"], lv: [1, 2], cue: "Pull to chest height only, elbows lead." });
+add("med-ball-slam", "Med Ball Slam", { m: "weights", p: "power", eq: ["gym"], s: ["lowerback"], lv: [1, 2], cue: "Reach tall, slam hard, hinge to pick it up." });
+// Calisthenics / bodyweight
+add("1-leg-hip-hinge", "1-Leg Hip Hinge", { m: "cali", p: "hinge", eq: ["none"], s: ["ankles"], lv: [0, 1], perSide: true, cue: "Balance on one leg, hinge with a flat back." });
+add("lateral-squat", "Lateral Squat", { m: "cali", p: "squat", eq: ["none"], s: ["knees", "hips"], lv: [0, 1], perSide: true, cue: "Wide stance, sit into one hip, other leg straight." });
+add("high-plank-knee", "High Plank Alternating Knee Raise", { m: "cali", p: "core", eq: ["none"], s: ["wrists", "shoulders"], lv: [0, 1], cue: "Hips still, bring one knee to chest at a time." });
+add("trx-row", "TRX Inverted Row", { m: "cali", p: "hpull", eq: ["gym"], s: ["elbows"], lv: [0, 1], compound: true, cue: "Lean back, body straight, pull chest to hands." });
+add("trx-lateral-lunge", "TRX Assisted Lateral Lunge", { m: "cali", p: "lunge", eq: ["gym"], s: ["knees"], lv: [0, 0], perSide: true, cue: "Hold the straps for balance, sit into one hip." });
+add("trx-reverse-lunge", "TRX Assisted Reverse Lunge", { m: "cali", p: "lunge", eq: ["gym"], s: ["knees"], lv: [0, 0], perSide: true, compound: true, cue: "Hold the straps, step back, lower the back knee." });
+add("trx-superman", "TRX Superman", { m: "cali", p: "core", eq: ["gym"], s: ["shoulders", "lowerback"], lv: [1, 2], cue: "Lean in with arms reaching overhead, body like a plank." });
+add("sb-dead-bug", "Stability Ball Dead Bug", { m: "cali", p: "core", eq: ["gym"], s: [], lv: [0, 1], cue: "Squeeze the ball between hands and knees, extend opposite arm and leg." });
+add("sb-bridge-rotation", "Stability Ball Bridge Rotation", { m: "cali", p: "core", eq: ["gym"], s: ["shoulders"], lv: [1, 2], perSide: true, cue: "Shoulders on the ball, hips up, rotate side to side." });
+add("sb-hamstring-curl", "Stability Ball Hamstring Curl", { m: "cali", p: "hinge", eq: ["gym"], s: ["knees"], lv: [0, 1], cue: "Heels on the ball, hips up, roll the ball in." });
+add("sb-straight-leg-bridge", "Stability Ball Straight Leg Hip Bridge", { m: "cali", p: "hinge", eq: ["gym"], s: [], lv: [0, 1], cue: "Heels on the ball, legs straight, lift hips." });
+add("box-jump", "Box Jump", { m: "cali", p: "power", eq: ["gym"], s: ["knees", "ankles", "impact"], lv: [1, 2], cue: "Swing arms, jump, land softly, step down." });
+add("pogo-hop", "Pogo Hop", { m: "cali", p: "power", eq: ["none"], s: ["ankles", "impact"], lv: [1, 2], cue: "Stiff ankles, quick bounces." });
+add("linear-rr-jumps", "Linear Rapid Response Jumps", { m: "cali", p: "power", eq: ["none"], s: ["ankles", "knees", "impact"], lv: [1, 2], cue: "Quick small jumps forward and back." });
+add("lateral-rr-jumps", "Lateral Rapid Response Jumps", { m: "cali", p: "power", eq: ["none"], s: ["ankles", "knees", "impact"], lv: [1, 2], cue: "Quick small jumps side to side." });
+// Cardio
+add("treadmill-walk", "Treadmill Walk", { m: "cardio", eq: ["gym"], s: [], modes: ["steady"] });
+// Mobility: warm-up
+mob("band-pull-apart-2", "Band Pull-Apart", { role: "warmup", focus: "upper", eq: ["gym"] });
+mob("bent-t-raise", "Bent Over T-Raise", { role: "warmup", focus: "upper" });
+mob("bent-y-raise", "Bent Over Y-Raise", { role: "warmup", focus: "upper" });
+mob("scap-pushup", "Elevated Scapular Push-Up", { role: "warmup", focus: "upper" });
+mob("active-kneel-quad", "Active Half Kneel Quads Stretch", { role: "warmup", focus: "lower", perSide: true });
+mob("active-kneel-ankle", "Active Half Kneel Ankle Stretch", { role: "warmup", focus: "lower", perSide: true });
+mob("hip-airplane", "Assisted Hip Airplane", { role: "warmup", focus: "lower", perSide: true });
+mob("bl-band-hip-flexion", "Back Lying Mini Band Hip Flexion", { role: "warmup", focus: "lower", perSide: true });
+mob("lateral-lunge-squat", "Lateral Lunge to Squat", { role: "warmup", focus: "lower" });
+mob("toe-touch-squat", "Toe Touch to Deep Squat", { role: "warmup", focus: "lower" });
+mob("quad-adductor-rock", "Quadruped Adductors Rock Back", { role: "warmup", focus: "lower" });
+mob("lunge-t-rotation", "Long Reverse Lunge to Thoracic Rotation", { role: "warmup", focus: "full", perSide: true });
+mob("half-kneel-t-rotation", "Half Kneel Thoracic Rotation", { role: "warmup", focus: "upper", perSide: true });
+mob("quad-t-rotation", "Quadruped Thoracic Rotation", { role: "warmup", focus: "upper", perSide: true });
+mob("peel-back-rotation", "Kneeling Peel Back Thoracic Rotation", { role: "warmup", focus: "upper", perSide: true });
+mob("reach-under-rotation", "Kneeling Reach Under Thoracic Rotation", { role: "warmup", focus: "upper", perSide: true });
+mob("side-lying-t-rotation", "Side Lying Thoracic Rotation", { role: "warmup", focus: "upper", perSide: true });
+mob("fr-calves", "Foam Roll Calves", { role: "warmup", focus: "lower", kind: "hold", eq: ["gym"] });
+mob("fr-hamstrings", "Foam Roll Hamstrings", { role: "warmup", focus: "lower", kind: "hold", eq: ["gym"] });
+mob("fr-quads", "Foam Roll Quadriceps", { role: "warmup", focus: "lower", kind: "hold", eq: ["gym"] });
+mob("fr-adductors", "Foam Roll Adductors", { role: "warmup", focus: "lower", kind: "hold", eq: ["gym"] });
+mob("fr-glutes", "Foam Roll Glutes", { role: "warmup", focus: "lower", kind: "hold", eq: ["gym"] });
+mob("fr-lats", "Foam Roll Lats", { role: "warmup", focus: "upper", kind: "hold", eq: ["gym"] });
+mob("fr-pecs", "Foam Roll Pecs", { role: "warmup", focus: "upper", kind: "hold", eq: ["gym"] });
+mob("fr-tspine", "Foam Roll Thoracic Spine", { role: "warmup", focus: "upper", kind: "hold", eq: ["gym"] });
+// Mobility: cool-down
+mob("triceps-lats", "Passive Triceps/Lats Stretch", { role: "cooldown", focus: "upper", kind: "hold", perSide: true });
+mob("sb-pec-stretch", "Active Stability Ball Pec Stretch", { role: "cooldown", focus: "upper", kind: "hold", perSide: true, eq: ["gym"] });
+mob("sb-overhead-stretch", "Stability Ball Overhead Stretch", { role: "cooldown", focus: "upper", kind: "hold", eq: ["gym"] });
+mob("fr-overhead-stretch", "Foam Roller Overhead Stretch", { role: "cooldown", focus: "upper", kind: "hold", eq: ["gym"] });
+mob("bl-trunk-rotation", "Back Lying Trunk Rotation", { role: "cooldown", focus: "full", kind: "hold", perSide: true });
+mob("bent-knee-hamstring", "Lying Bent Knee Hamstring Stretch", { role: "cooldown", focus: "lower", kind: "hold", perSide: true });
+mob("kneel-quads-stretch", "Passive Half Kneel Quads Stretch", { role: "cooldown", focus: "lower", kind: "hold", perSide: true });
 
 export const LIBRARY = L;
 export const byId = Object.fromEntries(L.map((e) => [e.id, e]));

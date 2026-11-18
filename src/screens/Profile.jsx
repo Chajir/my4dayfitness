@@ -8,6 +8,7 @@ import { AREAS } from "../data/library";
 import { cmToFtIn } from "../lib/stats";
 import { classicPlan } from "../data/classic";
 import { versionLabel } from "../config";
+import { varietyOn, weekIndex } from "../lib/variety";
 
 export default function Profile({ onEdit, onAdmin }) {
   const { user, profile, sync, setProfile, wipe, isOwner } = useStore();
@@ -96,6 +97,20 @@ export default function Profile({ onEdit, onAdmin }) {
           </>
         )}
       </section>
+
+      <button onClick={() => setProfile({ variety: !varietyOn(profile) })} className="w-full card p-4 mt-2 flex items-center gap-4 text-left">
+        <span className="flex-1">
+          <span className="block font-semibold">Exercise variety</span>
+          <span className="block text-xs text-mute mt-0.5 leading-relaxed">
+            {varietyOn(profile)
+              ? `On · week ${weekIndex(profile.plan) + 1} of your plan. Accessories, warm-ups and cardio change weekly; main lifts every 4 weeks. Exercises you swap yourself stay.`
+              : "Off · the same exercises every week."}
+          </span>
+        </span>
+        <span className={`w-12 h-7 shrink-0 rounded-full p-1 transition ${varietyOn(profile) ? "bg-hot" : "bg-ink-600"}`}>
+          <span className={`block h-5 w-5 rounded-full bg-white transition ${varietyOn(profile) ? "translate-x-5" : ""}`} />
+        </span>
+      </button>
 
       <div className="flex items-center justify-between mt-8 mb-2 px-1">
         <h3 className="label">About you</h3>

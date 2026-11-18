@@ -7,11 +7,12 @@ import { startWorkout } from "../lib/workout";
 import { constraints } from "../data/generator";
 import { unlockAudio } from "../lib/device";
 import { hasMedia } from "../lib/images";
+import { dayForWeek } from "../lib/variety";
 
 export default function Home({ onStart }) {
   const { profile, sessions, sync } = useStore();
   const plan = profile.plan;
-  const up = nextDay(plan, sessions);
+  const up = dayForWeek(nextDay(plan, sessions), profile);
   const [preview, setPreview] = useState(null);
   const week = thisWeek(sessions);
   const streak = weekStreak(sessions);
@@ -23,7 +24,7 @@ export default function Home({ onStart }) {
   const start = (day) => {
     unlockAudio();
     setPreview(null);
-    onStart(startWorkout(plan, day, sessions));
+    onStart(startWorkout(plan, dayForWeek(plan.days.find((d) => d.id === day.id) || day, profile), sessions));
   };
 
   const monday = startOfWeek(new Date());

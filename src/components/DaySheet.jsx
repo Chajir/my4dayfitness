@@ -3,8 +3,12 @@ import { Icon, Sheet, Thumb } from "./ui";
 import { estMinutes, targetText } from "../lib/stats";
 import { alternativesFor, swapItem } from "../data/generator";
 import { useStore } from "../lib/store";
+import { dayForWeek, varietyOn } from "../lib/variety";
 
 export function replaceInPlan(plan, uid, newItem) {
+  newItem = { ...newItem, locked: true }; // hand-picked: never rotated by variety
+  delete newItem.rotated;
+  delete newItem.baseName;
   return {
     ...plan,
     days: plan.days.map((d) => ({ ...d, sections: d.sections.map((s) => ({ ...s, items: s.items.map((it) => (it.uid === uid ? newItem : it)) })) })),
@@ -43,10 +47,10 @@ export default function DaySheet({ day, onClose, onStart }) {
   const { profile, setProfile } = useStore();
   const [swapping, setSwapping] = useState(null);
   if (!day) return null;
-  const live = profile.plan.days.find((d) => d.id === day.id) || day;
+  const live = dayForWeek(profile.plan.days.find((d) => d.id === day.id) || day, profile);
   return (
     <>
-      <Sheet open title={live.title} subtitle={`${live.label} · ${live.tag} · ~${estMinutes(live)} min`} onClose={onClose}>
+      <Sheet open title={live.title} subtitle={`${live.label} · ${live.tag} · ~${estMinutes(live)} min${live.week && varietyOn(profile) ? ` · Week ${live.week}` : ""}`} onClose={onClose}>
         <div className="space-y-5 pt-1">
           {live.sections.map((s) => (
             <div key={s.name}>
@@ -57,7 +61,11 @@ export default function DaySheet({ day, onClose, onStart }) {
                     <Thumb item={it} className="h-12 w-16 rounded-lg text-xs shrink-0" />
                     <div className="min-w-0 flex-1">
                       <div className="text-sm font-medium leading-tight">{it.name}</div>
-                      <div className="text-xs text-mute mt-0.5">{targetText(it)}</div>
+                      <div className="text-xs text-mute mt-0.5">
+                        {targetText(it)}
+                        {it.rotated && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-hot">· New this week</span>}
+                        {it.locked && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-white/40">· Your pick</span>}
+                      </div>
                     </div>
                     <button onClick={() => setSwapping(it)} className="h-9 w-9 grid place-items-center rounded-full bg-ink-700 text-mute shrink-0" aria-label="Swap">
                       <Icon name="swap" size={16} />
