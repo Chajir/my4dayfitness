@@ -51,8 +51,8 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)
 - ☐ `perpendicular_med_ball_hip_toss` · Perpendicular Med Ball Hip Toss
 - ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
-- ☐ `barbell_back_squat` · Barbell Back Squat
-- ☐ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
+- ✓ `barbell_back_squat` · Barbell Back Squat
+- ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
 - ☐ `neutral_grip_pull_up` · Neutral Grip Pull Up
 - ✓ `1_leg_dumbbell_romanian_deadlift` · 1 Leg Dumbbell Hip Hinge (shared photo)
 - ✓ `1_arm_landmine_press` · Half Kneel 1-Arm Landmine Press (shared photo)
@@ -63,7 +63,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 
 ### Day 3 · Resistance Day C
 - ☐ `side_lying_mini_band_hip_external_rotation` · Side Lying Mini Band Hip External Rotation
-- ☐ `beast_plank` · Beast Plank
+- 🎬 `beast_plank` · Beast Plank
 - ✓ `tall_kneel_kettlebell_halo` · Tall Kneel Kettlebell Halo
 - ☐ `alternating_forward_lunge` · Alternating Forward Lunge
 - ☐ `alternating_lateral_lunge` · Alternating Lateral Lunge
@@ -72,9 +72,9 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `barbell_romanian_deadlift` · Barbell Hip Hinge (shared photo)
 - ☐ `lateral_beast_crawl` · Lateral Beast Crawl
 - ✓ `dumbbell_incline_bench_press` · Dumbbell Incline Bench Press
-- ☐ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
-- ☐ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
-- ☐ `cable_pallof_press` · Cable Pallof Press
+- ✓ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
+- ✓ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
+- ✓ `cable_pallof_press` · Cable Pallof Press
 - ☐ `ski_erg` · Ski Erg
 - ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
 - ✓ `passive_triceps_lats_stretch` · Passive Triceps/Lats Stretch
@@ -97,9 +97,10 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-118 of 204 exercises have a photo or video.
+147 of 204 exercises have a photo or video.
 
-### Weights (57/70)
+### Weights (70/70)
+- ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
 - ✓ `1_arm_seated_cable_row` · 1 Arm Seated Cable Row
 - ✓ `1_arm_cable_bent_over_reverse_fly` · 1-Arm Cable Bent Over Reverse Fly
 - ✓ `1_arm_cable_biceps_curl` · 1-Arm Cable Biceps Curl
@@ -108,24 +109,30 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `1_arm_landmine_press` · 1-Arm Landmine Press
 - ✓ `1_arm_landmine_row` · 1-Arm Landmine Row
 - ✓ `1_leg_dumbbell_romanian_deadlift` · 1-Leg Dumbbell Romanian Deadlift
+- ✓ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
 - ✓ `assisted_dip` · Assisted Dip
 - ✓ `overhand_grip_assisted_pull_up` · Assisted Pull-Up Machine (shared photo)
+- ✓ `barbell_back_squat` · Barbell Back Squat
 - ✓ `barbell_bench_press` · Barbell Bench Press
 - 🎬 `barbell_deadlift` · Barbell Deadlift
 - ✓ `barbell_romanian_deadlift` · Barbell Hip Hinge (RDL) (shared photo)
 - ✓ `barbell_hip_thrust` · Barbell Hip Thrust
+- ✓ `barbell_overhead_press` · Barbell Overhead Press
 - 🎬 `barbell_pendlay_row` · Barbell Pendlay Row
 - ✓ `bench_supported_1_arm_dumbbell_row` · Bench Supported 1-Arm Dumbbell Row
 - ✓ `cable_face_pull` · Cable Face Pull
 - ✓ `cable_hammer_curl` · Cable Hammer Curl
 - ✓ `cable_overhead_triceps_extension` · Cable Overhead Triceps Extension
+- ✓ `cable_pallof_press` · Cable Pallof Press
 - ✓ `cable_triceps_extension` · Cable Triceps Pushdown (shared photo)
 - ✓ `chest_supported_dumbbell_reverse_fly` · Chest-Supported Dumbbell Reverse Fly
 - ✓ `chest_supported_dumbbell_row` · Chest-Supported Dumbbell Row
 - ✓ `close_grip_barbell_bench_press` · Close Grip Barbell Bench Press
 - ✓ `double_kettlebell_deadlift` · Double Kettlebell Deadlift
+- ✓ `dumbbell_bench_press` · Dumbbell Bench Press
 - ✓ `dumbbell_bent_over_reverse_fly` · Dumbbell Bent Over Reverse Fly
 - ✓ `dumbbell_biceps_curl` · Dumbbell Biceps Curl
+- ✓ `dumbbell_calf_raise` · Dumbbell Calf Raise
 - 🎬 `dumbbell_curl_to_overhead_press` · Dumbbell Curl to Overhead Press
 - ✓ `dumbbell_deficit_reverse_lunge` · Dumbbell Deficit Reverse Lunge
 - ✓ `dumbbell_front_raise` · Dumbbell Front Raise
@@ -133,16 +140,22 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `dumbbell_incline_bench_press` · Dumbbell Incline Bench Press
 - ✓ `dumbbell_incline_chest_fly` · Dumbbell Incline Chest Fly
 - ✓ `dumbbell_lateral_raise` · Dumbbell Lateral Raise
+- ✓ `dumbbell_reverse_lunge` · Dumbbell Reverse Lunge
 - ✓ `barbell_romanian_deadlift` · Dumbbell Romanian Deadlift (shared photo)
 - ✓ `dumbbell_overhead_press` · Dumbbell Shoulder Press (shared photo)
+- ✓ `dumbbell_step_up` · Dumbbell Step-Up
 - ✓ `ez_bar_biceps_curl` · EZ Bar Biceps Curl
 - ✓ `ez_bar_cable_upright_row` · EZ Bar Cable Upright Row
+- ✓ `goblet_squat` · Goblet Squat
 - ✓ `1_arm_landmine_press` · Half Kneel 1-Arm Landmine Press (shared photo)
+- ✓ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
 - ✓ `kettlebell_front_rack_reverse_lunge` · Kettlebell Front Rack Reverse Lunge
 - ✓ `kettlebell_goblet_bulgarian_split_squat` · Kettlebell Goblet Bulgarian Split Squat
 - ✓ `kettlebell_swing` · Kettlebell Swing
 - ✓ `overhand_grip_lat_pulldown` · Lat Pulldown (shared photo)
+- ✓ `leg_press` · Leg Press
 - ✓ `lying_dumbbell_triceps_extension` · Lying Dumbbell Triceps Extension
+- ✓ `machine_chest_press` · Machine Chest Press
 - 🎬 `med_ball_slam` · Med Ball Slam
 - ✓ `neutral_grip_assisted_pull_up` · Neutral Grip Assisted Pull-Up
 - ✓ `bench_supported_1_arm_dumbbell_row` · One-Arm Dumbbell Row (shared photo)
@@ -157,24 +170,27 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `selectorized_prone_leg_curl` · Selectorized Prone Leg Curl
 - ✓ `selectorized_seated_leg_extension` · Selectorized Seated Leg Extension
 - ✓ `stability_ball_trunk_rollout` · Stability Ball Trunk Rollout
-- ☐ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
-- ☐ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
-- ☐ `barbell_back_squat` · Barbell Back Squat
-- ☐ `barbell_overhead_press` · Barbell Overhead Press
-- ☐ `cable_pallof_press` · Cable Pallof Press
-- ☐ `dumbbell_bench_press` · Dumbbell Bench Press
-- ☐ `dumbbell_calf_raise` · Dumbbell Calf Raise
-- ☐ `dumbbell_reverse_lunge` · Dumbbell Reverse Lunge
-- ☐ `dumbbell_step_up` · Dumbbell Step-Up
-- ☐ `goblet_squat` · Goblet Squat
-- ☐ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
-- ☐ `leg_press` · Leg Press
-- ☐ `machine_chest_press` · Machine Chest Press
 
-### Calisthenics (15/54)
+### Calisthenics (31/54)
 - ✓ `1_leg_hip_hinge` · 1-Leg Hip Hinge
+- 🎬 `archer_push_up` · Archer Push-Up
+- 🎬 `beast_plank` · Beast Plank
+- 🎬 `bench_dip` · Bench Dip
+- 🎬 `bodyweight_squat` · Bodyweight Squat
 - ✓ `box_jump` · Box Jump
+- 🎬 `box_pistol_squat` · Box Pistol Squat
+- 🎬 `bulgarian_split_squat` · Bulgarian Split Squat
+- 🎬 `calf_raise` · Calf Raise
+- 🎬 `chest_to_bar_pull_up` · Chest-to-Bar Pull-Up
+- 🎬 `cossack_squat` · Cossack Squat
+- 🎬 `dead_bug` · Dead Bug
+- 🎬 `elevated_pike_push_up` · Elevated Pike Push-Up
+- 🎬 `feet_elevated_inverted_row` · Feet-Elevated Inverted Row
+- 🎬 `glute_bridge` · Glute Bridge
+- 🎬 `hanging_leg_raise` · Hanging Leg Raise
 - ✓ `high_plank_alternating_knee_raise` · High Plank Alternating Knee Raise
+- 🎬 `hollow_body_hold` · Hollow Body Hold
+- 🎬 `incline_inverted_row` · Incline Inverted Row
 - ✓ `lateral_squat` · Lateral Squat
 - ✓ `linear_rapid_response_jumps` · Linear Rapid Response Jumps
 - ✓ `front_plank` · Plank (shared photo)
@@ -187,22 +203,6 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `trx_assisted_reverse_lunge` · TRX Assisted Reverse Lunge
 - ✓ `trx_inverted_row` · TRX Inverted Row
 - 🎬 `trx_superman` · TRX Superman
-- ☐ `archer_push_up` · Archer Push-Up
-- ☐ `beast_plank` · Beast Plank
-- ☐ `bench_dip` · Bench Dip
-- ☐ `bodyweight_squat` · Bodyweight Squat
-- ☐ `box_pistol_squat` · Box Pistol Squat
-- ☐ `bulgarian_split_squat` · Bulgarian Split Squat
-- ☐ `calf_raise` · Calf Raise
-- ☐ `chest_to_bar_pull_up` · Chest-to-Bar Pull-Up
-- ☐ `cossack_squat` · Cossack Squat
-- ☐ `dead_bug` · Dead Bug
-- ☐ `elevated_pike_push_up` · Elevated Pike Push-Up
-- ☐ `feet_elevated_inverted_row` · Feet-Elevated Inverted Row
-- ☐ `glute_bridge` · Glute Bridge
-- ☐ `hanging_leg_raise` · Hanging Leg Raise
-- ☐ `hollow_body_hold` · Hollow Body Hold
-- ☐ `incline_inverted_row` · Incline Inverted Row
 - ☐ `incline_push_up` · Incline Push-Up
 - ☐ `inverted_row` · Inverted Row
 - ☐ `jump_squat` · Jump Squat
