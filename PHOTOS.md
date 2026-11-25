@@ -50,7 +50,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `alternating_reverse_lunge` · Alternating Reverse Lunge
 - ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)
 - ☐ `perpendicular_med_ball_hip_toss` · Perpendicular Med Ball Hip Toss
-- ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
+- 🎬 `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
 - ✓ `barbell_back_squat` · Barbell Back Squat
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
 - 🎬 `neutral_grip_pull_up` · Neutral Grip Pull Up
@@ -97,7 +97,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-163 of 204 exercises have a photo or video.
+164 of 204 exercises have a photo or video.
 
 ### Weights (70/70)
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -171,7 +171,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `selectorized_seated_leg_extension` · Selectorized Seated Leg Extension
 - ✓ `stability_ball_trunk_rollout` · Stability Ball Trunk Rollout
 
-### Calisthenics (47/54)
+### Calisthenics (48/54)
 - ✓ `1_leg_hip_hinge` · 1-Leg Hip Hinge
 - 🎬 `archer_push_up` · Archer Push-Up
 - 🎬 `beast_plank` · Beast Plank
@@ -194,6 +194,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - 🎬 `incline_push_up` · Incline Push-Up
 - 🎬 `inverted_row` · Inverted Row
 - 🎬 `jump_squat` · Jump Squat
+- 🎬 `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
 - ✓ `lateral_squat` · Lateral Squat
 - ✓ `linear_rapid_response_jumps` · Linear Rapid Response Jumps
 - 🎬 `negative_pull_up` · Negative Pull-Up
@@ -219,7 +220,6 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `trx_assisted_reverse_lunge` · TRX Assisted Reverse Lunge
 - ✓ `trx_inverted_row` · TRX Inverted Row
 - 🎬 `trx_superman` · TRX Superman
-- ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
 - ☐ `sliding_leg_curl` · Sliding Leg Curl
 - ☐ `split_squat` · Split Squat
 - ☐ `superman_hold` · Superman Hold
