@@ -97,7 +97,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-174 of 204 exercises have a photo or video.
+175 of 205 exercises have a photo or video.
 
 ### Weights (70/70)
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -246,7 +246,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `stationary_bike` · Stationary Bike
 - ☐ `treadmill_run` · Treadmill Run
 
-### Warm-up, cool-down & joint care (44/63)
+### Warm-up, cool-down & joint care (45/64)
 - ✓ `passive_90_90_hip_stretch` · 90/90 Hip Stretch (shared photo)
 - ✓ `active_half_kneel_ankle_stretch` · Active Half Kneel Ankle Stretch
 - ✓ `active_half_kneel_quads_stretch` · Active Half Kneel Quads Stretch
@@ -288,6 +288,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `stability_ball_overhead_stretch` · Stability Ball Overhead Stretch
 - ✓ `stability_ball_shoulder_ts` · Stability Ball Shoulder T's
 - ✓ `stability_ball_shoulder_ys` · Stability Ball Shoulder Y's
+- 🎬 `standing_mini_band_hip_internal_rotation` · Standing Mini Band Hip Internal Rotation
 - ✓ `stationary_inchworm` · Stationary Inchworm
 - ✓ `passive_straight_leg_hamstring_stretch` · Straight Leg Hamstrings Stretch (shared photo)
 - ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)

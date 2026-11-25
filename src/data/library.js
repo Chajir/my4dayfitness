@@ -214,6 +214,7 @@ mob("scap-pushup", "Elevated Scapular Push-Up", { role: "warmup", focus: "upper"
 mob("active-kneel-quad", "Active Half Kneel Quads Stretch", { role: "warmup", focus: "lower", perSide: true });
 mob("active-kneel-ankle", "Active Half Kneel Ankle Stretch", { role: "warmup", focus: "lower", perSide: true });
 mob("hip-airplane", "Assisted Hip Airplane", { role: "warmup", focus: "lower", perSide: true });
+mob("standing-band-hip-ir", "Standing Mini Band Hip Internal Rotation", { role: "warmup", focus: "lower", perSide: true, eq: ["gym"] });
 mob("bl-band-hip-flexion", "Back Lying Mini Band Hip Flexion", { role: "warmup", focus: "lower", perSide: true });
 mob("lateral-lunge-squat", "Lateral Lunge to Squat", { role: "warmup", focus: "lower" });
 mob("toe-touch-squat", "Toe Touch to Deep Squat", { role: "warmup", focus: "lower" });

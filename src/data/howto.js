@@ -233,6 +233,7 @@ h("Elevated Scapular Push-Up", "Hands on a bench, arms straight.", "Let your che
 h("Active Half Kneel Quads Stretch", "Half kneel, back knee on a pad.", "Squeeze the back glute, shift hips forward, hold briefly, repeat.", "Arching the low back.");
 h("Active Half Kneel Ankle Stretch", "Half kneel, front foot flat.", "Drive the front knee forward over the toes, heel down, return.", "Heel lifting.");
 h("Assisted Hip Airplane", "Stand on one leg holding a support, hinge forward.", "Rotate the hips open and closed slowly.", "Rushing, rounding the back.");
+h("Standing Mini Band Hip Internal Rotation", "Stand tall with a mini band around your knees or ankles, hands on hips, slight bend in the knees.", "Keeping your foot planted, rotate one knee inward against the band, then return with control. Switch sides.", "Letting the knee collapse forward, shifting your hips.");
 h("Back Lying Mini Band Hip Flexion", "Lie on your back, band around your feet.", "Pull one knee toward your chest against the band, return.", "Low back arching.");
 h("Lateral Lunge to Squat", "Wide stance.", "Shift into a lateral lunge on one side, through a squat, to the other side.", "Heels lifting.");
 h("Quadruped Adductors Rock Back", "Hands and knees, one leg out to the side.", "Rock your hips back toward your heel, return.", "Rounding the back.");
