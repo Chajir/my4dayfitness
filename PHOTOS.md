@@ -57,7 +57,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `1_leg_dumbbell_romanian_deadlift` · 1 Leg Dumbbell Hip Hinge (shared photo)
 - ✓ `1_arm_landmine_press` · Half Kneel 1-Arm Landmine Press (shared photo)
 - ✓ `dumbbell_biceps_curl` · Dumbbell Biceps Curl
-- ☐ `fan_bike` · Fan Bike
+- 🎬 `fan_bike` · Fan Bike
 - ✓ `passive_90_90_hip_stretch` · Passive 90/90 Glutes Stretch (shared photo)
 - ✓ `active_lats_stretch` · Active Lats Stretch
 
@@ -75,13 +75,13 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
 - ✓ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
 - ✓ `cable_pallof_press` · Cable Pallof Press
-- ☐ `ski_erg` · Ski Erg
+- 🎬 `ski_erg` · Ski Erg
 - ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
 - ✓ `passive_triceps_lats_stretch` · Passive Triceps/Lats Stretch
 
 ### Day 4 · Alactic Power Intervals
 - ✓ `foam_roll_calves` · Foam Roll Calves
-- ☐ `foam_roll_hamstrings` · Foam Roll Hamstrings
+- 🎬 `foam_roll_hamstrings` · Foam Roll Hamstrings
 - ✓ `foam_roll_quadriceps` · Foam Roll Quadriceps
 - ☐ `foam_roll_hip_flexors` · Foam Roll Hip Flexors
 - ✓ `foam_roll_lats` · Foam Roll Lats
@@ -91,13 +91,13 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `treadmill_lateral_shuffle` · Treadmill Lateral Shuffle
 - ☐ `treadmill_high_knee_run` · Treadmill High Knee Run
 - ☐ `curve_treadmill_sprint` · Curve Treadmill Sprint
-- ☐ `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
+- 🎬 `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
 - ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
 - ✓ `passive_straight_leg_hamstring_stretch` · Passive Straight Leg Hamstrings Stretch (shared photo)
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-164 of 204 exercises have a photo or video.
+168 of 204 exercises have a photo or video.
 
 ### Weights (70/70)
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -227,26 +227,26 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `tempo_squat_3s_down` · Tempo Squat (3s down)
 - ☐ `wall_handstand_push_up` · Wall Handstand Push-Up
 
-### Cardio (3/17)
+### Cardio (6/17)
+- 🎬 `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
+- 🎬 `fan_bike` · Fan Bike
 - ✓ `treadmill_walk` · Incline Treadmill Walk (shared photo)
 - ✓ `rower` · Rower
+- 🎬 `ski_erg` · Ski Erg
 - ✓ `treadmill_walk` · Treadmill Walk
-- ☐ `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
 - ☐ `brisk_walk` · Brisk Walk
 - ☐ `burpees` · Burpees
 - ☐ `elliptical` · Elliptical
-- ☐ `fan_bike` · Fan Bike
 - ☐ `high_knees` · High Knees
 - ☐ `jump_rope` · Jump Rope
 - ☐ `low_step_ups` · Low Step-Ups
 - ☐ `mountain_climbers` · Mountain Climbers
 - ☐ `outdoor_run` · Outdoor Run
 - ☐ `shadow_boxing` · Shadow Boxing
-- ☐ `ski_erg` · Ski Erg
 - ☐ `stationary_bike` · Stationary Bike
 - ☐ `treadmill_run` · Treadmill Run
 
-### Warm-up, cool-down & joint care (43/63)
+### Warm-up, cool-down & joint care (44/63)
 - ✓ `passive_90_90_hip_stretch` · 90/90 Hip Stretch (shared photo)
 - ✓ `active_half_kneel_ankle_stretch` · Active Half Kneel Ankle Stretch
 - ✓ `active_half_kneel_quads_stretch` · Active Half Kneel Quads Stretch
@@ -266,6 +266,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `foam_roll_adductors` · Foam Roll Adductors
 - ✓ `foam_roll_calves` · Foam Roll Calves
 - ✓ `foam_roll_glutes` · Foam Roll Glutes
+- 🎬 `foam_roll_hamstrings` · Foam Roll Hamstrings
 - ✓ `foam_roll_lats` · Foam Roll Lats
 - ✓ `foam_roll_pecs` · Foam Roll Pecs
 - ✓ `foam_roll_quadriceps` · Foam Roll Quadriceps
@@ -298,7 +299,6 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `clamshell` · Clamshell
 - ☐ `doorway_chest_stretch` · Doorway Chest Stretch
 - ☐ `easy_pace_warm_up` · Easy Pace Warm-Up
-- ☐ `foam_roll_hamstrings` · Foam Roll Hamstrings
 - ☐ `forearm_flexor_stretch` · Forearm Flexor Stretch
 - ☐ `leg_swings` · Leg Swings
 - ☐ `modified_curl_up` · Modified Curl-Up
