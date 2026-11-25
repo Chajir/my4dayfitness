@@ -53,7 +53,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
 - ✓ `barbell_back_squat` · Barbell Back Squat
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
-- ☐ `neutral_grip_pull_up` · Neutral Grip Pull Up
+- 🎬 `neutral_grip_pull_up` · Neutral Grip Pull Up
 - ✓ `1_leg_dumbbell_romanian_deadlift` · 1 Leg Dumbbell Hip Hinge (shared photo)
 - ✓ `1_arm_landmine_press` · Half Kneel 1-Arm Landmine Press (shared photo)
 - ✓ `dumbbell_biceps_curl` · Dumbbell Biceps Curl
@@ -68,7 +68,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ☐ `alternating_forward_lunge` · Alternating Forward Lunge
 - ☐ `alternating_lateral_lunge` · Alternating Lateral Lunge
 - 🎬 `med_ball_slam` · Med Ball Slam
-- ☐ `pogo_hop` · Pogo Hop
+- 🎬 `pogo_hop` · Pogo Hop
 - ✓ `barbell_romanian_deadlift` · Barbell Hip Hinge (shared photo)
 - ☐ `lateral_beast_crawl` · Lateral Beast Crawl
 - ✓ `dumbbell_incline_bench_press` · Dumbbell Incline Bench Press
@@ -97,7 +97,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-147 of 204 exercises have a photo or video.
+163 of 204 exercises have a photo or video.
 
 ### Weights (70/70)
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -171,7 +171,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `selectorized_seated_leg_extension` · Selectorized Seated Leg Extension
 - ✓ `stability_ball_trunk_rollout` · Stability Ball Trunk Rollout
 
-### Calisthenics (31/54)
+### Calisthenics (47/54)
 - ✓ `1_leg_hip_hinge` · 1-Leg Hip Hinge
 - 🎬 `archer_push_up` · Archer Push-Up
 - 🎬 `beast_plank` · Beast Plank
@@ -191,10 +191,26 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `high_plank_alternating_knee_raise` · High Plank Alternating Knee Raise
 - 🎬 `hollow_body_hold` · Hollow Body Hold
 - 🎬 `incline_inverted_row` · Incline Inverted Row
+- 🎬 `incline_push_up` · Incline Push-Up
+- 🎬 `inverted_row` · Inverted Row
+- 🎬 `jump_squat` · Jump Squat
 - ✓ `lateral_squat` · Lateral Squat
 - ✓ `linear_rapid_response_jumps` · Linear Rapid Response Jumps
+- 🎬 `negative_pull_up` · Negative Pull-Up
+- 🎬 `neutral_grip_pull_up` · Neutral Grip Pull Up
+- 🎬 `nordic_curl_negative` · Nordic Curl Negative
+- 🎬 `parallel_bar_dip` · Parallel Bar Dip
+- 🎬 `pike_push_up` · Pike Push-Up
 - ✓ `front_plank` · Plank (shared photo)
+- 🎬 `pogo_hop` · Pogo Hop
+- 🎬 `prone_y_t_w_raise` · Prone Y-T-W Raise
+- 🎬 `pull_up` · Pull-Up
 - ✓ `push_up` · Push-Up
+- 🎬 `shrimp_squat` · Shrimp Squat
+- 🎬 `side_plank` · Side Plank
+- 🎬 `single_leg_calf_raise` · Single-Leg Calf Raise
+- 🎬 `single_leg_glute_bridge` · Single-Leg Glute Bridge
+- 🎬 `single_leg_hip_thrust` · Single-Leg Hip Thrust
 - ✓ `stability_ball_bridge_rotation` · Stability Ball Bridge Rotation
 - ✓ `stability_ball_dead_bug` · Stability Ball Dead Bug
 - ✓ `stability_ball_hamstring_curl` · Stability Ball Hamstring Curl
@@ -203,23 +219,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `trx_assisted_reverse_lunge` · TRX Assisted Reverse Lunge
 - ✓ `trx_inverted_row` · TRX Inverted Row
 - 🎬 `trx_superman` · TRX Superman
-- ☐ `incline_push_up` · Incline Push-Up
-- ☐ `inverted_row` · Inverted Row
-- ☐ `jump_squat` · Jump Squat
 - ☐ `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
-- ☐ `negative_pull_up` · Negative Pull-Up
-- ☐ `neutral_grip_pull_up` · Neutral Grip Pull Up
-- ☐ `nordic_curl_negative` · Nordic Curl Negative
-- ☐ `parallel_bar_dip` · Parallel Bar Dip
-- ☐ `pike_push_up` · Pike Push-Up
-- ☐ `pogo_hop` · Pogo Hop
-- ☐ `prone_y_t_w_raise` · Prone Y-T-W Raise
-- ☐ `pull_up` · Pull-Up
-- ☐ `shrimp_squat` · Shrimp Squat
-- ☐ `side_plank` · Side Plank
-- ☐ `single_leg_calf_raise` · Single-Leg Calf Raise
-- ☐ `single_leg_glute_bridge` · Single-Leg Glute Bridge
-- ☐ `single_leg_hip_thrust` · Single-Leg Hip Thrust
 - ☐ `sliding_leg_curl` · Sliding Leg Curl
 - ☐ `split_squat` · Split Squat
 - ☐ `superman_hold` · Superman Hold
