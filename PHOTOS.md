@@ -44,12 +44,12 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `passive_lying_hip_abductors_stretch` · Passive Lying Hip Abductors Stretch
 
 ### Day 2 · Resistance Day B
-- ☐ `back_lying_mini_band_hip_internal_rotation` · Back Lying Mini Band Hip Internal Rotation
+- 🎬 `back_lying_mini_band_hip_internal_rotation` · Back Lying Mini Band Hip Internal Rotation
 - ✓ `stability_ball_shoulder_ls` · Stability Ball Shoulder L's
 - ✓ `stability_ball_shoulder_ys` · Stability Ball Shoulder Y's
-- ☐ `alternating_reverse_lunge` · Alternating Reverse Lunge
+- 🎬 `alternating_reverse_lunge` · Alternating Reverse Lunge
 - ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)
-- ☐ `perpendicular_med_ball_hip_toss` · Perpendicular Med Ball Hip Toss
+- 🎬 `perpendicular_med_ball_hip_toss` · Perpendicular Med Ball Hip Toss
 - 🎬 `lateral_rapid_response_jumps` · Lateral Rapid Response Jumps
 - ✓ `barbell_back_squat` · Barbell Back Squat
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -62,15 +62,15 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `active_lats_stretch` · Active Lats Stretch
 
 ### Day 3 · Resistance Day C
-- ☐ `side_lying_mini_band_hip_external_rotation` · Side Lying Mini Band Hip External Rotation
+- 🎬 `side_lying_mini_band_hip_external_rotation` · Side Lying Mini Band Hip External Rotation
 - 🎬 `beast_plank` · Beast Plank
 - ✓ `tall_kneel_kettlebell_halo` · Tall Kneel Kettlebell Halo
-- ☐ `alternating_forward_lunge` · Alternating Forward Lunge
-- ☐ `alternating_lateral_lunge` · Alternating Lateral Lunge
+- 🎬 `alternating_forward_lunge` · Alternating Forward Lunge
+- 🎬 `alternating_lateral_lunge` · Alternating Lateral Lunge
 - 🎬 `med_ball_slam` · Med Ball Slam
 - 🎬 `pogo_hop` · Pogo Hop
 - ✓ `barbell_romanian_deadlift` · Barbell Hip Hinge (shared photo)
-- ☐ `lateral_beast_crawl` · Lateral Beast Crawl
+- 🎬 `lateral_beast_crawl` · Lateral Beast Crawl
 - ✓ `dumbbell_incline_bench_press` · Dumbbell Incline Bench Press
 - ✓ `kettlebell_front_rack_lateral_squat` · Kettlebell Front Rack Lateral Squat
 - ✓ `alternating_dumbbell_bent_over_row` · Alternating Dumbbell Bent Over Row
@@ -83,21 +83,21 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `foam_roll_calves` · Foam Roll Calves
 - 🎬 `foam_roll_hamstrings` · Foam Roll Hamstrings
 - ✓ `foam_roll_quadriceps` · Foam Roll Quadriceps
-- ☐ `foam_roll_hip_flexors` · Foam Roll Hip Flexors
+- 🎬 `foam_roll_hip_flexors` · Foam Roll Hip Flexors
 - ✓ `foam_roll_lats` · Foam Roll Lats
 - ✓ `back_lying_mini_band_hip_flexion` · Mini Band Hip Flexion (shared photo)
-- ☐ `mini_band_hip_extension` · Mini Band Hip Extension
-- ☐ `treadmill_butt_kick` · Treadmill Butt Kick
-- ☐ `treadmill_lateral_shuffle` · Treadmill Lateral Shuffle
-- ☐ `treadmill_high_knee_run` · Treadmill High Knee Run
-- ☐ `curve_treadmill_sprint` · Curve Treadmill Sprint
+- 🎬 `mini_band_hip_extension` · Mini Band Hip Extension
+- 🎬 `treadmill_butt_kick` · Treadmill Butt Kick
+- 🎬 `treadmill_lateral_shuffle` · Treadmill Lateral Shuffle
+- 🎬 `treadmill_high_knee_run` · Treadmill High Knee Run
+- 🎬 `curve_treadmill_sprint` · Curve Treadmill Sprint
 - 🎬 `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
 - ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
 - ✓ `passive_straight_leg_hamstring_stretch` · Passive Straight Leg Hamstrings Stretch (shared photo)
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-168 of 204 exercises have a photo or video.
+174 of 204 exercises have a photo or video.
 
 ### Weights (70/70)
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -171,7 +171,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `selectorized_seated_leg_extension` · Selectorized Seated Leg Extension
 - ✓ `stability_ball_trunk_rollout` · Stability Ball Trunk Rollout
 
-### Calisthenics (48/54)
+### Calisthenics (54/54)
 - ✓ `1_leg_hip_hinge` · 1-Leg Hip Hinge
 - 🎬 `archer_push_up` · Archer Push-Up
 - 🎬 `beast_plank` · Beast Plank
@@ -212,20 +212,20 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - 🎬 `single_leg_calf_raise` · Single-Leg Calf Raise
 - 🎬 `single_leg_glute_bridge` · Single-Leg Glute Bridge
 - 🎬 `single_leg_hip_thrust` · Single-Leg Hip Thrust
+- 🎬 `sliding_leg_curl` · Sliding Leg Curl
+- 🎬 `split_squat` · Split Squat
 - ✓ `stability_ball_bridge_rotation` · Stability Ball Bridge Rotation
 - ✓ `stability_ball_dead_bug` · Stability Ball Dead Bug
 - ✓ `stability_ball_hamstring_curl` · Stability Ball Hamstring Curl
 - ✓ `stability_ball_straight_leg_hip_bridge` · Stability Ball Straight Leg Hip Bridge
+- 🎬 `superman_hold` · Superman Hold
+- 🎬 `table_row` · Table Row
+- 🎬 `tempo_squat_3s_down` · Tempo Squat (3s down)
 - ✓ `trx_assisted_lateral_lunge` · TRX Assisted Lateral Lunge
 - ✓ `trx_assisted_reverse_lunge` · TRX Assisted Reverse Lunge
 - ✓ `trx_inverted_row` · TRX Inverted Row
 - 🎬 `trx_superman` · TRX Superman
-- ☐ `sliding_leg_curl` · Sliding Leg Curl
-- ☐ `split_squat` · Split Squat
-- ☐ `superman_hold` · Superman Hold
-- ☐ `table_row` · Table Row
-- ☐ `tempo_squat_3s_down` · Tempo Squat (3s down)
-- ☐ `wall_handstand_push_up` · Wall Handstand Push-Up
+- 🎬 `wall_handstand_push_up` · Wall Handstand Push-Up
 
 ### Cardio (6/17)
 - 🎬 `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
