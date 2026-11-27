@@ -6,6 +6,7 @@ import { classicPlan } from "../data/classic";
 import { Chip, ExName, Icon, Thumb } from "../components/ui";
 import { estMinutes, targetText, cmToFtIn } from "../lib/stats";
 import { t, planText, exName } from "../i18n";
+import { keepPrevious } from "../lib/plans";
 
 const STYLE_CARDS = [
   { id: "weights", title: "Weights", text: "Barbells, dumbbells, machines", glyph: "▲" },
@@ -59,7 +60,9 @@ export default function Intake({ mode, onDone, onCancel }) {
   }[step] ?? true;
 
   const finish = () => {
-    setProfile({ ...d, plan, consent: true });
+    // Editing only "About you" keeps the same plan id, so the rotation continues where it was.
+    const p = mode === "info" && profile?.plan ? { ...plan, id: profile.plan.id, createdAt: profile.plan.createdAt } : plan;
+    setProfile({ ...d, plan: p, consent: true, ...(mode === "info" ? {} : { where: null }), ...keepPrevious(profile, p) });
     onDone();
   };
 

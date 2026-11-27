@@ -5,6 +5,7 @@ import { alternativesFor, swapItem } from "../data/generator";
 import { useStore } from "../lib/store";
 import { dayForWeek, varietyOn } from "../lib/variety";
 import { t, planText, exName } from "../i18n";
+import { adaptDay, whereInfo } from "../lib/where";
 
 export function replaceInPlan(plan, uid, newItem) {
   newItem = { ...newItem, locked: true }; // hand-picked: never rotated by variety
@@ -16,10 +17,11 @@ export function replaceInPlan(plan, uid, newItem) {
   };
 }
 
-export function SwapSheet({ item, onPick, onClose }) {
+export function SwapSheet({ item, onPick, onClose, where }) {
   const { profile } = useStore();
   if (!item) return null;
-  const alts = alternativesFor(item, profile?.source === "classic" ? { ...profile, equipment: "gym" } : profile);
+  const info = where && where !== "gym" ? whereInfo(profile, where) : profile?.source === "classic" ? { ...profile, equipment: "gym" } : profile;
+  const alts = alternativesFor(item, info);
   return (
     <Sheet open title={t("Swap exercise")} onClose={onClose}>
       <p className="text-sm text-mute pt-1 mb-4">
@@ -28,7 +30,7 @@ export function SwapSheet({ item, onPick, onClose }) {
       {!alts.length && <p className="text-sm text-mute">{t("No alternatives for this one.")}</p>}
       <div className="space-y-2">
         {alts.map(({ ex, ok }) => (
-          <button key={ex.id} onClick={() => onPick(swapItem(item, ex, profile))} className={`w-full flex items-center gap-3 p-2 rounded-xl text-left active:bg-ink-700 ${ok ? "" : "opacity-50"}`}>
+          <button key={ex.id} onClick={() => onPick(swapItem(item, ex, info))} className={`w-full flex items-center gap-3 p-2 rounded-xl text-left active:bg-ink-700 ${ok ? "" : "opacity-50"}`}>
             <Thumb item={ex} className="h-12 w-16 rounded-lg text-xs shrink-0" />
             <div className="min-w-0 flex-1">
               <div className="font-medium text-sm"><ExName name={ex.name} /></div>
@@ -44,11 +46,11 @@ export function SwapSheet({ item, onPick, onClose }) {
   );
 }
 
-export default function DaySheet({ day, onClose, onStart }) {
+export default function DaySheet({ day, onClose, onStart, where }) {
   const { profile, setProfile } = useStore();
   const [swapping, setSwapping] = useState(null);
   if (!day) return null;
-  const live = dayForWeek(profile.plan.days.find((d) => d.id === day.id) || day, profile);
+  const live = adaptDay(dayForWeek(profile.plan.days.find((d) => d.id === day.id) || day, profile), profile, where);
   return (
     <>
       <Sheet open title={planText(live.title)} subtitle={`${planText(live.label)} · ${planText(live.tag)} · ~${estMinutes(live)} min${live.week && varietyOn(profile) ? ` · ${t("Week {n}", { n: live.week })}` : ""}`} onClose={onClose}>
@@ -67,8 +69,9 @@ export default function DaySheet({ day, onClose, onStart }) {
                         {it.rotated && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-hot">· {t("New this week")}</span>}
                         {it.locked && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-white/40">· {t("Your pick")}</span>}
                       </div>
+                      {it.whereSwap && <div className="text-[11px] text-hot/90 mt-0.5">{t("Instead of {name}", { name: exName(it.baseName) })}</div>}
                     </div>
-                    <button onClick={() => setSwapping(it)} className="h-9 w-9 grid place-items-center rounded-full bg-ink-700 text-mute shrink-0" aria-label="Swap">
+                    <button onClick={() => setSwapping(it)} style={it.whereSwap ? { visibility: "hidden" } : undefined} className="h-9 w-9 grid place-items-center rounded-full bg-ink-700 text-mute shrink-0" aria-label="Swap">
                       <Icon name="swap" size={16} />
                     </button>
                   </div>

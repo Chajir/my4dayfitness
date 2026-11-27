@@ -12,12 +12,16 @@ export function initSets(it, sessions) {
   return [{ done: false }];
 }
 
-export function startWorkout(plan, day, sessions) {
+// opts.where: "home" | "none" when the day was adapted for training away from the gym
+// opts.extra: an extra session (cardio, core, stretch) that doesn't move the plan to the next day
+export function startWorkout(plan, day, sessions, opts = {}) {
   const items = day.sections.flatMap((s) => s.items.map((it) => ({ ...it, section: s.name })));
   return {
     id: `s${Date.now().toString(36)}`,
-    planId: plan.id,
-    dayId: day.id,
+    planId: opts.extra ? "extra" : plan.id,
+    dayId: opts.extra ? null : day.id,
+    ...(opts.extra ? { extra: true } : {}),
+    ...(day.where ? { where: day.where } : {}),
     label: day.label,
     title: day.title,
     startedAt: new Date().toISOString(),
@@ -33,7 +37,9 @@ export function toSession(active) {
     id: active.id,
     planId: active.planId,
     dayId: active.dayId,
-    title: `${active.label} · ${active.title}`,
+    title: [active.label, active.title, active.where === "home" ? "Home" : active.where === "none" ? "No equipment" : null].filter(Boolean).join(" · "),
+    ...(active.extra ? { extra: true } : {}),
+    ...(active.where ? { where: active.where } : {}),
     startedAt: active.startedAt,
     finishedAt: finishedAt.toISOString(),
     durationSec: Math.round((finishedAt - new Date(active.startedAt)) / 1000),

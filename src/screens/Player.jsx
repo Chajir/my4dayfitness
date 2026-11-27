@@ -212,6 +212,7 @@ export default function Player({ active, setActive }) {
             </button>
           </div>
           <div className="text-hot font-semibold mt-1">{targetText(it)}</div>
+          {it.whereSwap && <div className="text-xs text-mute mt-1">{tr("Instead of {name}", { name: exName(it.baseName) })}</div>}
           {it.rest > 0 && it.kind !== "interval" && <div className="text-xs text-mute mt-0.5">{tr("Rest {s}s between sets", { s: it.rest })}</div>}
           {cueText(it.cue) && <p className="text-sm text-white/70 mt-3 leading-relaxed">{cueText(it.cue)}</p>}
           <HowTo name={it.name} />
@@ -442,6 +443,7 @@ export default function Player({ active, setActive }) {
 
       {sheet === "swap" && (
         <SwapSheet
+          where={active.where}
           item={it}
           onClose={() => setSheet(null)}
           onPick={(n) => {
@@ -452,12 +454,14 @@ export default function Player({ active, setActive }) {
               if (a.timer?.uid === it.uid) a.timer = null;
               return a;
             });
-            if (profile.plan.days.some((d) => d.sections.some((s) => s.items.some((x) => x.uid === it.uid)))) {
+            // a swap during a home / extra workout is for this workout only; the plan stays as it is
+            const planSwap = !active.where && !active.extra && profile.plan.days.some((d) => d.sections.some((s) => s.items.some((x) => x.uid === it.uid)));
+            if (planSwap) {
               const { section, ...clean } = n;
               setProfile({ plan: replaceInPlan(profile.plan, it.uid, clean) });
             }
             setSheet(null);
-            setToast(tr("Swapped to {name}. Your plan is updated too.", { name: exName(n.name) }));
+            setToast(planSwap ? tr("Swapped to {name}. Your plan is updated too.", { name: exName(n.name) }) : tr("Swapped to {name} for this workout.", { name: exName(n.name) }));
           }}
         />
       )}

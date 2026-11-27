@@ -138,7 +138,7 @@ export function makeItem(ex, info, c, opts = {}) {
   return { ...base, sets, reps, rest, main: !!opts.compound };
 }
 
-function cardioItem(ex, mode, info, c, minutesOverride) {
+export function cardioItem(ex, mode, info, c, minutesOverride) {
   const base = { uid: uid(), exId: ex.id, name: ex.name, m: "cardio", p: "cardio" };
   if (mode === "steady") {
     const map = { 30: 20, 45: 30, 60: 40 };
@@ -151,7 +151,7 @@ function cardioItem(ex, mode, info, c, minutesOverride) {
   return { ...base, kind: "interval", sets: rounds, work, rest: 60 - work, cue: "Go hard on work, easy on rest." };
 }
 
-function pickCardio(mode, c, used, salt) {
+export function pickCardio(mode, c, used, salt) {
   const cands = LIBRARY.filter((e) => e.m === "cardio" && e.modes.includes(mode) && isAllowed(e, c));
   if (!cands.length) return LIBRARY.find((e) => e.id === "brisk-walk");
   const fresh = cands.filter((e) => !used.has(e.id));

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useStore } from "../lib/store";
-import { Icon, Thumb } from "../components/ui";
+import { Icon, Thumb, Chip, Sheet } from "../components/ui";
+import PlanSheet from "../components/PlanSheet";
+import { whereOptions, currentWhere, adaptDay } from "../lib/where";
+import { buildExtra, EXTRA_KINDS, EXTRA_MINUTES } from "../lib/extra";
 import DaySheet from "../components/DaySheet";
 import { nextDay, thisWeek, weekStreak, startOfWeek, estMinutes, fmtDate, fmtDur, dayKey } from "../lib/stats";
 import { startWorkout } from "../lib/workout";
@@ -11,11 +14,18 @@ import { dayForWeek } from "../lib/variety";
 import { t, planText, exName, locale } from "../i18n";
 
 export default function Home({ onStart }) {
-  const { profile, sessions, sync } = useStore();
+  const { profile, sessions, sync, setProfile } = useStore();
   const plan = profile.plan;
-  const up = dayForWeek(nextDay(plan, sessions), profile);
+  const opts = whereOptions(profile);
+  const where = currentWhere(profile);
+  const up = adaptDay(dayForWeek(nextDay(plan, sessions), profile), profile, where);
+  const swaps = up.sections.reduce((n, s) => n + s.items.filter((i) => i.whereSwap).length, 0);
   const [preview, setPreview] = useState(null);
-  const week = thisWeek(sessions);
+  const [plansOpen, setPlansOpen] = useState(false);
+  const [extraOpen, setExtraOpen] = useState(false);
+  const allWeek = thisWeek(sessions);
+  const week = allWeek.filter((s) => !s.extra);
+  const extras = allWeek.length - week.length;
   const streak = weekStreak(sessions);
   const target = plan.days.length;
   const hour = new Date().getHours();
@@ -25,7 +35,12 @@ export default function Home({ onStart }) {
   const start = (day) => {
     unlockAudio();
     setPreview(null);
-    onStart(startWorkout(plan, dayForWeek(plan.days.find((d) => d.id === day.id) || day, profile), sessions));
+    onStart(startWorkout(plan, adaptDay(dayForWeek(plan.days.find((d) => d.id === day.id) || day, profile), profile, where), sessions));
+  };
+  const startExtra = (kind, minutes) => {
+    unlockAudio();
+    setExtraOpen(false);
+    onStart(startWorkout(plan, buildExtra(kind, minutes, profile, where, sessions.length), sessions, { extra: true }));
   };
 
   const monday = startOfWeek(new Date());
@@ -81,6 +96,19 @@ export default function Home({ onStart }) {
               <span>{planText(up.tag)}</span>
             </div>
             <p className="text-sm text-white/70 mt-2">{mainItems.slice(0, 4).map((m) => exName(m.name)).join(" · ")}{mainItems.length > 4 ? ` ${t("+{n} more", { n: mainItems.length - 4 })}` : ""}</p>
+            {opts.length > 0 && (
+              <div className="mt-4">
+                <div className="label mb-2">{t("Training at")}</div>
+                <div className="flex gap-1.5">
+                  {opts.map((o) => (
+                    <Chip key={o.id} active={where === o.id} onClick={() => setProfile({ where: o.id })} className="!h-9 !px-3 text-xs">
+                      {t(o.id === "home" ? "Home" : o.label)}
+                    </Chip>
+                  ))}
+                </div>
+                {swaps > 0 && <p className="text-xs text-mute mt-2">{t("{n} exercises swapped for this workout only. Your plan stays the same.", { n: swaps })}</p>}
+              </div>
+            )}
             <div className="flex gap-2 mt-4">
               <button className="btn-primary flex-1" onClick={() => start(up)}>
                 <Icon name="play" size={16} /> {t("Start")}
@@ -93,6 +121,10 @@ export default function Home({ onStart }) {
         </div>
       </section>
 
+      <button className="w-full mt-3 h-12 rounded-2xl border border-dashed border-white/15 text-sm font-semibold text-white/80 flex items-center justify-center gap-2 active:bg-ink-800" onClick={() => setExtraOpen(true)}>
+        <Icon name="plus" size={16} /> {t("Add a session")}
+      </button>
+
       {/* This week */}
       <section className="card p-5 mt-4 rise" style={{ animationDelay: "60ms" }}>
         <div className="flex justify-between items-start">
@@ -102,6 +134,7 @@ export default function Home({ onStart }) {
               <span className="font-display text-4xl font-bold">{week.length}</span>
               <span className="text-mute font-display text-2xl font-bold"> / {target}</span>
               <span className="text-sm text-mute ml-2">{t("workouts")}</span>
+              {extras > 0 && <div className="text-xs text-mute mt-0.5">{t("+{n} extra", { n: extras })}</div>}
             </div>
           </div>
           <div className="text-right">
@@ -132,7 +165,13 @@ export default function Home({ onStart }) {
       <section className="mt-8">
         <div className="flex justify-between items-baseline mb-3">
           <h3 className="h-display text-2xl">{t("Your plan")}</h3>
-          <span className="text-xs text-mute">{planText(plan.name)}</span>
+          {(profile.plans || []).length > 0 ? (
+            <button className="text-xs font-semibold text-hot flex items-center gap-1" onClick={() => setPlansOpen(true)}>
+              {planText(plan.name)} · {t("Switch")} <Icon name="swap" size={13} />
+            </button>
+          ) : (
+            <span className="text-xs text-mute">{planText(plan.name)}</span>
+          )}
         </div>
         <div className="space-y-2">
           {plan.days.map((d) => (
@@ -171,7 +210,41 @@ export default function Home({ onStart }) {
         </section>
       )}
 
-      <DaySheet day={preview} onClose={() => setPreview(null)} onStart={start} />
+      <DaySheet day={preview} where={where} onClose={() => setPreview(null)} onStart={start} />
+      <PlanSheet open={plansOpen} onClose={() => setPlansOpen(false)} />
+      <ExtraSheet open={extraOpen} onClose={() => setExtraOpen(false)} onStart={startExtra} />
     </div>
+  );
+}
+
+function ExtraSheet({ open, onClose, onStart }) {
+  const [kind, setKind] = useState("steady");
+  const [minutes, setMinutes] = useState(20);
+  if (!open) return null;
+  return (
+    <Sheet open title={t("Add a session")} subtitle={t("Counts in your history and calendar. Your plan's next day stays the same.")} onClose={onClose}>
+      <div className="space-y-2 pt-1">
+        {EXTRA_KINDS.map((k) => (
+          <button key={k.id} onClick={() => setKind(k.id)} className={`w-full card p-4 text-left flex items-center gap-3 ${kind === k.id ? "!border-hot/60 bg-hot/5" : ""}`}>
+            <span className="flex-1">
+              <span className="block font-semibold">{planText(k.title)}</span>
+              <span className="text-xs text-mute">{t(k.text)}</span>
+            </span>
+            {kind === k.id && <Icon name="check" size={18} className="text-hot" />}
+          </button>
+        ))}
+      </div>
+      <div className="label mt-5 mb-2">{t("Time")}</div>
+      <div className="flex gap-2">
+        {EXTRA_MINUTES.map((m) => (
+          <Chip key={m} active={minutes === m} onClick={() => setMinutes(m)}>
+            {m} min
+          </Chip>
+        ))}
+      </div>
+      <button className="btn-primary w-full mt-6" onClick={() => onStart(kind, minutes)}>
+        <Icon name="play" size={16} /> {t("Start")}
+      </button>
+    </Sheet>
   );
 }

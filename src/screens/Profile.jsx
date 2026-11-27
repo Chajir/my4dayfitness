@@ -10,10 +10,13 @@ import { classicPlan } from "../data/classic";
 import { versionLabel } from "../config";
 import { varietyOn, weekIndex } from "../lib/variety";
 import { t, planText, useLang } from "../i18n";
+import { keepPrevious } from "../lib/plans";
+import PlanSheet from "../components/PlanSheet";
 
 export default function Profile({ onEdit, onAdmin }) {
   const { user, profile, sync, setProfile, wipe, isOwner } = useStore();
   const { lang, setLang } = useLang();
+  const [plansOpen, setPlansOpen] = useState(false);
   const [confirmDel, setConfirmDel] = useState(false);
   const [delText, setDelText] = useState("");
   const [err, setErr] = useState(null);
@@ -103,14 +106,20 @@ export default function Profile({ onEdit, onAdmin }) {
               <button className="btn-ghost text-sm" onClick={() => onEdit("full")}>
                 <Icon name="edit" size={16} /> {t("Change answers")}
               </button>
-              <ConfirmButton className="btn-ghost text-sm" confirmText={t("Tap to confirm")} onConfirm={() => setProfile({ source: "classic", plan: classicPlan() })}>
+              <ConfirmButton className="btn-ghost text-sm" confirmText={t("Tap to confirm")} onConfirm={() => { const p = classicPlan(); setProfile({ source: "classic", plan: p, where: null, ...keepPrevious(profile, p) }); }}>
                 {t("Use Classic 4-Day")}
               </ConfirmButton>
             </div>
             <p className="text-xs text-mute mt-2">{t("Change your style, goal, days or equipment and the app rebuilds your plan. You see it before it's saved. Your history stays.")}</p>
           </>
         )}
+        {(profile.plans || []).length > 0 && (
+          <button className="btn-ghost w-full text-sm mt-3" onClick={() => setPlansOpen(true)}>
+            <Icon name="swap" size={16} /> {t("Your other plans ({n})", { n: profile.plans.length })}
+          </button>
+        )}
       </section>
+      <PlanSheet open={plansOpen} onClose={() => setPlansOpen(false)} />
 
       <button onClick={() => setProfile({ variety: !varietyOn(profile) })} className="w-full card p-4 mt-2 flex items-center gap-4 text-left">
         <span className="flex-1">
