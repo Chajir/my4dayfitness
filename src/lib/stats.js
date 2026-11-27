@@ -1,3 +1,4 @@
+import { locale, t } from "../i18n";
 // Streaks, PRs, next workout, formatting helpers.
 
 export const dayKey = (d) => {
@@ -67,7 +68,7 @@ export function personalRecords(sessions) {
           label = `${st.weight} lb × ${st.reps}`;
         } else if (e.kind === "reps" && st.reps) {
           val = st.reps;
-          label = `${st.reps} reps`;
+          label = `${st.reps} ${t("reps")}`;
         } else if (e.kind === "hold" && st.seconds) {
           val = st.seconds + (st.weight || 0) * 1000;
           label = st.weight ? `${st.weight} lb · ${st.seconds}s` : `${st.seconds}s`;
@@ -112,16 +113,16 @@ export const fmtDur = (sec) => {
   return `${m}:${String(s).padStart(2, "0")}`;
 };
 
-export const fmtDate = (d, opts = { weekday: "short", month: "short", day: "numeric" }) => new Date(d).toLocaleDateString(undefined, opts);
+export const fmtDate = (d, opts = { weekday: "short", month: "short", day: "numeric" }) => new Date(d).toLocaleDateString(locale(), opts);
 
 export function targetText(it) {
-  const side = it.perSide ? " / side" : "";
+  const side = it.perSide ? ` / ${t("side")}` : "";
   if (it.kind === "reps") {
     const r = it.reps?.[0] === it.reps?.[1] ? it.reps[0] : `${it.reps[0]}–${it.reps[1]}`;
-    return `${it.sets > 1 ? `${it.sets} × ` : ""}${r} reps${side}`;
+    return `${it.sets > 1 ? `${it.sets} × ` : ""}${r} ${t("reps")}${side}`;
   }
   if (it.kind === "hold") return `${it.sets > 1 ? `${it.sets} × ` : ""}${it.seconds}s${side}`;
-  if (it.kind === "interval") return `${it.sets} rounds · ${it.work}s on / ${it.rest}s off`;
+  if (it.kind === "interval") return t("{n} rounds · {w}s on / {r}s off", { n: it.sets, w: it.work, r: it.rest });
   if (it.kind === "cardio") return `${it.minutes} min`;
   return "";
 }

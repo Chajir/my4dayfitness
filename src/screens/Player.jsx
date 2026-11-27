@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { useStore } from "../lib/store";
-import { ConfirmButton, ExerciseMedia, Icon, Sheet, Stepper, Toast } from "../components/ui";
-import { howTo } from "../data/howto";
+import { ConfirmButton, ExName, ExerciseMedia, Icon, Sheet, Stepper, Toast } from "../components/ui";
 import { SwapSheet, replaceInPlan } from "../components/DaySheet";
 import { fmtDur, lastFor, targetText, personalRecords, sessionTotals, estimateKcal } from "../lib/stats";
 import { initSets, toSession } from "../lib/workout";
 import { beep, keepAwake, unlockAudio } from "../lib/device";
+import { t as tr, planText, exName, cueText, howToFor } from "../i18n";
 
 function useNow(active) {
   const [now, setNow] = useState(Date.now());
@@ -179,7 +179,7 @@ export default function Player({ active, setActive }) {
             <Icon name="x" />
           </button>
           <div className="text-center">
-            <div className="text-[11px] text-mute font-semibold uppercase tracking-wider">{active.label}</div>
+            <div className="text-[11px] text-mute font-semibold uppercase tracking-wider">{planText(active.label)}</div>
             <div className="text-sm font-semibold tabular-nums">{fmtDur(elapsed)}</div>
           </div>
           <button onClick={() => setSheet("list")} className="h-10 w-10 -mr-2 grid place-items-center text-mute">
@@ -199,25 +199,25 @@ export default function Player({ active, setActive }) {
         <div key={it.uid} className="rise">
           <div className="relative rounded-3xl overflow-hidden">
             <ExerciseMedia item={it} className="w-full aspect-[16/10] text-6xl" />
-            <div className="absolute top-3 left-3 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-[11px] font-semibold uppercase tracking-wider">{it.section}</div>
+            <div className="absolute top-3 left-3 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-[11px] font-semibold uppercase tracking-wider">{planText(it.section)}</div>
             <div className="absolute top-3 right-3 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-[11px] font-semibold tabular-nums">
               {idx + 1} / {items.length}
             </div>
           </div>
 
           <div className="flex items-start gap-3 mt-4">
-            <h1 className="h-display text-[2.2rem] flex-1">{it.name}</h1>
+            <h1 className="h-display text-[2.2rem] flex-1"><ExName name={it.name} subClassName="!text-sm mt-1" /></h1>
             <button onClick={() => setSheet("swap")} className="mt-1 h-10 px-3 rounded-full bg-ink-700 text-mute text-xs font-semibold flex items-center gap-1.5 shrink-0">
-              <Icon name="swap" size={14} /> Swap
+              <Icon name="swap" size={14} /> {tr("Swap")}
             </button>
           </div>
           <div className="text-hot font-semibold mt-1">{targetText(it)}</div>
-          {it.rest > 0 && it.kind !== "interval" && <div className="text-xs text-mute mt-0.5">Rest {it.rest}s between sets</div>}
-          {it.cue && <p className="text-sm text-white/70 mt-3 leading-relaxed">{it.cue}</p>}
+          {it.rest > 0 && it.kind !== "interval" && <div className="text-xs text-mute mt-0.5">{tr("Rest {s}s between sets", { s: it.rest })}</div>}
+          {cueText(it.cue) && <p className="text-sm text-white/70 mt-3 leading-relaxed">{cueText(it.cue)}</p>}
           <HowTo name={it.name} />
           {last && (
             <div className="mt-3 text-xs text-mute">
-              Last time:{" "}
+              {tr("Last time:")}{" "}
               <span className="text-white/80">
                 {last.sets
                   .map((s) => (s.weight ? `${s.weight}×${s.reps ?? s.seconds}` : s.reps ? `${s.reps}` : s.seconds ? `${s.seconds}s` : s.minutes ? `${s.minutes}min` : "✓"))
@@ -228,9 +228,9 @@ export default function Player({ active, setActive }) {
 
           {lg.skipped ? (
             <div className="card p-5 mt-5 text-center">
-              <p className="text-mute">Skipped</p>
+              <p className="text-mute">{tr("Skipped")}</p>
               <button className="btn-ghost mt-3" onClick={unskip}>
-                Do it anyway
+                {tr("Do it anyway")}
               </button>
             </div>
           ) : (
@@ -238,7 +238,7 @@ export default function Player({ active, setActive }) {
               {it.kind === "reps" &&
                 lg.sets.map((s, k) => (
                   <SetRow key={k} n={k + 1} done={s.done} onDone={() => completeSet(k)}>
-                    <Stepper value={s.reps} onChange={(v) => setSet(k, { reps: v })} unit="reps" />
+                    <Stepper value={s.reps} onChange={(v) => setSet(k, { reps: v })} unit={tr("reps")} />
                     {it.weighted && <Stepper value={s.weight} onChange={(v) => setSet(k, { weight: v })} step={5} unit="lb" />}
                   </SetRow>
                 ))}
@@ -251,15 +251,15 @@ export default function Player({ active, setActive }) {
                       {running ? (
                         <div className="flex-1 flex items-center justify-between rounded-xl bg-hot/15 border border-hot/40 h-12 px-4">
                           <span className="font-display text-3xl font-bold tabular-nums">{remaining(timer)}s</span>
-                          <span className="text-xs text-hot font-semibold">{it.perSide ? `Side ${timer.side}` : "Hold"}</span>
+                          <span className="text-xs text-hot font-semibold">{it.perSide ? tr("Side {n}", { n: timer.side }) : tr("Hold")}</span>
                         </div>
                       ) : (
                         <>
-                          <Stepper value={s.seconds} onChange={(v) => setSet(k, { seconds: v })} step={5} unit="sec" />
+                          <Stepper value={s.seconds} onChange={(v) => setSet(k, { seconds: v })} step={5} unit={tr("sec")} />
                           {it.weighted && <Stepper value={s.weight} onChange={(v) => setSet(k, { weight: v })} step={5} unit="lb" />}
                           {!s.done && !it.weighted && (
                             <button onClick={() => startTimer("hold", { k })} className="h-12 px-4 rounded-xl bg-ink-700 flex items-center gap-2 text-sm font-semibold">
-                              <Icon name="timer" size={16} /> Start
+                              <Icon name="timer" size={16} /> {tr("Start")}
                             </button>
                           )}
                         </>
@@ -274,30 +274,30 @@ export default function Player({ active, setActive }) {
                 <div className="card p-4 space-y-3">
                   {timer ? (
                     <div className="text-center py-4">
-                      <div className="label">Time left</div>
+                      <div className="label">{tr("Time left")}</div>
                       <div className="font-display text-7xl font-bold tabular-nums">{fmtDur(remaining(timer))}</div>
                       <button className="btn-ghost mt-3" onClick={stopTimer}>
-                        Stop timer
+                        {tr("Stop timer")}
                       </button>
                     </div>
                   ) : (
                     <>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-mute">Minutes</span>
+                        <span className="text-sm text-mute">{tr("Minutes")}</span>
                         <Stepper value={lg.sets[0].minutes} onChange={(v) => setSet(0, { minutes: v })} step={5} unit="min" />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-mute">Distance (optional)</span>
+                        <span className="text-sm text-mute">{tr("Distance (optional)")}</span>
                         <Stepper value={lg.sets[0].distance} onChange={(v) => setSet(0, { distance: v })} step={0.25} unit="mi" />
                       </div>
                       <div className="flex gap-2 pt-1">
                         {!lg.sets[0].done && (
                           <button className="btn-ghost flex-1" onClick={() => startTimer("cardio")}>
-                            <Icon name="timer" size={16} /> Start timer
+                            <Icon name="timer" size={16} /> {tr("Start timer")}
                           </button>
                         )}
                         <button className={`btn flex-1 h-12 ${lg.sets[0].done ? "bg-go text-ink" : "bg-white text-ink"}`} onClick={() => setSet(0, { done: !lg.sets[0].done })}>
-                          <Icon name="check" size={18} /> {lg.sets[0].done ? "Done" : "Mark done"}
+                          <Icon name="check" size={18} /> {lg.sets[0].done ? tr("Done") : tr("Mark done")}
                         </button>
                       </div>
                     </>
@@ -308,18 +308,18 @@ export default function Player({ active, setActive }) {
               {(it.kind === "reps" || it.kind === "hold") && (
                 <div className="flex gap-2 pt-1">
                   <button onClick={addSet} className="text-xs font-semibold text-mute px-3 h-9 rounded-full bg-ink-800 flex items-center gap-1">
-                    <Icon name="plus" size={14} /> Add set
+                    <Icon name="plus" size={14} /> {tr("Add set")}
                   </button>
                   {lg.sets.length > 1 && (
                     <button onClick={removeSet} className="text-xs font-semibold text-mute px-3 h-9 rounded-full bg-ink-800 flex items-center gap-1">
-                      <Icon name="minus" size={14} /> Remove set
+                      <Icon name="minus" size={14} /> {tr("Remove set")}
                     </button>
                   )}
                 </div>
               )}
               {levelUp && (
                 <button onClick={() => setSheet("swap")} className="w-full mt-2 rounded-2xl bg-go/10 text-go text-sm px-4 py-3 text-left">
-                  You hit the top of the rep range on every set. Ready for a harder variation? <span className="underline">Swap</span>
+                  {tr("You hit the top of the rep range on every set. Ready for a harder variation?")} <span className="underline">{tr("Swap")}</span>
                 </button>
               )}
             </div>
@@ -332,15 +332,15 @@ export default function Player({ active, setActive }) {
         <div className="shrink-0 mx-4 mb-2 rounded-2xl bg-ink-800 border border-white/10 p-4 flex items-center gap-4 rise">
           <RestRing pct={Math.max(0, (active.rest.endAt - now) / (active.rest.total * 1000))} sec={remaining(active.rest)} />
           <div className="flex-1">
-            <div className="label">Rest</div>
-            <div className="text-sm text-white/80">Breathe. Next set when the timer ends.</div>
+            <div className="label">{tr("Rest")}</div>
+            <div className="text-sm text-white/80">{tr("Breathe. Next set when the timer ends.")}</div>
           </div>
           <div className="flex flex-col gap-1">
             <button onClick={() => patch((a) => ((a.rest.endAt += 15000), (a.rest.total += 15), a))} className="h-8 px-3 rounded-lg bg-ink-700 text-xs font-semibold">
               +15s
             </button>
             <button onClick={() => patch((a) => ((a.rest = null), a))} className="h-8 px-3 rounded-lg bg-white text-ink text-xs font-semibold">
-              Skip
+              {tr("Skip")}
             </button>
           </div>
         </div>
@@ -353,21 +353,21 @@ export default function Player({ active, setActive }) {
         </button>
         {!allDone && !lg.skipped && (
           <button onClick={skip} className="btn-ghost h-14 px-5">
-            Skip
+            {tr("Skip")}
           </button>
         )}
         {isLast ? (
           <button onClick={() => setSheet("finish")} className="btn-primary flex-1">
-            Finish workout
+            {tr("Finish workout")}
           </button>
         ) : (
           <button onClick={() => go(idx + 1)} className={`flex-1 ${allDone || lg.skipped ? "btn-primary" : "btn-ghost h-14"}`}>
-            Next <Icon name="right" size={18} />
+            {tr("Next")} <Icon name="right" size={18} />
           </button>
         )}
       </footer>
 
-      <Sheet open={sheet === "list"} title={active.title} onClose={() => setSheet(null)}>
+      <Sheet open={sheet === "list"} title={planText(active.title)} onClose={() => setSheet(null)}>
         <div className="space-y-1">
           {items.map((i, k) => {
             const st = status(i);
@@ -377,41 +377,41 @@ export default function Player({ active, setActive }) {
                   {st === "done" ? <Icon name="check" size={14} /> : st === "skipped" ? "–" : k + 1}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className={`block text-sm truncate ${st === "skipped" ? "text-mute line-through" : ""}`}>{i.name}</span>
-                  <span className="text-[11px] text-mute">{i.section}</span>
+                  <span className={`block text-sm truncate ${st === "skipped" ? "text-mute line-through" : ""}`}>{exName(i.name)}</span>
+                  <span className="text-[11px] text-mute">{planText(i.section)}</span>
                 </span>
               </button>
             );
           })}
         </div>
         <button className="btn-primary w-full mt-4" onClick={() => setSheet("finish")}>
-          Finish workout
+          {tr("Finish workout")}
         </button>
       </Sheet>
 
-      <Sheet open={sheet === "exit"} title="Pause workout?" onClose={() => setSheet(null)}>
-        <p className="text-sm text-mute mb-4">Your progress is saved on this phone. You can close the app and come back to it.</p>
+      <Sheet open={sheet === "exit"} title={tr("Pause workout?")} onClose={() => setSheet(null)}>
+        <p className="text-sm text-mute mb-4">{tr("Your progress is saved on this phone. You can close the app and come back to it.")}</p>
         <div className="space-y-2">
           <button className="btn-primary w-full" onClick={() => setSheet(null)}>
-            Keep going
+            {tr("Keep going")}
           </button>
           <button className="btn-ghost w-full h-14" onClick={() => setSheet("finish")}>
-            Finish & save
+            {tr("Finish & save")}
           </button>
-          <ConfirmButton className="btn w-full h-14 text-hot" confirmText="Tap again to discard (nothing saved)" onConfirm={() => setActive(null)}>
-            Discard workout
+          <ConfirmButton className="btn w-full h-14 text-hot" confirmText={tr("Tap again to discard (nothing saved)")} onConfirm={() => setActive(null)}>
+            {tr("Discard workout")}
           </ConfirmButton>
         </div>
       </Sheet>
 
-      <Sheet open={pendingSet !== null} title="Still resting" onClose={() => setPendingSet(null)}>
+      <Sheet open={pendingSet !== null} title={tr("Still resting")} onClose={() => setPendingSet(null)}>
         <p className="text-sm text-mute mb-4">
           {active.rest && active.rest.endAt > now ? (
             <>
-              <span className="text-white font-semibold tabular-nums">{remaining(active.rest)}s</span> of rest left. Rest is part of the workout: it lets you lift the same weight again on the next set.
+              <span className="text-white font-semibold tabular-nums">{remaining(active.rest)}s</span> {tr("of rest left. Rest is part of the workout: it lets you lift the same weight again on the next set.")}
             </>
           ) : (
-            "Rest is over. You're good to go."
+            tr("Rest is over. You're good to go.")
           )}
         </p>
         <button
@@ -421,22 +421,22 @@ export default function Player({ active, setActive }) {
             setPendingSet(null);
           }}
         >
-          {active.rest && active.rest.endAt > now ? `Skip rest & log set ${pendingSet + 1}` : `Log set ${pendingSet + 1}`}
+          {active.rest && active.rest.endAt > now ? tr("Skip rest & log set {n}", { n: pendingSet + 1 }) : tr("Log set {n}", { n: pendingSet + 1 })}
         </button>
         <button className="btn-ghost w-full h-14 mt-2" onClick={() => setPendingSet(null)}>
-          Keep resting
+          {tr("Keep resting")}
         </button>
       </Sheet>
 
-      <Sheet open={sheet === "finish"} title="Finish workout?" onClose={() => setSheet(null)}>
+      <Sheet open={sheet === "finish"} title={tr("Finish workout?")} onClose={() => setSheet(null)}>
         <p className="text-sm text-mute mb-4">
-          {doneCount} of {items.length} exercises fully done. Sets you checked off will be saved.
+          {tr("{a} of {b} exercises fully done. Sets you checked off will be saved.", { a: doneCount, b: items.length })}
         </p>
         <button className="btn-primary w-full" onClick={finish}>
-          Save workout
+          {tr("Save workout")}
         </button>
         <button className="btn-ghost w-full h-14 mt-2" onClick={() => setSheet(null)}>
-          Keep going
+          {tr("Keep going")}
         </button>
       </Sheet>
 
@@ -457,7 +457,7 @@ export default function Player({ active, setActive }) {
               setProfile({ plan: replaceInPlan(profile.plan, it.uid, clean) });
             }
             setSheet(null);
-            setToast(`Swapped to ${n.name}. Your plan is updated too.`);
+            setToast(tr("Swapped to {name}. Your plan is updated too.", { name: exName(n.name) }));
           }}
         />
       )}
@@ -468,14 +468,14 @@ export default function Player({ active, setActive }) {
 
 function HowTo({ name }) {
   const [open, setOpen] = useState(false);
-  const h = howTo(name);
+  const h = howToFor(name);
   useEffect(() => setOpen(false), [name]);
   if (!h) return null;
   return (
     <div className="mt-3 rounded-2xl bg-ink-800 border border-white/5">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-4 h-11 text-sm font-semibold">
         <span className="flex items-center gap-2">
-          <Icon name="info" size={16} className="text-hot" /> How to do it
+          <Icon name="info" size={16} className="text-hot" /> {tr("How to do it")}
         </span>
         <Icon name="right" size={16} className={`text-mute transition ${open ? "rotate-90" : ""}`} />
       </button>
@@ -487,7 +487,7 @@ function HowTo({ name }) {
             ["Avoid", h.x],
           ].map(([k, v]) => (
             <div key={k}>
-              <div className={`label mb-0.5 ${k === "Avoid" ? "!text-hot" : ""}`}>{k}</div>
+              <div className={`label mb-0.5 ${k === "Avoid" ? "!text-hot" : ""}`}>{tr(k)}</div>
               <div className="text-white/85">{v}</div>
             </div>
           ))}
@@ -536,13 +536,13 @@ function IntervalPanel({ it, sets, timer, remaining, onStart, onStop, onToggle }
     <div className={`rounded-3xl p-5 text-center transition ${timer ? (work ? "bg-brand" : "bg-ink-700") : "bg-ink-800"}`}>
       {timer ? (
         <>
-          <div className="text-sm font-bold uppercase tracking-[0.2em]">{work ? "Work" : "Rest"}</div>
+          <div className="text-sm font-bold uppercase tracking-[0.2em]">{work ? tr("Work") : tr("Rest")}</div>
           <div className="font-display text-8xl font-bold tabular-nums leading-none my-2">{remaining}</div>
           <div className="text-sm opacity-80">
-            Round {timer.round + 1} of {sets.length}
+            {tr("Round {a} of {b}", { a: timer.round + 1, b: sets.length })}
           </div>
           <button onClick={onStop} className="mt-4 h-11 px-5 rounded-full bg-black/30 text-sm font-semibold inline-flex items-center gap-2">
-            <Icon name="pause" size={16} /> Stop
+            <Icon name="pause" size={16} /> {tr("Stop")}
           </button>
         </>
       ) : (
@@ -550,10 +550,10 @@ function IntervalPanel({ it, sets, timer, remaining, onStart, onStop, onToggle }
           <div className="font-display text-5xl font-bold">
             {done}/{sets.length}
           </div>
-          <div className="text-sm text-mute">rounds done</div>
+          <div className="text-sm text-mute">{tr("rounds done")}</div>
           {done < sets.length && (
             <button onClick={onStart} className="btn-primary w-full mt-4">
-              <Icon name="play" size={16} /> {done ? "Resume" : "Start"} intervals
+              <Icon name="play" size={16} /> {done ? tr("Resume intervals") : tr("Start intervals")}
             </button>
           )}
         </>
@@ -575,28 +575,28 @@ function Summary({ session, prs, weightKg, onDone }) {
   return (
     <div className="min-h-[100dvh] max-w-md mx-auto px-5 pt-safe pb-safe flex flex-col">
       <div className="flex-1 pt-10 rise">
-        <div className="label !text-hot">Workout complete</div>
+        <div className="label !text-hot">{tr("Workout complete")}</div>
         <h1 className="h-display text-6xl mt-2">
-          Nice
+          {tr("Nice")}
           <br />
-          work.
+          {tr("work.")}
         </h1>
-        <p className="text-mute mt-2">{session.title}</p>
+        <p className="text-mute mt-2">{planText(session.title)}</p>
         <div className="grid grid-cols-2 gap-2 mt-8">
-          <Stat label="Time" value={fmtDur(session.durationSec)} />
-          <Stat label="Sets" value={t.sets} />
-          {t.volume > 0 ? <Stat label="Volume" value={`${t.volume.toLocaleString()} lb`} /> : <Stat label="Reps" value={t.reps} />}
-          {kcal ? <Stat label="Calories (est.)" value={kcal} /> : <Stat label="Exercises" value={session.exercises.filter((e) => e.sets.length).length} />}
+          <Stat label={tr("Time")} value={fmtDur(session.durationSec)} />
+          <Stat label={tr("Sets")} value={t.sets} />
+          {t.volume > 0 ? <Stat label={tr("Volume")} value={`${t.volume.toLocaleString()} lb`} /> : <Stat label={tr("Reps")} value={t.reps} />}
+          {kcal ? <Stat label={tr("Calories (est.)")} value={kcal} /> : <Stat label={tr("Exercises")} value={session.exercises.filter((e) => e.sets.length).length} />}
         </div>
         {prs.length > 0 && (
           <div className="mt-6">
             <div className="label mb-2 flex items-center gap-1.5">
-              <Icon name="trophy" size={14} className="text-hot" /> New personal records
+              <Icon name="trophy" size={14} className="text-hot" /> {tr("New personal records")}
             </div>
             <div className="space-y-2">
               {prs.map((p) => (
                 <div key={p.name} className="card px-4 py-3 flex justify-between gap-3">
-                  <span className="text-sm truncate">{p.name}</span>
+                  <span className="text-sm truncate">{exName(p.name)}</span>
                   <span className="text-sm font-semibold text-hot shrink-0">{p.label}</span>
                 </div>
               ))}
@@ -605,7 +605,7 @@ function Summary({ session, prs, weightKg, onDone }) {
         )}
       </div>
       <button className="btn-primary w-full mt-8" onClick={onDone}>
-        Done
+        {tr("Done")}
       </button>
     </div>
   );

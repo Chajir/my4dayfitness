@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Icon, Sheet, Thumb } from "./ui";
+import { Icon, Sheet, Thumb, ExName } from "./ui";
 import { estMinutes, targetText } from "../lib/stats";
 import { alternativesFor, swapItem } from "../data/generator";
 import { useStore } from "../lib/store";
 import { dayForWeek, varietyOn } from "../lib/variety";
+import { t, planText, exName } from "../i18n";
 
 export function replaceInPlan(plan, uid, newItem) {
   newItem = { ...newItem, locked: true }; // hand-picked: never rotated by variety
@@ -20,20 +21,20 @@ export function SwapSheet({ item, onPick, onClose }) {
   if (!item) return null;
   const alts = alternativesFor(item, profile?.source === "classic" ? { ...profile, equipment: "gym" } : profile);
   return (
-    <Sheet open title="Swap exercise" onClose={onClose}>
+    <Sheet open title={t("Swap exercise")} onClose={onClose}>
       <p className="text-sm text-mute pt-1 mb-4">
-        Replacing <span className="text-white">{item.name}</span>. Same movement, different exercise.
+        {t("Replacing")} <span className="text-white">{exName(item.name)}</span>. {t("Same movement, different exercise.")}
       </p>
-      {!alts.length && <p className="text-sm text-mute">No alternatives for this one.</p>}
+      {!alts.length && <p className="text-sm text-mute">{t("No alternatives for this one.")}</p>}
       <div className="space-y-2">
         {alts.map(({ ex, ok }) => (
           <button key={ex.id} onClick={() => onPick(swapItem(item, ex, profile))} className={`w-full flex items-center gap-3 p-2 rounded-xl text-left active:bg-ink-700 ${ok ? "" : "opacity-50"}`}>
             <Thumb item={ex} className="h-12 w-16 rounded-lg text-xs shrink-0" />
             <div className="min-w-0 flex-1">
-              <div className="font-medium text-sm">{ex.name}</div>
+              <div className="font-medium text-sm"><ExName name={ex.name} /></div>
               <div className="text-xs text-mute">
-                {{ weights: "Weights", cali: "Calisthenics", cardio: "Cardio", mobility: "Mobility" }[ex.m]}
-                {!ok && " · not ideal for your equipment or pain areas"}
+                {t({ weights: "Weights", cali: "Calisthenics", cardio: "Cardio", mobility: "Mobility" }[ex.m])}
+                {!ok && ` · ${t("not ideal for your equipment or pain areas")}`}
               </div>
             </div>
           </button>
@@ -50,21 +51,21 @@ export default function DaySheet({ day, onClose, onStart }) {
   const live = dayForWeek(profile.plan.days.find((d) => d.id === day.id) || day, profile);
   return (
     <>
-      <Sheet open title={live.title} subtitle={`${live.label} · ${live.tag} · ~${estMinutes(live)} min${live.week && varietyOn(profile) ? ` · Week ${live.week}` : ""}`} onClose={onClose}>
+      <Sheet open title={planText(live.title)} subtitle={`${planText(live.label)} · ${planText(live.tag)} · ~${estMinutes(live)} min${live.week && varietyOn(profile) ? ` · ${t("Week {n}", { n: live.week })}` : ""}`} onClose={onClose}>
         <div className="space-y-5 pt-1">
           {live.sections.map((s) => (
             <div key={s.name}>
-              <div className="label mb-2">{s.name}</div>
+              <div className="label mb-2">{planText(s.name)}</div>
               <div className="space-y-1">
                 {s.items.map((it) => (
                   <div key={it.uid} className="flex items-center gap-3 py-1">
                     <Thumb item={it} className="h-12 w-16 rounded-lg text-xs shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <div className="text-sm font-medium leading-tight">{it.name}</div>
+                      <div className="text-sm font-medium leading-tight"><ExName name={it.name} /></div>
                       <div className="text-xs text-mute mt-0.5">
                         {targetText(it)}
-                        {it.rotated && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-hot">· New this week</span>}
-                        {it.locked && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-white/40">· Your pick</span>}
+                        {it.rotated && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-hot">· {t("New this week")}</span>}
+                        {it.locked && <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wider text-white/40">· {t("Your pick")}</span>}
                       </div>
                     </div>
                     <button onClick={() => setSwapping(it)} className="h-9 w-9 grid place-items-center rounded-full bg-ink-700 text-mute shrink-0" aria-label="Swap">
@@ -77,7 +78,7 @@ export default function DaySheet({ day, onClose, onStart }) {
           ))}
         </div>
         <button className="btn-primary w-full mt-6" onClick={() => onStart(live)}>
-          <Icon name="play" size={16} /> Start workout
+          <Icon name="play" size={16} /> {t("Start workout")}
         </button>
       </Sheet>
       {swapping && (

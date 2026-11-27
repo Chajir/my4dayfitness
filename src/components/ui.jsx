@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { mediaFor } from "../lib/images";
+import { exName, exSub, t } from "../i18n";
 
 const P = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
 const paths = {
@@ -187,7 +188,7 @@ export function ExerciseMedia({ item, className = "" }) {
         ))}
       </div>
       <div className="absolute bottom-2.5 right-3 text-[10px] font-semibold uppercase tracking-wider text-white/70">
-        Step {i + 1}/{photos.length}
+        {t("Step")} {i + 1}/{photos.length}
       </div>
     </div>
   );
@@ -228,5 +229,16 @@ export function ConfirmButton({ children, confirmText, onConfirm, className = ""
     <button className={`${className} ${armed ? "!bg-hot !text-white" : ""}`} onClick={() => (armed ? (setArmed(false), onConfirm()) : setArmed(true))}>
       {armed ? confirmText : children}
     </button>
+  );
+}
+
+// Exercise name: Spanish with the English name underneath when Spanish is on.
+export function ExName({ name, className = "", subClassName = "" }) {
+  const sub = exSub(name);
+  return (
+    <>
+      <span className={className}>{exName(name)}</span>
+      {sub && <span className={`block text-[11px] text-mute/80 italic font-normal normal-case tracking-normal ${subClassName}`}>{sub}</span>}
+    </>
   );
 }

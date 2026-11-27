@@ -10,10 +10,22 @@ import Profile from "./screens/Profile";
 import Player from "./screens/Player";
 import Admin from "./screens/Admin";
 import { Icon } from "./components/ui";
+import { LangProvider, useLang, t } from "./i18n";
 
 const DEMO_USER = { uid: "demo", email: "preview@4dayfit.app" };
 
 export default function App() {
+  return (
+    <LangProvider>
+      <Root />
+    </LangProvider>
+  );
+}
+
+// key={lang}: when the language changes, screens redraw in the new language.
+// Workout state lives in storage, so nothing is lost.
+function Root() {
+  const { lang } = useLang();
   const [user, setUser] = useState(DEMO ? DEMO_USER : undefined);
   useEffect(() => {
     if (DEMO) return;
@@ -21,11 +33,11 @@ export default function App() {
   }, []);
 
   if (user === undefined) return <Splash />;
-  if (!user) return <Login />;
+  if (!user) return <Login key={lang} />;
   return (
     <Boundary>
       <StoreProvider user={user} key={user.uid}>
-        <Shell />
+        <Shell key={lang} />
       </StoreProvider>
     </Boundary>
   );
@@ -41,10 +53,10 @@ class Boundary extends Component {
     return (
       <div className="min-h-screen grid place-items-center px-8 text-center">
         <div>
-          <div className="h-display text-3xl">Something went wrong</div>
-          <p className="text-mute text-sm mt-2">Your workouts are saved. Reload to continue.</p>
+          <div className="h-display text-3xl">{t("Something went wrong")}</div>
+          <p className="text-mute text-sm mt-2">{t("Your workouts are saved. Reload to continue.")}</p>
           <button className="btn-primary mt-6 w-full" onClick={() => location.reload()}>
-            Reload
+            {t("Reload")}
           </button>
         </div>
       </div>
@@ -66,7 +78,7 @@ const activeKey = (uid) => `fit:active:${uid}`;
 
 function Shell() {
   const { ready, profile, user } = useStore();
-  const [tab, setTab] = useState("home");
+  const [tab, setTab] = useState(() => sessionStorage.getItem("fit:tab") || "home");
   const [editing, setEditing] = useState(null); // null | "full" | "info"
   const [active, setActive] = useState(() => {
     try {
@@ -80,6 +92,12 @@ function Shell() {
     if (active) localStorage.setItem(activeKey(user.uid), JSON.stringify(active));
     else localStorage.removeItem(activeKey(user.uid));
   }, [active, user.uid]);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem("fit:tab", tab);
+    } catch {}
+  }, [tab]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -104,7 +122,7 @@ function Shell() {
           ].map(([id, icon, label]) => (
             <button key={id} onClick={() => setTab(id)} className={`flex flex-col items-center gap-1 pt-3 pb-1 text-[11px] font-semibold ${tab === id ? "text-white" : "text-mute"}`}>
               <Icon name={icon} size={22} className={tab === id ? "text-hot" : ""} />
-              {label}
+              {t(label)}
             </button>
           ))}
         </div>
