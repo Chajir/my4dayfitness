@@ -11,6 +11,7 @@ import Player from "./screens/Player";
 import Admin from "./screens/Admin";
 import { Icon } from "./components/ui";
 import { LangProvider, useLang, t } from "./i18n";
+import { useUpdateReady, applyUpdate } from "./lib/update";
 
 const DEMO_USER = { uid: "demo", email: "preview@4dayfit.app" };
 
@@ -80,6 +81,7 @@ function Shell() {
   const { ready, profile, user } = useStore();
   const [tab, setTab] = useState(() => sessionStorage.getItem("fit:tab") || "home");
   const [editing, setEditing] = useState(null); // null | "full" | "info"
+  const updateReady = useUpdateReady();
   const [active, setActive] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem(activeKey(user.uid)));
@@ -109,6 +111,16 @@ function Shell() {
 
   return (
     <div className="min-h-screen pb-28">
+      {updateReady && (
+        <div className="fixed top-0 inset-x-0 z-50 pt-safe px-4 pointer-events-none">
+          <div className="max-w-md mx-auto mt-3 flex items-center gap-3 rounded-2xl bg-white text-ink pl-4 pr-1.5 py-1.5 shadow-2xl pointer-events-auto">
+            <span className="flex-1 text-sm font-semibold">{t("New version ready")}</span>
+            <button onClick={applyUpdate} className="h-9 px-4 rounded-xl bg-ink text-white text-sm font-semibold">
+              {t("Update")}
+            </button>
+          </div>
+        </div>
+      )}
       {tab === "home" && <Home onStart={setActive} />}
       {tab === "progress" && <Progress />}
       {tab === "profile" && <Profile onEdit={setEditing} onAdmin={() => setTab("admin")} />}

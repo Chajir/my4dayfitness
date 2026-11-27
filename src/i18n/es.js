@@ -10,6 +10,8 @@ export const ES = {
   "Something went wrong": "Algo salió mal",
   "Your workouts are saved. Reload to continue.": "Tus entrenamientos están guardados. Recarga para continuar.",
   Reload: "Recargar",
+  "New version ready": "Nueva versión disponible",
+  Update: "Actualizar",
   Yes: "Sí",
   No: "No",
   None: "Ninguno",

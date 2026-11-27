@@ -14,12 +14,15 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      injectRegister: false, // registered in src/lib/update.js (shows an Update bar instead of auto-reloading)
       includeAssets: ["favicon.ico", "apple-touch-icon.png"],
       workbox: {
         // photos are stored for offline use; videos (.mp4/.mov/.webm) are not, so the app stays light
         globPatterns: ["**/*.{js,css,html,png,jpg,jpeg,webp,ico,svg,woff2}"],
         globIgnores: ["**/*-{cyrillic,cyrillic-ext,greek,greek-ext,vietnamese,latin-ext}-*.woff2"],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        skipWaiting: true,
+        clientsClaim: true,
       },
       manifest: {
         name: "My 4 Day Fitness",

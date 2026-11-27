@@ -8,6 +8,9 @@ import "@fontsource/inter/700.css";
 import "@fontsource/barlow-condensed/600.css";
 import "@fontsource/barlow-condensed/700.css";
 import "./index.css";
+import { startUpdates } from "./lib/update";
+
+startUpdates();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
