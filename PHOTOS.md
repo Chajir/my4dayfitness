@@ -97,7 +97,7 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `childs_pose` · Child's Pose
 
 ## Exercise database (used by personalized plans and weekly variety)
-175 of 205 exercises have a photo or video.
+205 of 205 exercises have a photo or video.
 
 ### Weights (70/70)
 - ✓ `1_arm_kettlebell_farmers_carry` · 1 Arm Kettlebell Farmer's Carry
@@ -227,41 +227,49 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - 🎬 `trx_superman` · TRX Superman
 - 🎬 `wall_handstand_push_up` · Wall Handstand Push-Up
 
-### Cardio (6/17)
+### Cardio (17/17)
 - 🎬 `battle_rope_double_arm_slam` · Battle Rope Double Arm Slam
+- 🎬 `brisk_walk` · Brisk Walk
+- 🎬 `burpees` · Burpees
+- 🎬 `elliptical` · Elliptical
 - 🎬 `fan_bike` · Fan Bike
+- 🎬 `high_knees` · High Knees
 - ✓ `treadmill_walk` · Incline Treadmill Walk (shared photo)
+- 🎬 `jump_rope` · Jump Rope
+- 🎬 `low_step_ups` · Low Step-Ups
+- 🎬 `mountain_climbers` · Mountain Climbers
+- 🎬 `outdoor_run` · Outdoor Run
 - ✓ `rower` · Rower
+- 🎬 `shadow_boxing` · Shadow Boxing
 - 🎬 `ski_erg` · Ski Erg
+- 🎬 `stationary_bike` · Stationary Bike
+- 🎬 `treadmill_run` · Treadmill Run
 - ✓ `treadmill_walk` · Treadmill Walk
-- ☐ `brisk_walk` · Brisk Walk
-- ☐ `burpees` · Burpees
-- ☐ `elliptical` · Elliptical
-- ☐ `high_knees` · High Knees
-- ☐ `jump_rope` · Jump Rope
-- ☐ `low_step_ups` · Low Step-Ups
-- ☐ `mountain_climbers` · Mountain Climbers
-- ☐ `outdoor_run` · Outdoor Run
-- ☐ `shadow_boxing` · Shadow Boxing
-- ☐ `stationary_bike` · Stationary Bike
-- ☐ `treadmill_run` · Treadmill Run
 
-### Warm-up, cool-down & joint care (45/64)
+### Warm-up, cool-down & joint care (64/64)
 - ✓ `passive_90_90_hip_stretch` · 90/90 Hip Stretch (shared photo)
+- 🎬 `90_90_hip_switch` · 90/90 Hip Switch
 - ✓ `active_half_kneel_ankle_stretch` · Active Half Kneel Ankle Stretch
 - ✓ `active_half_kneel_quads_stretch` · Active Half Kneel Quads Stretch
 - ✓ `active_lats_stretch` · Active Lats Stretch
 - ✓ `active_stability_ball_pec_stretch` · Active Stability Ball Pec Stretch
 - 🎬 `alternating_quads_stretch` · Alternating Quads Stretch
+- 🎬 `ankle_circles` · Ankle Circles
+- 🎬 `arm_circles` · Arm Circles
 - ✓ `assisted_hip_airplane` · Assisted Hip Airplane
 - ✓ `back_lying_mini_band_hip_flexion` · Back Lying Mini Band Hip Flexion
 - ✓ `back_lying_trunk_rotation` · Back Lying Trunk Rotation
 - ✓ `band_pull_apart` · Band Pull-Apart
 - ✓ `bent_over_t_raise` · Bent Over T-Raise
 - ✓ `bent_over_y_raise` · Bent Over Y-Raise
+- 🎬 `bird_dog` · Bird Dog
 - ✓ `cat_cow` · Cat-Cow
 - ✓ `childs_pose` · Child's Pose
+- 🎬 `chin_tucks` · Chin Tucks
+- 🎬 `clamshell` · Clamshell
 - ✓ `cobra_pose` · Cobra Pose
+- 🎬 `doorway_chest_stretch` · Doorway Chest Stretch
+- 🎬 `easy_pace_warm_up` · Easy Pace Warm-Up
 - ✓ `elevated_scapular_push_up` · Elevated Scapular Push-Up
 - ✓ `foam_roll_adductors` · Foam Roll Adductors
 - ✓ `foam_roll_calves` · Foam Roll Calves
@@ -272,18 +280,23 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - ✓ `foam_roll_quadriceps` · Foam Roll Quadriceps
 - ✓ `foam_roll_thoracic_spine` · Foam Roll Thoracic Spine
 - ✓ `foam_roller_overhead_stretch` · Foam Roller Overhead Stretch
+- 🎬 `forearm_flexor_stretch` · Forearm Flexor Stretch
 - ✓ `half_kneel_thoracic_rotation` · Half Kneel Thoracic Rotation
 - ✓ `kneeling_peel_back_thoracic_rotation` · Kneeling Peel Back Thoracic Rotation
 - ✓ `kneeling_reach_under_thoracic_rotation` · Kneeling Reach Under Thoracic Rotation
 - ✓ `lateral_lunge_to_squat` · Lateral Lunge to Squat
 - ✓ `leg_extension_hip_bridge_march` · Leg Extension Hip Bridge March
+- 🎬 `leg_swings` · Leg Swings
 - ✓ `long_reverse_lunge_to_thoracic_rotation` · Long Reverse Lunge to Thoracic Rotation
 - ✓ `lying_bent_knee_hamstring` · Lying Bent Knee Hamstring Stretch (shared photo)
+- 🎬 `modified_curl_up` · Modified Curl-Up
 - ✓ `active_half_kneel_quads_stretch` · Passive Half Kneel Quads Stretch (shared photo)
 - ✓ `passive_lying_hip_abductors_stretch` · Passive Lying Hip Abductors Stretch
 - ✓ `passive_triceps_lats_stretch` · Passive Triceps/Lats Stretch
+- 🎬 `prone_shoulder_y_raise` · Prone Shoulder Y Raise
 - ✓ `quadruped_adductors_rock_back` · Quadruped Adductors Rock Back
 - ✓ `quadruped_thoracic_rotation` · Quadruped Thoracic Rotation
+- 🎬 `short_wall_sit` · Short Wall Sit
 - ✓ `side_lying_thoracic_rotation` · Side Lying Thoracic Rotation
 - ✓ `stability_ball_overhead_stretch` · Stability Ball Overhead Stretch
 - ✓ `stability_ball_shoulder_ts` · Stability Ball Shoulder T's
@@ -291,23 +304,10 @@ Use the exercise name in lowercase, with spaces and symbols turned into `_` and 
 - 🎬 `standing_mini_band_hip_internal_rotation` · Standing Mini Band Hip Internal Rotation
 - ✓ `stationary_inchworm` · Stationary Inchworm
 - ✓ `passive_straight_leg_hamstring_stretch` · Straight Leg Hamstrings Stretch (shared photo)
+- 🎬 `straight_leg_raise` · Straight-Leg Raise
+- 🎬 `thoracic_open_book` · Thoracic Open Book
 - ✓ `toe_touch_deep_squat` · Toe Touch to Deep Squat (shared photo)
-- ☐ `90_90_hip_switch` · 90/90 Hip Switch
-- ☐ `ankle_circles` · Ankle Circles
-- ☐ `arm_circles` · Arm Circles
-- ☐ `bird_dog` · Bird Dog
-- ☐ `chin_tucks` · Chin Tucks
-- ☐ `clamshell` · Clamshell
-- ☐ `doorway_chest_stretch` · Doorway Chest Stretch
-- ☐ `easy_pace_warm_up` · Easy Pace Warm-Up
-- ☐ `forearm_flexor_stretch` · Forearm Flexor Stretch
-- ☐ `leg_swings` · Leg Swings
-- ☐ `modified_curl_up` · Modified Curl-Up
-- ☐ `prone_shoulder_y_raise` · Prone Shoulder Y Raise
-- ☐ `short_wall_sit` · Short Wall Sit
-- ☐ `straight_leg_raise` · Straight-Leg Raise
-- ☐ `thoracic_open_book` · Thoracic Open Book
-- ☐ `wall_calf_stretch` · Wall Calf Stretch
-- ☐ `wall_slides` · Wall Slides
-- ☐ `worlds_greatest_stretch` · World's Greatest Stretch
-- ☐ `wrist_circles_rocks` · Wrist Circles & Rocks
+- 🎬 `wall_calf_stretch` · Wall Calf Stretch
+- 🎬 `wall_slides` · Wall Slides
+- 🎬 `worlds_greatest_stretch` · World's Greatest Stretch
+- 🎬 `wrist_circles_rocks` · Wrist Circles & Rocks
